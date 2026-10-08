@@ -156,21 +156,43 @@ Notes:
 - Reverse-merger identification will use 重组类型编码 in STK_MA_TRADINGMAIN; the code book is
   in the CSMAR manual (to be checked when writing the rule).
 
-### External public data (2026-10-08)
+### External data (2026-10-08)
 
-| Source | Files | SHA-256 |
+All under `data/raw/external/`. Approved by the user in discussion rounds 2-4.
+
+| File | Bytes | SHA-256 |
 |---|---|---|
-| Stambaugh website (https://finance.wharton.upenn.edu/~stambaug/) | `CH_4_fac_update_20211231.csv` (monthly CH-4) | `b12853ce209bc717b42b0eb4778d80e492315c5e25037cb06f4f1f4c7061d14f` |
-| | `CH_4_fac_daily_update_20211231.csv` | `3fd8d9b3bf380683c085237efdc44d2c5546730ba1ac96496864e9c653962928` |
-| | `CH_3_fac_daily_update_20211231.csv` (no monthly CH-3 file is published; monthly is compounded from daily) | `0a53339a4f8677d48517abaed0abd9114252a06f9c0e86b5e8f9a8e2f216f1f3` |
-| | `size_value_china_appendix_2_rev.pdf` (LSY appendix) | `7e612f3688f809e411888a6550bfebf0383e416e19acaccd38f639cb51c78820` |
+| `external/allen_jf_code/jofi13312-sup-0001-internetappendix.docx` | 334635 | `b11c7159eb61ac402da5938e22c379a735a9db7fa7a9e6ed8c48ae8b198efe64` |
+| `external/allen_jf_code/jofi13312-sup-0002-replicationcode.zip` | 183411 | `fbb8bd6501c13354b1c08a2c85b1e21c9879efd92a5b56b3e5ed3a1d56e53320` |
+| `external/fred/CHNCPIALLMINMEI.csv` (OECD China CPI index, 2015=100) | 11791 | `d619f4f86bf59edb16f3b2f345fd604b7bb361a32e6d2adc2c065e51008b1376` |
+| `external/fred/CPALTT01CNM659N.csv` (OECD China CPI, YoY %) | 7508 | `c73c9d37fdd7aa452954d053ef2d13bf9b5734abc35025e9bf8248d0302b45b3` |
+| `external/fred/CPALTT01CNM657N.csv` (OECD China CPI, MoM %) | 12514 | `a7d153425b71adc6065ff6af755a961d2af9519061f293042894f8d492833b19` |
+| `external/fred/CHNCPALTT01IXNBM.csv` (OECD China CPI index, alt.) | 10461 | `9533796427fc3524d6d2214c3f5b4188349b11438cf650e50164da4294391a0e` |
+| `external/hxz/{mom,vvg,inv,prof,intan,fric}_monthly_2025.zip` (HXZ US anomaly decile portfolios, VW, NYSE breakpoints) | see below | see below |
+| `external/hxz/fric_monthly_2025.zip` | 574536 | `23ccdb002f23e8dd3119fbc18fff95d3e3e6b0abc6fd732a2697b250cb70aeb1` |
+| `external/hxz/intan_monthly_2025.zip` | 1539418 | `492b1d28f6a850661ae55222f5f1312324443a15e04493fc14a11f75235113b5` |
+| `external/hxz/inv_monthly_2025.zip` | 1660818 | `b17242f741c2edf1df12084c6c040adbd2df2fa1012a92a162144cac49af0c82` |
+| `external/hxz/mom_monthly_2025.zip` | 2154782 | `05b20fec2cc7c8087d30208dd76e07c82fab506314708b2f3cb154d72ca4ec66` |
+| `external/hxz/prof_monthly_2025.zip` | 2453360 | `18dfced977d9412e2e6ec0582646f0c61b596db3a4ac88dbcdd9dae53fef963c` |
+| `external/hxz/vvg_monthly_2025.zip` | 1642662 | `d5f7fb88c401195d9b31f0bd8853d6087a47b77ac3642e2fd9217b67ccb6a2ba` |
+| `external/hxz/q5_factors_monthly_2025.csv` (US q5 factors) | 37117 | `8b2e2f1364890f8f5876da20e6bfad0acd8d272425de3b65c725f54b51128f6a` |
+| `external/hxz/portfoliostd_2026jul.pdf` (HXZ testing-portfolio technical document) | 701404 | `626b6f496c960c963728486703e111257d4430a96ce76ad98ccd1cd4d56c748a` |
+| `external/li_et_al/Li_Replicating_Digesting_Anomalies_polyu.pdf` (accepted manuscript of Management Science 70(8):5066-5090, PolyU repository) | 1655382 | `a60746f2d8baa7fcd123ba03aa6ecf88124c6785e62fc1a36734cb2dcaf2562d` |
+| `external/li_et_al/mnsc.2023.4904.sm1.pdf` (Online Appendix, 119 pp., Table A1 = variable definitions) | 3879985 | `912928667b75f5fa810e87f253cf1ecec397cdd86a39a7f5800bace7e6f690e1` |
+| `external/stambaugh/CH_4_fac_update_20211231.csv` (monthly CH-4) | 9932 | `b12853ce209bc717b42b0eb4778d80e492315c5e25037cb06f4f1f4c7061d14f` |
+| `external/stambaugh/CH_4_fac_daily_update_20211231.csv` | 204345 | `3fd8d9b3bf380683c085237efdc44d2c5546730ba1ac96496864e9c653962928` |
+| `external/stambaugh/CH_3_fac_daily_update_20211231.csv` (no monthly CH-3 file is published) | 175740 | `0a53339a4f8677d48517abaed0abd9114252a06f9c0e86b5e8f9a8e2f216f1f3` |
+| `external/stambaugh/size_value_china_appendix_2_rev.pdf` (LSY appendix) | 251046 | `7e612f3688f809e411888a6550bfebf0383e416e19acaccd38f639cb51c78820` |
 
-Stored under `data/raw/external/stambaugh/`. The published series end in 2021-12; the
-correlation check (>= 0.95) therefore runs on 2000-01 to 2021-12.
-
-Not obtained:
-- **NBS monthly CPI:** data.stats.gov.cn returns HTTP 403 to non-mainland IPs. Alternative
-  needs user approval (see discussion).
-- **Allen et al. replication code** (`jofi13312-sup-0002-ReplicationCode.zip`, Wiley Supporting
-  Information): Wiley does not recognise institutional access from this browser, and the NYU
-  OpenAthens proxy returns "Access denied" for Wiley. Needs the user to download it.
+Notes:
+- Stambaugh series end 2021-12, so the >= 0.95 correlation check covers 2000-01 to 2021-12.
+- FRED/OECD China CPI series all end by 2025-04 (CHNCPIALLMINMEI: 1993-01 to 2025-04). The
+  NBS site (data.stats.gov.cn) returns HTTP 403 to non-mainland IPs. CPI after 2025-04 is open.
+- Allen et al. JF replication code (SAS) contains analysis scripts only; the input datasets
+  (`Asharew21`, `globalw22`, `monthly_ret_china_9018_3`, ...) are not included, so it documents
+  conventions but cannot be run. Downloaded by the user (Wiley access works in the user's
+  browser, not via the NYU OpenAthens proxy).
+- Li et al.: the accepted manuscript replaces the SSRN version as the replication target
+  (round 4, Q30). Its abstract figures match SSRN; table-level differences to be checked in
+  milestone 1.4. The authors' replication files (services.informs.org) need an INFORMS login and
+  were not obtained.
