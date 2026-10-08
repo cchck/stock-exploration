@@ -61,6 +61,54 @@ carries the CSS class `tree-noauth` when not subscribed; this matched the "已�
 
 ## Download log
 
-No data downloaded yet. Record every download here: date, table, fields, date range, file
-name under `data/raw/csmar/`. Downloads use the user's licensed account and need the user's
-go-ahead.
+Every download is recorded here. Downloads use the user's licensed account and need the user's
+go-ahead (batch 1 approved by the user on 2026-10-07).
+
+Conventions for all rows below unless noted: platform = CSMAR global via NYU proxy; code
+setting = 全部代码 (all codes); fields = 全选 (all fields of the table); format = CSV（*.csv）;
+file renamed to `<TABLE_CODE>[_chunk]_20261007.zip` and extracted with `ditto -x -k` (zip
+entry names are GBK; `unzip` fails on them) into `unzipped/<_chunk or _all>/`. Tables over
+1,000,000 rows arrive split into `<CODE>.csv`, `<CODE>1.csv`, `<CODE>2.csv`, ... ;
+"rows" sums all parts. "Platform count" is the figure CSMAR showed on the download page.
+
+### Batch 1 (2026-10-07)
+
+| Table (database) | Code | Date filter | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 年、中、季报基本情况文件 (年、中、季报公布日期) | IAR_Rept | 1990-12-31 – 2026-06-30 (full) | 14 | 309,010 | 309,010 | 9,166,307 | `8bc6e215c64158df0a33d9b6a5e49a2c48c88e0337c61dd98741c60e9fc74087` |
+| 无风险利率文件 (股票市场交易) | TRD_Nrrate | 时间不限 | 6 | 13,072 | 13,072 | 251,719 | `cbb319aa7bc9b6b4c8be7cffee1634d185cd8b5f37d6b40b418a0b91fbd81168` |
+| 月个股回报率文件 (股票市场交易) | TRD_Mnth | 时间不限 | 17 | 953,894 | 953,894 | 41,672,575 | `ebf600a33e46ddfc742de36321b6b2782bb48c93977e1cf459b0a057e7f8fad2` |
+| 公司文件 (股票市场交易) | TRD_Co | 时间不限 | 37 | 6,051 | 6,030 (header) | 685,205 | `b45a5d86d0cc3b76a6655b7f9caf4cf0b7b36161b436cf412eae08fd616b3461` |
+| 特殊处理变动文件 (特殊处理与特别转让) | SPT_Trdchg | 时间不限 | 9 | 4,272 | 4,272 | 1,524,998 | `56f212838690477de99cfb2b8a463a85a1cbd553547751ac44e933e1a2f70bdd` |
+| 资产负债表 (财务报表) | FS_Combas | 时间不限 | 154 | 702,674 | 702,674 | 155,552,554 | `49b9c26d094b47650f021697993689ee0f5077eff909514ddc1ec11d84a7478a` |
+| 利润表 (财务报表) | FS_Comins | 时间不限 | 81 | 704,369 | 704,369 | 90,347,536 | `e8990a059dcb4147688b2aca6d948f2f65ce4a042f989587fe3e50cf373376e0` |
+| 日个股回报率文件 (股票市场交易) | TRD_Dalyr_2000_2004 | 2000-01-01 – 2004-12-31 | 24 | 1,494,737 | 1,494,737 | 77,324,737 | `4cc55a07b0a1c670b4fa7527fe148f5e47cf97a885dcf4fde161df8c618b6873` |
+| 日个股回报率文件 | TRD_Dalyr_2005_2009 | 2005-01-01 – 2009-12-31 | 24 | 1,790,151 | 1,790,151 | 99,580,030 | `4eb118aa5f494f48d0c61c9c52075d58a599a0ee39b4e3577b36d1420fa6b101` |
+| 日个股回报率文件 | TRD_Dalyr_2010_2014 | 2010-01-01 – 2014-12-31 | 24 | 2,764,592 | 2,764,592 | 155,437,826 | `282c2c52682f0ca6af41210426355ea6647ecaaadcb2b2caab85e01acff1fa82` |
+| 日个股回报率文件 | TRD_Dalyr_2015_2019 | 2015-01-01 – 2019-12-31 | 24 | 3,769,440 | 3,769,440 | 220,640,275 | `aa17b47ad1fa76725885ccea3b56320f05b983344a77318ddd8a8e54f6f51d3a` |
+| 日个股回报率文件 | TRD_Dalyr_2020_2024 | 2020-01-01 – 2024-12-31 | 24 | 5,852,287 | 5,852,287 | 340,147,343 | `12a100ad537b4a1fbc0028df87464ca8ca9bfe0af0d30b355cc0609ca14397e2` |
+| 日个股回报率文件 | TRD_Dalyr_2025_2026 | 2025-01-01 – 2026-09-30 | 24 | 2,343,819 | 2,343,819 | 142,471,521 | `eda53e943a1702e1b82f541156f1ffa2b01bd1648ed5e554fcddb38b94705af7` |
+
+Daily chunk boundaries checked: first/last trading dates are 2000-01-04/2004-12-31,
+2005-01-04/2009-12-31, 2010-01-04/2014-12-31, 2015-01-05/2019-12-31, 2020-01-02/2024-12-31,
+2025-01-02/2026-09-30. Contiguous, no overlap. Daily total 2000-2026: 17,815,026 rows.
+
+Notes:
+- TRD_Co: the table header on the query page said 6,030 records; the file has 6,051 rows with
+  6,051 unique `Stkcd`. We treat the file as authoritative (header count is likely stale).
+- The date-filter fields: IAR_Rept filters on 统计截止日期; TRD_Dalyr on 交易日期; the other
+  tables were downloaded with no date filter.
+- The query page pre-fills the previous download's date range ("填充最近一次下载的时间设置");
+  every download's date range was read back from the page before clicking download, and
+  re-checked on the download summary page.
+- **Restatements (look-ahead risk).** FS_Combas has one row per (Stkcd, Accper, Typrep), no
+  duplicates, and 54,585 of 702,674 rows (7.8%) carry `IfCorrect = 1` with a `DeclareDate` for
+  the correction (e.g. 000001 FY2008-2010 corrected on 2011-08-18). Because only one version is
+  kept, we must establish whether values are as originally reported or as corrected. If
+  corrected, using them at the original disclosure date is look-ahead. Open question; check
+  CSMAR documentation and whether an "original report" table exists.
+- **Opening-balance rows.** 149,275 balance-sheet rows have `Accper` = YYYY-01-01. These are
+  opening balances (期初数), e.g. restated under the 2007 accounting standards, not a reporting
+  period. Cleaning code must separate them from period-end rows.
+- Financial statements include all report types (annual, semi-annual, quarterly) and both
+  consolidated and parent-company statements (field `Typrep`); filtering happens in code.
