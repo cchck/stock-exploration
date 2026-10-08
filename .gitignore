@@ -1,0 +1,12 @@
+# Licensed CSMAR data (NYU academic licence): never commit raw or derived firm-level data.
+data/
+
+# Upstream SignalLab has its own git history; pinned commit is recorded in docs/signallab_code_notes.md.
+external/
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.DS_Store
