@@ -145,6 +145,7 @@ class FMResult:
     coef: pd.Series
     tstats: pd.Series
     avg_r2: float
+    avg_adj_r2: float
     n_periods: int
     coef_series: pd.DataFrame
 
@@ -157,7 +158,7 @@ def fama_macbeth(df: pd.DataFrame, y: str, xs: list[str], *, time: str = "month"
     A period is skipped if it has fewer than min_obs complete rows (default: len(xs) + 2).
     """
     need = min_obs or len(xs) + 2
-    rows, r2s = {}, []
+    rows, r2s, adj = {}, [], []
     for t, g in df[[time, y, *xs]].dropna().groupby(time):
         if len(g) < need:
             continue
@@ -165,7 +166,9 @@ def fama_macbeth(df: pd.DataFrame, y: str, xs: list[str], *, time: str = "month"
         yy = g[y].to_numpy(float)
         b = np.linalg.lstsq(X, yy, rcond=None)[0]
         e = yy - X @ b
-        r2s.append(1 - e @ e / ((yy - yy.mean()) ** 2).sum())
+        r2 = 1 - e @ e / ((yy - yy.mean()) ** 2).sum()
+        r2s.append(r2)
+        adj.append(1 - (1 - r2) * (len(yy) - 1) / (len(yy) - len(xs) - 1))
         rows[t] = b
     if not rows:
         raise ValueError("fama_macbeth: no period had enough observations")
@@ -174,5 +177,5 @@ def fama_macbeth(df: pd.DataFrame, y: str, xs: list[str], *, time: str = "month"
     for c in coefs:
         s = mean_t(coefs[c], nw_lags=nw_lags)
         means[c], ts[c] = s.mean, s.t
-    return FMResult(coef=pd.Series(means), tstats=pd.Series(ts), avg_r2=float(np.mean(r2s)),
+    return FMResult(coef=pd.Series(means), tstats=pd.Series(ts), avg_r2=float(np.mean(r2s)), avg_adj_r2=float(np.mean(adj)),
                     n_periods=len(coefs), coef_series=coefs)

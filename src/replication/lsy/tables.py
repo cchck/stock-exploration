@@ -89,3 +89,65 @@ def factor_series_check(seg: Segment | None = None) -> pd.DataFrame:
                       (f"{model} {c}", "mean_web_pct", x[f"{c}_web"].mean() * 100),
                       (f"{model} {c}", "n_months", float(len(x)))]
     return _rows("factor_check", seg, items)
+
+
+# Table 2 specifications: column -> regressors (paper's column numbering)
+TABLE2_SPECS = {
+    "(1)": ["beta"],
+    "(2)": ["logME"],
+    "(3)": ["beta", "logME"],
+    "(4)": ["beta", "logME", "logBM"],
+    "(5)": ["beta", "logME", "logAM"],
+    "(6)": ["beta", "logME", "EP+", "D(EP<0)"],
+    "(7)": ["beta", "logME", "CP+", "D(CP<0)"],
+    "(8)": ["beta", "logME", "logBM", "logAM", "EP+", "D(EP<0)", "CP+", "D(CP<0)"],
+    "(9)": ["beta", "logME", "logBM", "EP+", "D(EP<0)"],
+}
+
+
+def table2_regressors(p: pd.DataFrame) -> pd.DataFrame:
+    """Table 2 regressors from end-of-(t-1) characteristics.
+
+    - logME: log of total A-share market value in millions of yuan. The unit only moves the
+      intercept; millions is the unit consistent with the paper's intercept (0.058 with a
+      logME slope of -0.0049 implies a typical logME near 9).
+    - logBM, logAM: logs of positive ratios; a firm with non-positive book equity has no
+      logBM and drops out of the specifications that include it (Fama and French 1992).
+    - EP+ = EP if EP > 0 else 0; D(EP<0) = 1 if EP < 0; CP+ and D(CP<0) likewise.
+    """
+    import numpy as np
+    out = p[["stkcd", "month", "ret", "in_universe", "eligible", "beta"]].copy()
+    out["logME"] = np.log(p["me"] / 1e6)
+    out["logBM"] = np.log(p["bm"].where(p["bm"] > 0))
+    out["logAM"] = np.log(p["am"].where(p["am"] > 0))
+    out["EP+"] = p["ep"].clip(lower=0)
+    out["D(EP<0)"] = (p["ep"] < 0).astype(float).where(p["ep"].notna())
+    out["CP+"] = p["cp"].clip(lower=0)
+    out["D(CP<0)"] = (p["cp"] < 0).astype(float).where(p["cp"].notna())
+    return out
+
+
+def table2(seg: Segment, *, sample: str = "eligible") -> pd.DataFrame:
+    """Table 2: Fama-MacBeth slopes (decimal monthly returns), Newey-West (4 lags) t-statistics,
+    and the average adjusted R-squared.
+
+    sample="eligible" (default): all stocks passing the listing/trading filters, smallest
+    30% kept. sample="universe": smallest 30% excluded, as section 4's text states.
+    The default follows the printed numbers, not the text: with the smallest 30% kept,
+    68 of 80 scored Table 2 numbers match (size slope -0.0051, t -2.87 vs printed -0.0049,
+    -2.91); with them excluded, 55 of 80 match and the size slope halves (deviation_log LSY-3).
+    """
+    from replication.common.stats import fama_macbeth
+    p = panel()
+    x = table2_regressors(p)
+    keep = {"universe": x["in_universe"], "eligible": x["eligible"]}[sample]
+    x = x[keep & seg.mask(x["month"])]
+    items = []
+    for col, regs in TABLE2_SPECS.items():
+        r = fama_macbeth(x, "ret", regs, nw_lags=4)
+        items.append(("Intercept", col, r.coef["const"]))
+        items.append(("t(Intercept)", col, r.tstats["const"]))
+        for v in regs:
+            items += [(v, col, r.coef[v]), (f"t({v})", col, r.tstats[v])]
+        items.append(("R2", col, r.avg_adj_r2))
+    return _rows("T2", seg, items)

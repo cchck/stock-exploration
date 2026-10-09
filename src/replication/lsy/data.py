@@ -20,8 +20,8 @@ Paper conventions implemented (page refs to the JFE version):
   original-statement type 408005000) / (close x total shares incl. B and H). CSMAR
   IAR_Rept.Profitb is the same item as originally announced (checked: Moutai FY2019
   41.41bn, Vanke FY2019 38.31bn), falling back to announced net profit when missing.
-  Earnings are as reported for the period (year-to-date for quarterly reports): this
-  matched Stambaugh's VMG better than trailing-twelve-month or annual-only earnings.
+  Earnings are the latest single quarter (half-year before 2002), derived from the
+  year-to-date reports; see earnings_announcements() for the evidence.
   Latest report released on or before the end of t-1; semi-annual and annual reports
   only before 2002-01-01 (A.1).
 - Abnormal turnover (CH-4): average daily turnover over the past 20 trading days divided
@@ -46,32 +46,48 @@ QUARTERLY_FROM = pd.Timestamp("2002-01-01")  # before this, semi-annual and annu
 # ---------------------------------------------------------------------------------------------
 
 def earnings_announcements(*, fallback_to_net_profit: bool = True) -> pd.DataFrame:
-    """One row per (stock, report) with the originally announced earnings and the
+    """One row per (stock, report): single-period earnings as originally announced, with the
     announcement date.
 
-    Earnings = IAR_Rept.Profitb (net profit excluding non-recurring items). When Profitb is
-    missing (mostly 1999-2000 reports: 11.8% of universe stocks in 2000) it falls back to
-    Profita, the announced net profit, so those firms are not dropped from the sorts.
-    Evidence for the fallback (docs/deviation_log.md, LSY-1, round 3): VMG 2000-2016 mean
-    1.01% -> 1.06% (paper 1.14%), correlation with Stambaugh's series 0.959 -> 0.967.
-    WIND's own documented practice is likewise to fall back when an item is unavailable
-    (Online Appendix, statement type 408005000 else 408001000).
+    - Item: IAR_Rept.Profitb, net profit excluding non-recurring items. When Profitb is
+      missing (mostly 1999-2000 reports) it falls back to Profita, the announced net profit,
+      so those firms stay in the sorts.
+    - Period: Chinese reports are year-to-date. The earnings used are the flow of the latest
+      period: the quarter for quarterly reports (Q2 = H1 - Q1, Q3 = 9M - H1, Q4 = FY - 9M),
+      and before 2002, when only semi-annual and annual reports are used, the half-year
+      (H2 = FY - H1). A flow whose preceding report in the same fiscal year is missing is
+      left missing rather than mixing a cumulative figure with quarterly ones.
+    Evidence for both choices is in docs/deviation_log.md (LSY-1). Single-quarter earnings
+    give VMG 2000-2016 1.19% (paper 1.14%) and a 0.980 correlation with Stambaugh's series;
+    year-to-date earnings give 1.04% and 0.968; trailing twelve months 0.93% and 0.917.
+    The Table 2 EP+ slope moves from 0.44 to 0.71 (paper 0.95). This also fits the paper's
+    "ROE at the quarterly frequency".
     """
     r = read_raw("IAR_Rept", columns=["Stkcd", "Accper", "Reptyp", "Annodt", "Profita", "Profitb"])
     from csmar.panels import parse_csmar_date  # local: keeps the module import list short
-    earnings = pd.to_numeric(r["Profitb"], errors="coerce")
+    ytd = pd.to_numeric(r["Profitb"], errors="coerce")
     if fallback_to_net_profit:
-        earnings = earnings.fillna(pd.to_numeric(r["Profita"], errors="coerce"))
+        ytd = ytd.fillna(pd.to_numeric(r["Profita"], errors="coerce"))
     out = pd.DataFrame({
         "stkcd": r["Stkcd"],
         "period_end": parse_csmar_date(r["Accper"]),
         "report_type": pd.to_numeric(r["Reptyp"], errors="coerce").astype("Int64"),
         "announce_date": parse_csmar_date(r["Annodt"]),
-        "earnings": earnings,
+        "earnings_ytd": ytd,
     }).dropna(subset=["period_end", "announce_date"])
     # Before 2002 only semi-annual (2) and annual (4) reports are used (A.1).
     early_quarterly = (out["announce_date"] < QUARTERLY_FROM) & out["report_type"].isin([1, 3])
-    return out[~early_quarterly].reset_index(drop=True)
+    out = out[~early_quarterly].copy()
+    out["fiscal_year"] = out["period_end"].dt.year
+    out = out.sort_values(["stkcd", "fiscal_year", "report_type"]).reset_index(drop=True)
+    prev = out.groupby(["stkcd", "fiscal_year"])["earnings_ytd"].shift(1)
+    first = out.groupby(["stkcd", "fiscal_year"]).cumcount().eq(0)
+    # The first report of a fiscal year is its own flow only if it is Q1, or H1 when
+    # quarterlies are not used; otherwise the preceding report is missing.
+    own_flow = first & (out["report_type"].eq(1) | (out["report_type"].eq(2) & (out["announce_date"] < QUARTERLY_FROM)))
+    out["earnings"] = np.where(own_flow, out["earnings_ytd"], out["earnings_ytd"] - prev)
+    out.loc[first & ~own_flow, "earnings"] = np.nan
+    return out
 
 
 def latest_by_month_end(events: pd.DataFrame, months: pd.PeriodIndex, value_cols: list[str],
@@ -97,6 +113,25 @@ def total_shares_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
                        "total_shares": pd.to_numeric(c["Nshrttl"], errors="coerce")}).dropna()
     ev["period_end"] = ev["date"]
     return latest_by_month_end(ev, months, ["total_shares"], date_col="date").drop(columns="period_end")
+
+
+def statement_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
+    """Balance-sheet and cash-flow items from the latest consolidated statement released on or
+    before each month end (Online Appendix B.1(b)):
+    - book_equity: equity attributable to parent shareholders (A003100000; CSMAR fills it for
+      all years, and total equity A003000000 includes minority interest, so it is not used);
+    - total_assets: A001000000 (for AM, as in Fama and French 1992);
+    - cash_flow: net change in cash and cash equivalents over the statement's period
+      (C005000000 = ending minus beginning balance, the Online Appendix definition).
+    Only period-end rows (never the restated opening rows) are used; before 2002-01-01 only
+    semi-annual and annual reports (A.1).
+    """
+    st = load("statements")[["stkcd", "period_end", "report_type", "announce_date",
+                             "A003100000", "A001000000", "C005000000"]].dropna(subset=["announce_date"])
+    st = st.rename(columns={"A003100000": "book_equity", "A001000000": "total_assets", "C005000000": "cash_flow"})
+    early_quarterly = (st["announce_date"] < QUARTERLY_FROM) & st["report_type"].isin([1, 3])
+    st = st[~early_quarterly]
+    return latest_by_month_end(st, months, ["book_equity", "total_assets", "cash_flow"])
 
 
 # ---------------------------------------------------------------------------------------------
@@ -199,8 +234,17 @@ def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered") ->
     s = s.merge(shares, on=["stkcd", "month"], how="left")
     s["ep"] = s["earnings"] / (s["close"] * s["total_shares"])
 
+    items = statement_items_month_end(all_months)
+    s = s.merge(items[["stkcd", "month", "book_equity", "total_assets", "cash_flow"]], on=["stkcd", "month"], how="left")
+    mv_all = s["close"] * s["total_shares"]  # valuation ratios scale by all shares (footnote 5)
+    s["bm"] = s["book_equity"] / mv_all
+    s["am"] = s["total_assets"] / mv_all
+    s["cp"] = s["cash_flow"] / mv_all
+
     dch = daily_characteristics_month_end()
     s = s.merge(dch, on=["stkcd", "month"], how="left")
+    from replication.lsy.beta import dimson_beta_month_end
+    s = s.merge(dimson_beta_month_end(), on=["stkcd", "month"], how="left")
 
     # The 15-record rule cannot be applied literally in months when the whole market traded
     # fewer than 15 days (Spring Festival: 2000-02 had 12, 2001-01 14, 2002-02 10, 2004-01 13,
