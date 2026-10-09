@@ -1,0 +1,30 @@
+# Liu, Stambaugh & Yuan (2019, JFE 134:48-69). Transcribed from the published PDF
+# (references/LSY_2019_JFE.pdf). Units as printed: % per month for means, std and alphas.
+# kind -> tolerance rule, see src/replication/common/compare.py.
+table,row,col,paper,kind,source
+T3,MKT,mean,0.66,pct_return,Table 3
+T3,SMB,mean,1.03,pct_return,Table 3
+T3,VMG,mean,1.14,pct_return,Table 3
+T3,MKT,std,8.09,pct_std,Table 3
+T3,SMB,std,4.52,pct_std,Table 3
+T3,VMG,std,3.75,pct_std,Table 3
+T3,MKT,t,1.16,t,Table 3
+T3,SMB,t,3.25,t,Table 3
+T3,VMG,t,4.34,t,Table 3
+T3,MKT,corr_SMB,0.12,coef,Table 3
+T3,MKT,corr_VMG,-0.27,coef,Table 3
+T3,SMB,corr_VMG,-0.62,coef,Table 3
+T3,MKT,alpha_2f,1.57,pct_return,Section 5.1 text
+T3,SMB,alpha_2f,1.91,pct_return,Section 5.1 text
+T3,VMG,alpha_2f,1.71,pct_return,Section 5.1 text
+T3,MKT,t_alpha_2f,2.30,t,Section 5.1 text
+T3,SMB,t_alpha_2f,6.92,t,Section 5.1 text
+T3,VMG,t_alpha_2f,7.94,t,Section 5.1 text
+T3,all,n_months,204,info,Table 3
+factor_check,CH-4 mkt,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-4 smb,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-4 vmg,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-4 pmo,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-3 mkt,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-3 smb,corr,0.95,series_corr,lighthouse 3.3
+factor_check,CH-3 vmg,corr,0.95,series_corr,lighthouse 3.3

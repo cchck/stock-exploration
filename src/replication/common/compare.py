@@ -1,0 +1,78 @@
+"""Paper-vs-ours comparison with the tolerances of lighthouse.md section 3.3.
+
+Paper numbers live in machine-readable target files (targets/<paper>_targets.csv, one row
+per printed number: table, row, col, paper, kind). `kind` selects the tolerance rule:
+
+| kind        | rule (lighthouse 3.3)                                                   |
+|-------------|-------------------------------------------------------------------------|
+| pct_return  | mean return, alpha, factor mean, in % per month: |ours - paper| <= 0.10  |
+| pct_std     | standard deviation in % per month: same 0.10 rule (strict reading:     |
+|             | 3.3 lists no separate rule for dispersion, so the return rule is used)  |
+| t           | same significance band: |t| < 1.96 / 1.96-2.78 / > 2.78               |
+| coef        | non-return coefficient (incl. correlations, R-squared slopes): same     |
+|             | sign (the t-band half of the rule is checked on the paired t row)       |
+| share_pct   | proportion in %: |ours - paper| <= 3 points                            |
+| pvalue      | same reject / not-reject conclusion at 5%                               |
+| series_corr | month-by-month correlation with a published series >= the threshold    |
+|             | stored in the paper column (0.95 or 0.90)                               |
+| info        | reported, not scored (e.g. number of months)                            |
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+TARGETS_DIR = Path(__file__).resolve().parents[3] / "targets"
+
+
+def t_band(t: float) -> int:
+    a = abs(t)
+    return 0 if a < 1.96 else (1 if a <= 2.78 else 2)
+
+
+def judge(kind: str, paper: float, ours: float) -> bool | None:
+    if ours is None or (isinstance(ours, float) and np.isnan(ours)):
+        return False
+    if kind in ("pct_return", "pct_std"):
+        return abs(ours - paper) <= 0.10 + 1e-9
+    if kind == "t":
+        return t_band(ours) == t_band(paper)
+    if kind == "coef":
+        return np.sign(ours) == np.sign(paper)
+    if kind == "share_pct":
+        return abs(ours - paper) <= 3.0 + 1e-9
+    if kind == "pvalue":
+        return (ours < 0.05) == (paper < 0.05)
+    if kind == "series_corr":
+        return ours >= paper
+    if kind == "info":
+        return None
+    raise ValueError(f"unknown tolerance kind {kind!r}")
+
+
+def load_targets(paper: str) -> pd.DataFrame:
+    path = TARGETS_DIR / f"{paper}_targets.csv"
+    t = pd.read_csv(path, comment="#")
+    need = {"table", "row", "col", "paper", "kind"}
+    if not need <= set(t.columns):
+        raise ValueError(f"{path} lacks columns {need - set(t.columns)}")
+    if t.duplicated(["table", "row", "col"]).any():
+        raise ValueError(f"{path} has duplicate (table, row, col) keys")
+    return t
+
+
+def compare(paper: str, ours: pd.DataFrame, deviations: dict[tuple[str, str, str], str] | None = None) -> pd.DataFrame:
+    """Join targets with our original-segment numbers (columns table, row, col, value) and
+    judge each. Every target row appears in the output; a target we did not produce is a
+    failure with ours = NaN, so nothing silently drops out of the comparison."""
+    t = load_targets(paper)
+    o = ours[["table", "row", "col", "value"]].rename(columns={"value": "ours"})
+    x = t.merge(o, on=["table", "row", "col"], how="left", validate="one_to_one")
+    x["diff"] = x["ours"] - x["paper"]
+    x["pass"] = [judge(k, p, v) for k, p, v in zip(x["kind"], x["paper"], x["ours"])]
+    dev = deviations or {}
+    x["deviation"] = [dev.get((a, b, c), "") for a, b, c in zip(x["table"], x["row"], x["col"])]
+    return x
