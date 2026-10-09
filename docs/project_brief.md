@@ -43,6 +43,9 @@ call unless noted.
 ### Decided
 
 - 2026-10-07 (user): all project material lives in `~/Desktop/stock-exploration`.
+- 2026-10-08 (user): project moved to `~/Downloads/stock-exploration`. Reason: the Desktop is
+  synced to iCloud, which was uploading the licensed CSMAR data (against the data-stays-local
+  rule) and breaking the venv by hiding `.pth` files. Downloads is not iCloud-synced.
 - 2026-10-07: each paper is replicated under its own original conventions; no single
   convention is imposed during replication.
 - 2026-10-07: raw CSMAR data stays local and out of version control (NYU academic licence).

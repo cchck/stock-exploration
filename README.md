@@ -31,14 +31,25 @@ Code for the CSMAR pipeline and the replications will live in `src/` (not create
 ## Environment
 
 ```bash
-cd ~/Desktop/stock-exploration
+cd ~/Downloads/stock-exploration
 .venv/bin/python -m pytest tests -q
 ```
 
 The system Python 3.9 on this machine has a broken pandas build and SignalLab requires
-Python >= 3.10, so always use `.venv/bin/python`. The venv was created with
-`/opt/homebrew/bin/python3.12 -m venv .venv` and
-`.venv/bin/pip install -e 'external/signal-laboratory[paper]' pytest`.
+Python >= 3.10, so always use `.venv/bin/python`. Recreate the venv with:
+
+```bash
+/opt/homebrew/bin/python3.12 -m venv .venv
+.venv/bin/pip install -e 'external/signal-laboratory[paper]' -e '.[dev]' python-docx
+```
+
+Rebuild every processed panel from `data/raw/` with `.venv/bin/python -m csmar.build`.
+
+**Location matters.** The project lives in `~/Downloads/stock-exploration`, outside iCloud.
+It was moved off the Desktop on 2026-10-08 because the Desktop is synced to iCloud, which was
+uploading the licensed CSMAR data and also set the macOS "hidden" flag on `.pth` files inside
+`.venv` (Python 3.12 skips hidden `.pth` files, so `import csmar` / `import siglab` failed).
+Do not move it back into Desktop or Documents.
 
 ## Ground rules
 
