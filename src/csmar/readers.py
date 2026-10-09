@@ -139,15 +139,28 @@ def read_raw(code: str, *, columns: list[str] | None = None, use_cache: bool = T
     signature = _source_signature(table)
 
     if use_cache and cache_file.exists() and meta_file.exists():
-        if json.loads(meta_file.read_text()).get("signature") == signature:
+        meta = json.loads(meta_file.read_text())
+        if meta.get("signature") == signature:
+            # Repaired records are re-announced on every read, not only on the first parse,
+            # so a cache hit never hides them (lighthouse.md 4.1).
+            for rec in meta.get("stray_quote_rows", []):
+                log.warning("%s: %s data row %d has an unescaped quote inside a field (kept verbatim): %s",
+                            code, rec["file"], rec["row"], rec["head"])
             df = pd.read_parquet(cache_file, columns=None if columns is None else [*columns, "_chunk"])
             return df
 
     frames = []
+    stray_records: list[dict] = []
     for i, sub in enumerate(table.subdirs):
         parts = _csv_parts(table.folder(sub), code)
         if table.tolerant_parse:
-            chunk = pd.concat([_numeric_or_string(read_quote_delimited(p)) for p in parts], ignore_index=True)
+            parsed = []
+            for part in parts:
+                raw = read_quote_delimited(part)
+                stray_records += [{"file": f"{sub}/{part.name}", "row": r, "head": list(raw.iloc[r, :2])}
+                                  for r in raw.attrs["stray_quote_rows"]]
+                parsed.append(_numeric_or_string(raw))
+            chunk = pd.concat(parsed, ignore_index=True)
         else:
             # Read every column into the cache so later column subsets never trigger a reread.
             chunk = pd.concat([_read_standard(p, None) for p in parts], ignore_index=True)
@@ -172,5 +185,6 @@ def read_raw(code: str, *, columns: list[str] | None = None, use_cache: bool = T
     if use_cache:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         df.to_parquet(cache_file, index=False)
-        meta_file.write_text(json.dumps({"signature": signature, "rows": len(df)}))
+        meta_file.write_text(json.dumps({"signature": signature, "rows": len(df),
+                                         "stray_quote_rows": stray_records}, ensure_ascii=False))
     return df if columns is None else df[[*columns, "_chunk"]]

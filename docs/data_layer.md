@@ -28,7 +28,8 @@ gitignored). `results/data_layer/` holds aggregates only and is committed.
     `TSR_Stkstat` and `STK_MA_TRADINGMAIN` are read with the quote-aware parser
     (`read_quote_delimited`), which splits on `"\n"` and `","` only.
 - The quote-aware parser keeps every record verbatim and logs each record that contains a
-  stray quote. Current files: `TSR_Stkstat` 16 such records (1 of them breaks a standard
+  stray quote, on every read (the list is stored with the parquet cache, so a cache hit
+  re-logs it). Current files: `TSR_Stkstat` 16 such records (1 of them breaks a standard
   parser), `STK_MA_TRADINGMAIN` 5 (0 / 3 / 1 / 1 by 5-year chunk). Both tables then match
   their platform counts exactly, so no tolerance is used in practice.
 - Mixed-type object columns across chunks (seen in `RPT_Transfer`) are cast to string before
@@ -38,12 +39,12 @@ gitignored). `results/data_layer/` holds aggregates only and is committed.
 
 ## 2. Panels (`csmar.panels`, written to `data/processed/`)
 
-| Panel | Key | Rows (build of 2026-10-09) | Source |
+| Panel | Key | Rows (build of 2026-10-09, after adding 1999-12 daily) | Source |
 |---|---|---|---|
 | company_info | stkcd | 6,051 | TRD_Co |
 | stock_month | stkcd, month | 953,894 | TRD_Mnth + company_info + st_month |
-| st_month | stkcd, month | 906,774 | TRD_Dalyr.Trdsta (2000-01 onward) |
-| daily_month | stkcd, month | 906,774 | TRD_Dalyr |
+| st_month | stkcd, month | 907,806 | TRD_Dalyr.Trdsta (1999-12 onward) |
+| daily_month | stkcd, month | 907,806 | TRD_Dalyr (1999-12 onward) |
 | statements | stkcd, accper | 312,895 | FS_Combas/Comins/Comscfi/Comscfd (Typrep A) + IAR_Rept |
 | statements_opening | stkcd, accper | 77,501 | same, Accper = YYYY-01-01 |
 | risk_free_1y | month | 432 | TRD_Nrrate (NRI01) |
@@ -58,14 +59,16 @@ applied here. Each replication module applies its paper's own rules as named par
   SH_MAIN, SZ_MAIN (000/001), SZ_SME (002/003, kept separate after the 2021 merger
   because Li et al.'s mainboard excludes it), CHINEXT, STAR, BSE, SH_B, SZ_B. An
   unclassifiable combination raises an error.
-- Market values are converted from CSMAR's thousand yuan to yuan. Li Table 1 Panel A total and
-  circulating market values are matched within 0.37% in every year from 2000 to 2018, which
-  confirms the unit.
+- Market values are converted from CSMAR's thousands to units of the trading currency. For
+  A shares that is yuan; Shanghai B shares are in USD and Shenzhen B shares in HKD (as are
+  their prices and traded value). The `currency` column says which; never sum or rank across
+  currencies. Li Table 1 Panel A total and circulating market values are matched within
+  0.37% in every year from 1999 to 2018, which confirms the unit.
 - CSMAR has no row for a month without any trading day (full-month suspension). Those months
   are not filled in. `month_gap` = months since the previous traded month (NA in the first
   month), so "consecutive months" is an explicit flag, not an assumption.
 - Return conventions, verified against the compounded daily dividend-reinvested return:
-  - continuing months: 99.996% of 897,195 stock-months agree within 1e-4. The ~35 exceptions
+  - continuing months: 99.996% of 898,219 stock-months agree within 1e-4. The ~35 exceptions
     cluster in 2019-06 (19 cases) and 2020; one is 600018 in 2006-10, its merger-relisting month.
   - resumption months (gap > 1): 100% of 4,582 agree. The resumption-day daily return is
     measured from the last pre-suspension close, so the monthly return in the resumption
@@ -81,12 +84,17 @@ applied here. Each replication module applies its paper's own rules as named par
 
 - `st_end` / `st_any`: ST, *ST or PT on the month's last trading day / any trading day.
   The ST codes are {2, 5, 8, 11, 14}, the *ST codes {3, 6, 9, 12, 15} and the PT code 16.
-- `trdsta_end`: the raw code on the last trading day. Codes 4, 7 and 10 are the
-  split-share-reform prefixes (S/G/N): not ST, but not "normal" either. 181 stocks had
-  such a code at the end of 2005, and about 20 have stayed on code 10 through 2025.
+- `trdsta_end`: the raw code on the last trading day. The CSMAR definition is 1 = normal,
+  2 = ST, 3 = *ST, 4 = S, 5 = SST, 6 = S*ST, 7 = G, 8 = GST, 9 = G*ST, 10 = U, 11 = UST,
+  12 = U*ST, 13 = N, 14 = NST, 15 = N*ST, 16 = PT.
+  - Codes 4, 7 and 10 are the split-share-reform prefixes S/G/U: not ST, but not "normal"
+    either. (Code 13, N, never occurs at a month end.)
+  - 181 stocks had one of these codes at the end of 2005, and 15 were still on one at the
+    end of 2025.
 - Li et al.'s "abnormal trading status at year end" = `trdsta_end != 1`. This rule, not
   "is ST", reproduces their counts.
-- No status exists before 2000 because the daily download starts in 2000-01.
+- No status exists before 1999-12: the daily download covers 1999-12 onward (1999-12 was
+  added so that Li's end-of-1999 sample can be formed).
 
 ### 2.3 Daily aggregates
 
@@ -94,6 +102,13 @@ applied here. Each replication module applies its paper's own rules as named par
 - `n_days`, `vol_daily` (std of daily returns), `turnover` (sum of shares traded divided by
   circulating shares, where circulating shares = circulating value / close), `amihud`, and
   `max_ret`.
+- The listing day is **excluded** from these aggregates. Its return is measured from the IPO
+  offer price, and first-day returns of several hundred percent are common. CSMAR's monthly
+  file likewise leaves the IPO month's return blank. `listing_day_in_month` flags those
+  months. The listing day is detected for 99.98% of IPOs since 2000; the exception is
+  600018, a reused code.
+- `ret_compounded` compounds all days, including the listing day. It exists to verify the
+  monthly file.
 - `zero_volume_days` is always 0: the daily file only contains days with trading.
 
 Paper-specific variables (window, minimum days) are computed in each replication module.
@@ -142,8 +157,11 @@ Paper-specific variables (window, minimum days) are computed in each replication
 - The base is the OECD level (FRED `CHNCPIALLMINMEI`, sourced from NBS) through 2025-04.
   It is chained forward with the NBS headline month-on-month index (上月=100) through
   2026-08; the `source` column records which.
-- On the 19 overlapping months the two month-on-month series differ by at most 0.2 index
-  points.
+- On the 19 overlapping months the two month-on-month series differ by at most 0.21 index
+  points (NBS publishes to 0.1). This is checked by `csmar.validate`, and the overlap is
+  saved in `results/data_layer/cpi_splice_overlap.csv`.
+- The 16 NBS-only months (2025-05 onward) can carry a small rounding drift; they are not
+  checked against any other source.
 - NBS values were read from the public page table, because the download needs a login (see
   `docs/csmar_access.md`).
 
@@ -159,13 +177,15 @@ Paper-specific variables (window, minimum days) are computed in each replication
 | Check | Result |
 |---|---|
 | Unique keys, all panels | pass |
-| Li Table 1A, non-financial normal-status stocks, 2000–2018 | **exact in all 19 years, and exact for every board (SH, SZ, SME, GEM)** |
-| Li Table 1A, total and circulating market value, 2000–2018 | max deviation 0.37% |
-| Li Table 1A, 1999 | 892 vs 844: no daily status for 1999, so not scored (deviation D-002) |
-| Allen Table I, listed A-share firms, 2000–2018 | max deviation 2.99% (2010). Their source is Worldscope; ours counts stocks with any traded month in the year. |
+| Li Table 1A, non-financial normal-status stocks, 1999–2018 | **exact in all 20 years, and exact for every board (SH, SZ, SME, GEM)** |
+| Li Table 1A, total and circulating market value, 1999–2018 | max deviation 0.37% |
+| Allen Table I, listed A-share firms, 2000–2018 | max deviation 2.99% (2010). Their source is Worldscope. Ours counts stocks listed during the year: first traded month <= year <= last traded month, so a stock suspended all year still counts. The stricter "traded in the year" count is also saved; it misses by up to 4.1% (D-006). |
 | Monthly vs compounded daily returns | see 2.1 |
 | Disclosure dates | see 2.4 |
+| CPI splice overlap | see 2.6 |
 
-Yearly A-share, ST and special-status counts for 2000–2025 are in
-`results/data_layer/yearly_counts_2000_2026.csv`. 2026 has no December yet; data end in
-2026-09.
+Yearly A-share, ST and special-status counts for 1999–2025 are in
+`results/data_layer/yearly_counts_1999_2026.csv`. 2026 has no December yet; data end in
+2026-09. ST counts have no paper benchmark here: neither Li Table 1 nor Allen Table I reports
+them. Allen's ST statistics (section III.A.2) are compared in milestone 1.3. Years 2019–2026
+lie outside both papers and are reported without a benchmark (D-010).

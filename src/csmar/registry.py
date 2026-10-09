@@ -56,13 +56,15 @@ class RawTable:
         return RAW_CSMAR / self.code / "unzipped" / subdir
 
 
-_DALYR_CHUNKS = ("_2000_2004", "_2005_2009", "_2010_2014", "_2015_2019", "_2020_2024", "_2025_2026")
+# _1999_12 was added on 2026-10-09 so that the year-end trading status exists for 1999
+# (Li et al. Table 1 Panel A starts at the end of 1999; deviation_log D-002).
+_DALYR_CHUNKS = ("_1999_12", "_2000_2004", "_2005_2009", "_2010_2014", "_2015_2019", "_2020_2024", "_2025_2026")
 _MA_CHUNKS = ("_2007_2011", "_2012_2016", "_2017_2021", "_2022_2026")
 
 TABLES: dict[str, RawTable] = {t.code: t for t in [
     RawTable("TRD_Mnth", "月个股回报率文件", ("_all",), (953_894,)),
-    RawTable("TRD_Dalyr", "日个股回报率文件 (2000-2026, six chunks)", _DALYR_CHUNKS,
-             (1_494_737, 1_790_151, 2_764_592, 3_769_440, 5_852_287, 2_343_819)),
+    RawTable("TRD_Dalyr", "日个股回报率文件 (1999-12 and 2000-2026, seven chunks)", _DALYR_CHUNKS,
+             (21_194, 1_494_737, 1_790_151, 2_764_592, 3_769_440, 5_852_287, 2_343_819)),
     RawTable("TRD_Co", "公司文件", ("_all",), (6_051,),
              notes="Platform header said 6,030; file has 6,051 unique codes (header stale)."),
     RawTable("TRD_Nrrate", "无风险利率文件", ("_all",), (13_072,)),

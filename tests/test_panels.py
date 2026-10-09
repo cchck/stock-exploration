@@ -90,3 +90,43 @@ def test_market_values_are_in_yuan():
     m = load("stock_month")
     mv = m.loc[(m["stkcd"] == "600519") & (m["month"] == pd.Period("2023-12", "M")), "mv_total"].iloc[0]
     assert 1.5e12 < mv < 3e12
+
+
+@needs_panels
+@pytest.mark.data
+def test_stock_months_are_complete_relative_to_daily_trading():
+    # "Months contiguous" (lighthouse 4.2) is read as: no month in which the stock traded is
+    # missing. Months without any trading day are absent by design and flagged by month_gap.
+    m = load("stock_month")
+    d = load("daily_month")
+    m_keys = set(zip(m.loc[m["month"] >= pd.Period("1999-12", "M"), "stkcd"], m.loc[m["month"] >= pd.Period("1999-12", "M"), "month"]))
+    d_keys = set(zip(d["stkcd"], d["month"]))
+    assert m_keys == d_keys
+
+
+@needs_panels
+@pytest.mark.data
+def test_monthly_return_equals_compounded_daily_return():
+    x = load("stock_month").merge(load("daily_month"), on=["stkcd", "month"])
+    x = x.dropna(subset=["ret", "ret_compounded"])
+    agree = ((x["ret"] - x["ret_compounded"]).abs() < 1e-4).mean()
+    assert agree >= 0.9999, agree
+
+
+@needs_panels
+@pytest.mark.data
+def test_b_shares_carry_foreign_currency():
+    m = load("stock_month")
+    assert set(m.loc[m["board"] == "SH_B", "currency"]) == {"USD"}
+    assert set(m.loc[m["board"] == "SZ_B", "currency"]) == {"HKD"}
+    assert set(m.loc[m["is_a_share"], "currency"]) == {"CNY"}
+
+
+@needs_panels
+@pytest.mark.data
+def test_listing_day_excluded_from_daily_aggregates():
+    # In an IPO month n_days counts the trading days after the listing day only.
+    x = load("daily_month").merge(load("stock_month")[["stkcd", "month", "trading_days"]], on=["stkcd", "month"])
+    ipo = x[x["listing_day_in_month"]]
+    assert len(ipo) > 4000
+    assert (ipo["n_days"] <= ipo["trading_days"] - 1).all()

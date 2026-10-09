@@ -1,4 +1,4 @@
 group,n,n_both_nonmissing,share_abs_diff_lt_1e-4,ret_missing_share
-continuing (gap=1),897195,897195,0.9999598749435742,0.0
+continuing (gap=1),898219,898219,0.9999599206874938,0.0
 after full-month suspension (gap>1),4582,4582,1.0,0.0
-first traded month,4997,0,,1.0
+first traded month,5005,0,,1.0

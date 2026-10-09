@@ -105,8 +105,10 @@ Notes:
   duplicates, and 54,585 of 702,674 rows (7.8%) carry `IfCorrect = 1` with a `DeclareDate` for
   the correction (e.g. 000001 FY2008-2010 corrected on 2011-08-18). Because only one version is
   kept, we must establish whether values are as originally reported or as corrected. If
-  corrected, using them at the original disclosure date is look-ahead. Open question; check
-  CSMAR documentation and whether an "original report" table exists.
+  corrected, using them at the original disclosure date is look-ahead. **Resolved
+  2026-10-08:** period-end rows hold the originally reported values; restated comparatives
+  appear only in the YYYY-01-01 opening rows. Evidence and handling: `docs/data_layer.md`
+  section 2.4.
 - **Opening-balance rows.** 149,275 balance-sheet rows have `Accper` = YYYY-01-01. These are
   opening balances (期初数), e.g. restated under the 2007 accounting standards, not a reporting
   period. Cleaning code must separate them from period-end rows.
@@ -147,10 +149,13 @@ Notes:
   parsed at all. The originals are kept (`unzipped/_all`) for the record, and each was
   re-downloaded without those fields (`unzipped/_notext`), which parse cleanly with counts
   matching the platform. Cleaning code must read the `_notext` versions.
-- A handful of rows in TSR_Stkstat (1) and STK_MA_TRADINGMAIN (5) have an unescaped quote in a
-  short text field (停牌原因, 买方/卖方 names). Cleaning code reads these with Python's `csv`
-  module and logs the affected rows; one such row makes the 2017-2021 M&A chunk parse as
-  47,958 rows against 47,957 on the platform.
+- A handful of rows in TSR_Stkstat and STK_MA_TRADINGMAIN have an unescaped quote in a short
+  text field (停牌原因, 买方/卖方 names). Python's `csv` module mis-parses them: the 2017-2021
+  M&A chunk comes out as 47,958 rows against 47,957 on the platform, which is the "47,958"
+  in the table above. The cleaning code instead uses a quote-aware splitter
+  (`csmar.readers.read_quote_delimited`, deviation_log D-009). It gives exactly the platform
+  count for every chunk, keeps all 21 affected records verbatim (TSR 16, of which 1 breaks a
+  standard parser; STK_MA 5), and logs them on every read.
 - HLD_Shareholders and HLD_CR start in 2003 (CSMAR coverage), so ownership-concentration
   measures for Allen et al. are unavailable for 2000-2002.
 - Reverse-merger identification will use 重组类型编码 in STK_MA_TRADINGMAIN; the code book is
@@ -226,3 +231,18 @@ Li et al. replication package (`replication_package_MS-FIN-21-02398/`):
 - `reg_results_*`, `merge_results_*`: factor-regression outputs.
 - No raw CSMAR data (licence), so it cannot be run end to end, but the monthly series allow
   month-by-month comparison with our replication.
+
+### Batch 4 (2026-10-09)
+
+Approved by the user on 2026-10-09 ("下吧，1999年12月的日度数据"), to resolve deviation_log
+D-002 (Li Table 1A end-of-1999 sample). Same conventions as batch 1: 全部代码, all 24 fields,
+CSV. The date range was read back from the query page (1999-12-01 / 1999-12-31) before
+download and confirmed on the download summary page.
+
+| Table | Code / chunk | Date filter | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 日个股回报率文件 (股票市场交易) | TRD_Dalyr_1999_12 | 1999-12-01 – 1999-12-31 | 24 | 21,194 | 21,194 | 1,382,100 | `179b1d3b4eb038c1adc3177275ec3adc17c66a6237eb854d40fc33d7bbc1ca12` |
+
+The daily table now spans 1999-12-01..2026-09-30 in seven contiguous chunks (the 1999-12
+chunk's last trading day is 1999-12-30; 1999-12-31 was a market holiday), 18,036,220 rows
+in total.

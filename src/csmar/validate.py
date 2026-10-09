@@ -51,7 +51,7 @@ ALLEN_TABLE1A = {
 }
 
 COUNT_TOL_PCT = 3.0  # lighthouse.md 3.3: counts compared as proportions, within 3 pp
-DAILY_START = pd.Period("2000-01", "M")  # the daily download starts in 2000
+DAILY_START = pd.Period("1999-12", "M")  # the daily download starts in 1999-12
 
 
 class CheckFailed(AssertionError):
@@ -145,32 +145,43 @@ def check_li_counts(failures: list[str]) -> pd.DataFrame:
     out["total_pct_diff"] = (out["ours_total"] / out["paper_total"] - 1) * 100
     out["tmv_pct_diff"] = (out["ours_tmv"] / out["paper_tmv"] - 1) * 100
     out["cmv_pct_diff"] = (out["ours_cmv"] / out["paper_cmv"] - 1) * 100
-    # 1999 has no daily status (the download starts in 2000), so the status filter cannot be
-    # applied that year; it is reported but excluded from the pass criterion.
-    scored = out[out["year"] >= 2000]
+    # All years are scored: the daily download covers 1999-12, so the year-end status
+    # filter applies to the 1999 row too.
+    scored = out
     worst = scored["total_pct_diff"].abs().max()
-    _report("Li Table 1A stock counts 2000-2018", worst <= COUNT_TOL_PCT,
-            f"max |diff| {worst:.2f}% (exact years: {(scored['total_pct_diff'] == 0).sum()}/19)", failures)
-    board_gap = max(int((scored[f"paper_{b}"] - scored[f"ours_{b}"]).abs().max())
-                    for b in ("sh", "sz", "sme", "gem"))
-    _report("Li Table 1A counts by board 2000-2018", board_gap / scored["paper_total"].min() * 100 <= COUNT_TOL_PCT,
+    _report("Li Table 1A stock counts 1999-2018", worst <= COUNT_TOL_PCT,
+            f"max |diff| {worst:.2f}% (exact years: {(scored['total_pct_diff'] == 0).sum()}/{len(scored)})", failures)
+    # Each board-year against its own count: 3% of that board's paper count; a board the
+    # paper reports as empty (0) must be empty in ours too.
+    board_ok, board_gap = True, 0
+    for b in ("sh", "sz", "sme", "gem"):
+        gap = (scored[f"ours_{b}"] - scored[f"paper_{b}"]).abs()
+        board_gap = max(board_gap, int(gap.max()))
+        allowed = scored[f"paper_{b}"] * COUNT_TOL_PCT / 100
+        board_ok &= bool((gap <= allowed).all())
+    _report("Li Table 1A counts by board 1999-2018", board_ok,
             f"max absolute gap in any board-year: {board_gap} stocks", failures)
     worst_mv = scored[["tmv_pct_diff", "cmv_pct_diff"]].abs().max().max()
-    _report("Li Table 1A market values 2000-2018", worst_mv <= COUNT_TOL_PCT,
+    _report("Li Table 1A market values 1999-2018", worst_mv <= COUNT_TOL_PCT,
             f"max |diff| {worst_mv:.2f}%", failures)
     return out
 
 
 def check_allen_counts(failures: list[str]) -> pd.DataFrame:
-    """Allen et al. count firms listed in a year; we count A-shares with any trading month in
-    that year and a first traded month no later than that year."""
+    """Allen et al. count firms listed in a year. "Listed" is measured as the stock's traded
+    span covering the year: first traded month <= year <= last traded month. A stock
+    suspended for the whole year is still listed, so it counts. The stricter "traded in at
+    least one month of the year" count is reported alongside (column ours_traded_in_year)
+    but is not the scored definition."""
     m = load("stock_month")
     a = m[m["is_a_share"]]
     span = a.groupby("stkcd")["month"].agg(["min", "max"])
+    traded_years = a.assign(year=a["month"].dt.year).groupby("year")["stkcd"].nunique()
     rows = []
     for year, paper in ALLEN_TABLE1A.items():
         ours = int(((span["min"].dt.year <= year) & (span["max"].dt.year >= year)).sum())
-        rows.append({"year": year, "paper": paper, "ours": ours})
+        rows.append({"year": year, "paper": paper, "ours": ours,
+                     "ours_traded_in_year": int(traded_years.get(year, 0))})
     out = pd.DataFrame(rows)
     out["pct_diff"] = (out["ours"] / out["paper"] - 1) * 100
     worst = out["pct_diff"].abs().max()
@@ -180,10 +191,10 @@ def check_allen_counts(failures: list[str]) -> pd.DataFrame:
 
 
 def yearly_counts() -> pd.DataFrame:
-    """Year-end A-share counts 2000-2026 (lighthouse.md 4.2): all, non-financial, normal
+    """Year-end A-share counts 1999-2026 (lighthouse.md 4.2): all, non-financial, normal
     status (Li's sample), ST/*ST at year end, and other special status (reform prefixes)."""
     dec = _year_end_sample()
-    dec = dec[dec["year"] >= 2000]
+    dec = dec[dec["year"] >= 1999]
     g = dec.groupby("year")
     out = pd.DataFrame({
         "a_shares_trading_in_december": g["stkcd"].nunique(),
@@ -223,6 +234,27 @@ def check_statements(failures: list[str]) -> pd.DataFrame:
     return out
 
 
+def check_cpi_overlap(failures: list[str]) -> pd.DataFrame:
+    """OECD vs NBS month-on-month CPI on the months both cover: the splice in panels.cpi()
+    is only valid if the two agree (rounding of NBS to 0.1 allows small differences)."""
+    from csmar.registry import RAW_EXTERNAL
+    oecd = pd.read_csv(RAW_EXTERNAL / "fred" / "CHNCPIALLMINMEI.csv")
+    oecd["month"] = pd.PeriodIndex(oecd["observation_date"].str.slice(0, 7), freq="M")
+    lvl = oecd.set_index("month")["CHNCPIALLMINMEI"].astype(float)
+    oecd_mom = (lvl / lvl.shift(1) * 100).dropna()
+    nbs = pd.concat([pd.read_csv(RAW_EXTERNAL / "nbs" / f, encoding="utf-8-sig")
+                     for f in ("nbs_cpi_mom_table_2021_2025.csv", "nbs_cpi_mom_table_2026.csv")])
+    nbs = nbs[nbs["indicator"] == "居民消费价格指数(上月=100)"].copy()
+    nbs["month"] = pd.PeriodIndex(nbs["month"], freq="M")
+    nbs_mom = nbs.drop_duplicates("month").set_index("month")["value"].astype(float)
+    both = pd.DataFrame({"oecd_mom": oecd_mom, "nbs_mom": nbs_mom}).dropna()
+    both["abs_diff"] = (both["oecd_mom"] - both["nbs_mom"]).abs()
+    worst = both["abs_diff"].max()
+    _report("CPI splice: OECD vs NBS month-on-month on overlap", worst <= 0.25,
+            f"{len(both)} months, max |diff| {worst:.3f} index points (NBS rounded to 0.1)", failures)
+    return both.reset_index()
+
+
 def check_keys(failures: list[str]) -> None:
     for name, key in [("stock_month", ["stkcd", "month"]), ("st_month", ["stkcd", "month"]),
                       ("statements", ["stkcd", "accper"]), ("company_info", ["stkcd"]),
@@ -236,9 +268,10 @@ def main() -> int:
     failures: list[str] = []
     check_keys(failures)
     check_statements(failures).to_csv(OUT / "statements_disclosure.csv", index=False)
+    check_cpi_overlap(failures).to_csv(OUT / "cpi_splice_overlap.csv", index=False)
     check_li_counts(failures).to_csv(OUT / "li_table1a_counts.csv", index=False)
     check_allen_counts(failures).to_csv(OUT / "allen_table1a_counts.csv", index=False)
-    yearly_counts().to_csv(OUT / "yearly_counts_2000_2026.csv", index=False)
+    yearly_counts().to_csv(OUT / "yearly_counts_1999_2026.csv", index=False)
     check_monthly_vs_daily(failures).to_csv(OUT / "monthly_vs_daily_returns.csv", index=False)
     print(f"\n{len(failures)} failed check(s)" + (": " + ", ".join(failures) if failures else ""))
     return 1 if failures else 0

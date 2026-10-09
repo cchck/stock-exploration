@@ -27,6 +27,9 @@ from csmar.readers import read_raw
 from csmar.registry import PROCESSED, RAW_EXTERNAL
 
 A_SHARE_MARKETTYPES = (1, 4, 16, 32, 64)  # SH A (ex-STAR), SZ A (ex-ChiNext), ChiNext, STAR, BSE
+# Price and market-value currency by market type (TRD_Dalyr/TRD_Mnth field descriptions):
+# A shares in RMB, Shanghai B shares in USD, Shenzhen B shares in HKD.
+CURRENCY_BY_MARKETTYPE = {1: "CNY", 4: "CNY", 16: "CNY", 32: "CNY", 64: "CNY", 2: "USD", 8: "HKD"}
 
 # CSMAR daily trading-status codes (TRD_Dalyr.Trdsta). Codes for ST and *ST variants across the
 # split-share-reform prefixes S/G/U/N; 16 = PT (particular transfer, 1999-2002).
@@ -141,13 +144,15 @@ def stock_month(st: pd.DataFrame | None = None) -> pd.DataFrame:
     - CSMAR omits months without any trading day (full-month suspensions). Those months are
       NOT filled in here; `month_gap` gives the number of calendar months since the stock's
       previous traded month so that return compounding across suspensions is visible.
-    - Market values are converted from CSMAR's thousands of yuan to yuan.
+    - Market values are converted from CSMAR's thousands to units of the trading currency:
+      yuan for A shares, but USD (Shanghai B) and HKD (Shenzhen B) for B shares, as are
+      close and turnover_value. `currency` says which; never sum or rank across currencies.
     - `ret` is the dividend-reinvested monthly return (Mretwd); `ret_nodiv` excludes dividends.
       CSMAR leaves `ret` blank in a stock's first traded month. In the month a stock resumes
       after a full-month suspension, `ret` runs from the last pre-suspension close, so no
       return is lost across the gap (verified against compounded daily returns:
       csmar.validate).
-    - ST status columns come from st_month() (daily status code; months before 2000 have none).
+    - ST status columns come from st_month() (daily status code; months before 1999-12 have none).
       Pass a prebuilt `st` to avoid recomputing it from the daily file.
     """
     m = read_raw("TRD_Mnth")
@@ -166,6 +171,9 @@ def stock_month(st: pd.DataFrame | None = None) -> pd.DataFrame:
     })
     out["board"] = board_of(out["stkcd"], out["markettype"])
     out["is_a_share"] = out["markettype"].isin(A_SHARE_MARKETTYPES)
+    out["currency"] = out["markettype"].map(CURRENCY_BY_MARKETTYPE).astype("string")
+    if out["currency"].isna().any():
+        raise ValueError("stock_month: market type without a known currency")
     out = out.sort_values(["stkcd", "month"]).reset_index(drop=True)
 
     prev = out.groupby("stkcd")["month"].shift(1)
@@ -198,7 +206,7 @@ def st_month() -> pd.DataFrame:
       (docs/data_layer.md, section 4).
     The daily code is preferred over the event file (SPT_Trdchg) because it reflects the
     status actually in force on each trading day; the event file is used for validation.
-    Coverage starts in 2000 (the daily download), so months before 2000 have no row.
+    Coverage starts in 1999-12 (the daily download), so earlier months have no row.
     """
     d = read_raw("TRD_Dalyr", columns=["Stkcd", "Trddt", "Trdsta"])
     d = d.rename(columns={"Stkcd": "stkcd"})
@@ -372,13 +380,23 @@ def daily_to_month() -> pd.DataFrame:
     - amihud: mean of |daily return| / traded value in yuan over days with positive value.
     - max_ret: largest daily return in the month.
     - zero_volume_days: days on the file with no shares traded.
+    - ret_compounded: product of (1 + daily return) - 1 over ALL days, including the listing
+      day; used to verify the monthly file (csmar.validate, tests).
+    - listing_day_in_month: the stock's listing day falls in this month.
+    The listing-day return is measured from the IPO offer price, not from a previous close
+    (first-day returns of several hundred percent are common), so it is EXCLUDED from
+    n_days, vol_daily, turnover, amihud and max_ret. CSMAR's monthly file likewise leaves the IPO
+    month's return blank.
     """
     d = daily(["Clsprc", "Dnshrtrd", "Dnvaltrd", "Dsmvosd", "Dretwd"])
     d["month"] = d["date"].dt.to_period("M")
-    r = d["Dretwd"].astype(float)
+    listing = company_info().set_index("stkcd")["list_date"]
+    d["is_listing_day"] = d["date"].eq(d["stkcd"].map(listing))
+    d["lr_all"] = np.log1p(d["Dretwd"].astype(float))
+    r = d["Dretwd"].astype(float).where(~d["is_listing_day"])
     value = d["Dnvaltrd"].astype(float)
     float_shares = d["Dsmvosd"] / d["Clsprc"].astype(float)
-    d["turn"] = d["Dnshrtrd"].astype(float) / float_shares.where(float_shares > 0)
+    d["turn"] = (d["Dnshrtrd"].astype(float) / float_shares.where(float_shares > 0)).where(~d["is_listing_day"])
     d["illiq"] = (r.abs() / value).where(value > 0)
     d["r"] = r
     d["zero"] = d["Dnshrtrd"].astype(float).eq(0)
@@ -390,6 +408,8 @@ def daily_to_month() -> pd.DataFrame:
         "amihud": g["illiq"].mean(),
         "max_ret": g["r"].max(),
         "zero_volume_days": g["zero"].sum(),
+        "ret_compounded": np.expm1(g["lr_all"].sum(min_count=1)),
+        "listing_day_in_month": g["is_listing_day"].any(),
     }).reset_index()
     return out
 
