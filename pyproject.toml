@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-exploration"
+version = "0.1.0"
+description = "Replication of three A-share asset pricing papers on CSMAR data (LSY 2019, Allen et al. 2024, Li et al. 2023)."
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyarrow>=12.0",
+    "scipy>=1.10",
+    "statsmodels>=0.14",
+    "pyreadstat>=1.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "jupyter", "matplotlib>=3.7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "data: tests that read the licensed CSMAR files under data/ (skipped when absent)",
+]

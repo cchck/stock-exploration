@@ -91,7 +91,7 @@ entry names are GBK; `unzip` fails on them) into `unzipped/<_chunk or _all>/`. T
 
 Daily chunk boundaries checked: first/last trading dates are 2000-01-04/2004-12-31,
 2005-01-04/2009-12-31, 2010-01-04/2014-12-31, 2015-01-05/2019-12-31, 2020-01-02/2024-12-31,
-2025-01-02/2026-09-30. Contiguous, no overlap. Daily total 2000-2026: 17,815,026 rows.
+2025-01-02/2026-09-30. Contiguous, no overlap. Daily total 2000-2026: 18,015,026 rows (corrected 2026-10-08; an earlier version of this line said 17,815,026, an addition error).
 
 Notes:
 - TRD_Co: the table header on the query page said 6,030 records; the file has 6,051 rows with

@@ -4,9 +4,13 @@ data/
 # Upstream SignalLab has its own git history; pinned commit is recorded in docs/signallab_code_notes.md.
 external/
 
+# Paper PDFs (publisher copyright); kept locally so the project is self-contained.
+references/
+
 .venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+.ipynb_checkpoints/
 .env
 .DS_Store

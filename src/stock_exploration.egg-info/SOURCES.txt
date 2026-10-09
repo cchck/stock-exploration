@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/csmar/__init__.py
+src/csmar/readers.py
+src/csmar/registry.py
+src/stock_exploration.egg-info/PKG-INFO
+src/stock_exploration.egg-info/SOURCES.txt
+src/stock_exploration.egg-info/dependency_links.txt
+src/stock_exploration.egg-info/requires.txt
+src/stock_exploration.egg-info/top_level.txt
+tests/test_signallab_contract.py

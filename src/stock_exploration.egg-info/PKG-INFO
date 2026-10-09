@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: stock-exploration
+Version: 0.1.0
+Summary: Replication of three A-share asset pricing papers on CSMAR data (LSY 2019, Allen et al. 2024, Li et al. 2023).
+Requires-Python: >=3.10
+Requires-Dist: numpy>=1.24
+Requires-Dist: pandas>=2.0
+Requires-Dist: pyarrow>=12.0
+Requires-Dist: scipy>=1.10
+Requires-Dist: statsmodels>=0.14
+Requires-Dist: pyreadstat>=1.2
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: jupyter; extra == "dev"
+Requires-Dist: matplotlib>=3.7; extra == "dev"
