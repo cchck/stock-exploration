@@ -27,17 +27,14 @@ def assign_groups(df: pd.DataFrame, var: str, quantiles: list[float], *, by: str
     mask = pd.Series(True, index=df.index) if breakpoint_mask is None else breakpoint_mask.reindex(df.index).fillna(False)
     base = df.loc[mask & df[var].notna(), [by, var]]
     bps = base.groupby(by)[var].quantile(quantiles).unstack()
-    out = pd.Series(np.nan, index=df.index, dtype=object)
-    for t, g in df[[by, var]].groupby(by):
-        if t not in bps.index:
-            continue
-        cuts = bps.loc[t].to_numpy(float)
-        v = g[var].to_numpy(float)
-        idx = np.searchsorted(cuts, v, side="left")  # equal to a cut point -> lower group
-        lab = np.array(labels, dtype=object)[idx]
-        lab[np.isnan(v)] = np.nan
-        out.loc[g.index] = lab
-    return out
+    # Vectorised: the group index is the number of cut points strictly below the value, so
+    # a value equal to a cut point goes to the lower group.
+    cuts = bps.reindex(df[by].to_numpy()).to_numpy(float)
+    v = df[var].to_numpy(float)
+    idx = (v[:, None] > cuts).sum(axis=1)
+    lab = np.array(labels, dtype=object)[idx]
+    lab[np.isnan(v) | np.isnan(cuts).any(axis=1)] = np.nan
+    return pd.Series(lab, index=df.index, dtype=object)
 
 
 def weighted_returns(df: pd.DataFrame, groups: list[str], *, ret: str = "ret", weight: str | None = "weight",

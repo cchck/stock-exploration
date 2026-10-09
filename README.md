@@ -27,11 +27,16 @@ data/raw/csmar/            CSMAR downloads exactly as delivered (never edited, n
 data/interim/              cleaned intermediate tables
 data/processed/            analysis-ready panels (firm-level, never committed)
 src/csmar/                 data layer: registry, readers, panels, build and validate CLIs
+src/replication/common/    shared tools: sample segments, portfolio sorts, statistics, paper-vs-ours scoring
+src/replication/lsy/       LSY (2019) replication: panel, CH-3/CH-4, tables, anomalies, shells, CLI
+targets/                   paper numbers transcribed per printed cell (<paper>_targets.csv)
+notebooks/                 one executed notebook per paper (summary outputs only)
 results/data_layer/        aggregate validation tables (committed)
+results/lsy*/              LSY tables for three segments, figures, paper-vs-ours comparison
 .venv/                     Python 3.12 environment (SignalLab installed editable)
 ```
 
-Replication code will live in `src/replication/{lsy,allen,li}` (milestones 1.2-1.4).
+Allen and Li replications will follow in `src/replication/{allen,li}` (milestones 1.3-1.4).
 
 ## Environment
 
@@ -50,6 +55,9 @@ Python >= 3.10, so always use `.venv/bin/python`. Recreate the venv with:
 
 Rebuild every processed panel from `data/raw/` with `.venv/bin/python -m csmar.build`, then
 check it with `.venv/bin/python -m csmar.validate` (all checks must print PASS).
+Reproduce LSY (all tables, three segments, figures, comparison) with
+`.venv/bin/python -m replication.lsy` (`--rebuild` to rebuild its cached panel; about 3 min
+warm, 10 min cold); any single table with e.g. `--tables T3 --period extended`.
 
 **Location matters.** The project lives in `~/Downloads/stock-exploration`, outside iCloud.
 It was moved off the Desktop on 2026-10-08 because the Desktop is synced to iCloud, which was

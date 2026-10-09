@@ -34,6 +34,8 @@ def t_band(t: float) -> int:
 
 
 def judge(kind: str, paper: float, ours: float) -> bool | None:
+    if kind == "info":  # reported, never scored, even when our value is missing
+        return None
     if ours is None or (isinstance(ours, float) and np.isnan(ours)):
         return False
     if kind in ("pct_return", "pct_std"):

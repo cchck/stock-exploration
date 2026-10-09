@@ -101,3 +101,22 @@ def stambaugh_ch3_monthly() -> pd.DataFrame:
     mkt = comp(x["mktrf"] + x["rf_dly"]) - rf
     out = pd.DataFrame({"rf": rf, "mkt": mkt, "smb": comp(x["SMB"]), "vmg": comp(x["VMG"])})
     return out
+
+
+def ff3(panel: pd.DataFrame) -> pd.DataFrame:
+    """FF-3 built on the same universe (section 5.3): 2x3 on size (median) and BM (30/40/30),
+    FFSMB = mean(S/H, S/M, S/L) - mean(B/H, B/M, B/L), FFHML = mean(S/H, B/H) - mean(S/L, B/L).
+    Following Fama and French (1993), firms with non-positive book equity are left out of the
+    BM sort (and so of the six portfolios). MKT is CH-3's."""
+    q = panel.assign(bm_pos=panel["bm"].where(panel["bm"] > 0))
+    p = _two_by_three(q, "bm_pos", negative_as_low=False, breakpoints="all")
+    smb = p[[("S", g) for g in "LMH"]].mean(axis=1) - p[[("B", g) for g in "LMH"]].mean(axis=1)
+    hml = p[[("S", "H"), ("B", "H")]].mean(axis=1) - p[[("S", "L"), ("B", "L")]].mean(axis=1)
+    f3 = ch3(panel)
+    return pd.DataFrame({"mkt": f3["mkt"], "smb": smb, "hml": hml, "rf": f3["rf"]})
+
+
+def with_shells(panel: pd.DataFrame) -> pd.DataFrame:
+    """The panel with the shell cut switched off: every eligible stock is in the universe
+    (section 5.2, 'Including shell stocks')."""
+    return panel.assign(in_universe=panel["eligible"])

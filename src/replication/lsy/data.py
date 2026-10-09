@@ -115,22 +115,42 @@ def total_shares_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     return latest_by_month_end(ev, months, ["total_shares"], date_col="date").drop(columns="period_end")
 
 
+def single_period_flow(df: pd.DataFrame, ytd_col: str) -> pd.Series:
+    """Single-period flow from year-to-date figures: the quarter for quarterly reports, the
+    half-year before 2002 (only semi-annual and annual reports are used then). Rows must
+    hold one report per (stkcd, fiscal_year, report_type). A flow whose preceding report in
+    the same fiscal year is missing is NaN (never a cumulative figure posing as a flow)."""
+    d = df.sort_values(["stkcd", "fiscal_year", "report_type"])
+    prev = d.groupby(["stkcd", "fiscal_year"])[ytd_col].shift(1)
+    first = d.groupby(["stkcd", "fiscal_year"]).cumcount().eq(0)
+    own = first & (d["report_type"].eq(1) | (d["report_type"].eq(2) & (d["announce_date"] < QUARTERLY_FROM)))
+    flow = pd.Series(np.where(own, d[ytd_col], d[ytd_col] - prev), index=d.index)
+    flow[first & ~own] = np.nan
+    return flow.reindex(df.index)
+
+
 def statement_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     """Balance-sheet and cash-flow items from the latest consolidated statement released on or
     before each month end (Online Appendix B.1(b)):
     - book_equity: equity attributable to parent shareholders (A003100000; CSMAR fills it for
       all years, and total equity A003000000 includes minority interest, so it is not used);
     - total_assets: A001000000 (for AM, as in Fama and French 1992);
-    - cash_flow: net change in cash and cash equivalents over the statement's period
-      (C005000000 = ending minus beginning balance, the Online Appendix definition).
+    - cash_flow: "the net change in cash or cash equivalents between the two most recent cash
+      flow statements" (A.2): the single-quarter change, from the year-to-date net increase
+      in cash and equivalents C005000000. Before 2002 "half the net change between the two
+      most recent semi-annual statements" (footnote 6): the half-year change divided by two.
     Only period-end rows (never the restated opening rows) are used; before 2002-01-01 only
     semi-annual and annual reports (A.1).
     """
     st = load("statements")[["stkcd", "period_end", "report_type", "announce_date",
                              "A003100000", "A001000000", "C005000000"]].dropna(subset=["announce_date"])
-    st = st.rename(columns={"A003100000": "book_equity", "A001000000": "total_assets", "C005000000": "cash_flow"})
+    st = st.rename(columns={"A003100000": "book_equity", "A001000000": "total_assets", "C005000000": "cash_ytd"})
     early_quarterly = (st["announce_date"] < QUARTERLY_FROM) & st["report_type"].isin([1, 3])
-    st = st[~early_quarterly]
+    st = st[~early_quarterly].copy()
+    st["fiscal_year"] = st["period_end"].dt.year
+    st["cash_flow"] = single_period_flow(st, "cash_ytd")
+    semi = st["announce_date"] < QUARTERLY_FROM
+    st.loc[semi, "cash_flow"] = st.loc[semi, "cash_flow"] / 2
     return latest_by_month_end(st, months, ["book_equity", "total_assets", "cash_flow"])
 
 

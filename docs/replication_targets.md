@@ -8,6 +8,9 @@ Status legend: `todo` / `in progress` / `matched` / `deviates (see note)`.
 
 ## 1. Liu, Stambaugh & Yuan (2019, JFE 134:48-69), "Size and value in China"
 
+**Superseded for LSY (2026-10-09):** every printed number is now in `targets/lsy_targets.csv`
+and scored in `results/lsy_comparison.csv`; the summary rows below are kept for history.
+
 Conventions: WIND data (we use CSMAR); Jan 2000 - Dec 2016 (204 months); stock codes starting
 60/30/00; exclude bottom 30% by previous month-end total market cap; exclude stocks listed < 6
 months, < 120 trading days in past 12 months, or < 15 days in the past month; weights = total
