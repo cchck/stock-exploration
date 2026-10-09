@@ -7,8 +7,10 @@ module as named parameters. What this module does decide is documented inline, b
 decision affects every downstream number.
 
 Outputs (parquet under data/processed/):
-- stock_month: one row per stock-month in which the stock traded, plus board and listing info.
+- stock_month: one row per stock-month in which the stock traded, plus board, listing info,
+  industry and ST status.
 - st_month: ST / *ST / PT status per stock-month from the daily trading-status code.
+- daily_month: generic monthly aggregates of the daily file (volatility, turnover, Amihud).
 - statements: consolidated statements (balance sheet, income, both cash-flow statements) at
   period ends, with report type and the actual disclosure date.
 - statements_opening: the restated opening-balance rows (Accper = YYYY-01-01), kept apart.
@@ -133,7 +135,7 @@ def company_info() -> pd.DataFrame:
 # Stock-month panel
 # ---------------------------------------------------------------------------------------------
 
-def stock_month() -> pd.DataFrame:
+def stock_month(st: pd.DataFrame | None = None) -> pd.DataFrame:
     """One row per stock-month with trading activity (TRD_Mnth), all markets.
 
     - CSMAR omits months without any trading day (full-month suspensions). Those months are
@@ -141,6 +143,12 @@ def stock_month() -> pd.DataFrame:
       previous traded month so that return compounding across suspensions is visible.
     - Market values are converted from CSMAR's thousands of yuan to yuan.
     - `ret` is the dividend-reinvested monthly return (Mretwd); `ret_nodiv` excludes dividends.
+      CSMAR leaves `ret` blank in a stock's first traded month. In the month a stock resumes
+      after a full-month suspension, `ret` runs from the last pre-suspension close, so no
+      return is lost across the gap (verified against compounded daily returns:
+      csmar.validate).
+    - ST status columns come from st_month() (daily status code; months before 2000 have none).
+      Pass a prebuilt `st` to avoid recomputing it from the daily file.
     """
     m = read_raw("TRD_Mnth")
     out = pd.DataFrame({
@@ -165,6 +173,8 @@ def stock_month() -> pd.DataFrame:
 
     info = company_info()[["stkcd", "list_date", "is_financial", "csrc2012", "csrc2001"]]
     out = out.merge(info, on="stkcd", how="left", validate="many_to_one")
+    st = st_month() if st is None else st
+    out = out.merge(st, on=["stkcd", "month"], how="left", validate="one_to_one")
     if out.duplicated(["stkcd", "month"]).any():
         raise ValueError("stock_month has duplicate (stkcd, month) keys")
     return out
@@ -180,6 +190,12 @@ def st_month() -> pd.DataFrame:
     Columns:
     - st_end: status on the last trading day of the month is ST or *ST (or PT).
     - st_any: ST, *ST or PT on any trading day of the month.
+    - trdsta_end: the raw status code on the month's last trading day. Code 1 is "normal";
+      every other code is a special status: ST/*ST/PT, and also the split-share-reform
+      prefixes (S/G/N, codes 4, 7, 10) that are not ST. Li et al.'s "abnormal trading status"
+      means trdsta_end != 1: with that rule and the financial-industry exclusion, our
+      year-end counts equal their Table 1 Panel A for every year 2000-2018
+      (docs/data_layer.md, section 4).
     The daily code is preferred over the event file (SPT_Trdchg) because it reflects the
     status actually in force on each trading day; the event file is used for validation.
     Coverage starts in 2000 (the daily download), so months before 2000 have no row.
@@ -192,6 +208,7 @@ def st_month() -> pd.DataFrame:
     d["flag"] = flagged
     d["star"] = code.isin(TRDSTA_STAR_ST)
     d["pt"] = code.isin(TRDSTA_PT)
+    d["code"] = code
     d = d.sort_values(["stkcd", "Trddt"])
     g = d.groupby(["stkcd", "month"], sort=False)
     out = pd.DataFrame({
@@ -199,6 +216,7 @@ def st_month() -> pd.DataFrame:
         "st_any": g["flag"].any(),
         "star_st_end": g["star"].last(),
         "pt_any": g["pt"].any(),
+        "trdsta_end": g["code"].last().astype("int16"),
     }).reset_index()
     return out
 
@@ -342,6 +360,40 @@ def daily(columns: list[str] | None = None) -> pd.DataFrame:
     return d
 
 
+def daily_to_month() -> pd.DataFrame:
+    """Generic monthly aggregates of the daily file, one row per stock-month with trading.
+
+    These are building blocks, not any paper's exact variable: each replication module states
+    its own definition (window length, minimum days) and may recompute from daily().
+    - n_days: trading days with a non-missing daily return.
+    - vol_daily: standard deviation of daily dividend-reinvested returns (needs >= 2 days).
+    - turnover: sum over days of shares traded / circulating shares, where circulating shares
+      = circulating market value / close (CSMAR has no daily share count column).
+    - amihud: mean of |daily return| / traded value in yuan over days with positive value.
+    - max_ret: largest daily return in the month.
+    - zero_volume_days: days on the file with no shares traded.
+    """
+    d = daily(["Clsprc", "Dnshrtrd", "Dnvaltrd", "Dsmvosd", "Dretwd"])
+    d["month"] = d["date"].dt.to_period("M")
+    r = d["Dretwd"].astype(float)
+    value = d["Dnvaltrd"].astype(float)
+    float_shares = d["Dsmvosd"] / d["Clsprc"].astype(float)
+    d["turn"] = d["Dnshrtrd"].astype(float) / float_shares.where(float_shares > 0)
+    d["illiq"] = (r.abs() / value).where(value > 0)
+    d["r"] = r
+    d["zero"] = d["Dnshrtrd"].astype(float).eq(0)
+    g = d.groupby(["stkcd", "month"], sort=False)
+    out = pd.DataFrame({
+        "n_days": g["r"].count(),
+        "vol_daily": g["r"].std(),
+        "turnover": g["turn"].sum(min_count=1),
+        "amihud": g["illiq"].mean(),
+        "max_ret": g["r"].max(),
+        "zero_volume_days": g["zero"].sum(),
+    }).reset_index()
+    return out
+
+
 # ---------------------------------------------------------------------------------------------
 # Build everything
 # ---------------------------------------------------------------------------------------------
@@ -349,8 +401,10 @@ def daily(columns: list[str] | None = None) -> pd.DataFrame:
 def build_all() -> dict[str, int]:
     sizes = {}
     sizes["company_info"] = len(_save(company_info(), "company_info"))
-    sizes["stock_month"] = len(_save(stock_month(), "stock_month"))
-    sizes["st_month"] = len(_save(st_month(), "st_month"))
+    st = _save(st_month(), "st_month")
+    sizes["st_month"] = len(st)
+    sizes["stock_month"] = len(_save(stock_month(st), "stock_month"))
+    sizes["daily_month"] = len(_save(daily_to_month(), "daily_month"))
     period, opening = statements()
     sizes["statements"] = len(_save(period, "statements"))
     sizes["statements_opening"] = len(_save(opening, "statements_opening"))

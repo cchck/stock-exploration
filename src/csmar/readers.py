@@ -16,12 +16,15 @@ Design choices (lighthouse.md section 4):
 from __future__ import annotations
 
 import json
+import logging
 import re
 from pathlib import Path
 
 import pandas as pd
 
 from csmar.registry import INTERIM, RawTable, get
+
+log = logging.getLogger(__name__)
 
 CACHE_DIR = INTERIM / "raw"
 
@@ -75,7 +78,14 @@ def read_quote_delimited(path: Path) -> pd.DataFrame:
             f"{path}: {len(bad)} records have a field count different from the header "
             f"(first at data row {bad[0]}); quote-aware parsing cannot recover them"
         )
+    # Records with a stray quote inside a field are exactly the ones a standard parser would
+    # mangle; they are kept as-is here and listed in the log (lighthouse.md 4.1).
+    stray = [i for i, r in enumerate(body) if any('"' in f for f in r)]
+    for i in stray:
+        log.warning("%s: data row %d has an unescaped quote inside a field (kept verbatim): %s",
+                    path.name, i, body[i][:2])
     df = pd.DataFrame(body, columns=header).replace({"": None})
+    df.attrs["stray_quote_rows"] = stray
     return df
 
 

@@ -5,12 +5,15 @@
 
 from __future__ import annotations
 
+import logging
 import time
 
 from csmar.panels import build_all
 
 
 def main() -> None:
+    # Readers log every repaired or suspicious record at WARNING; show them, never hide them.
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     t0 = time.time()
     sizes = build_all()
     for name, n in sizes.items():

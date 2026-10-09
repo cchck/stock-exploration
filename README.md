@@ -12,6 +12,9 @@ asset pricing) to the Chinese market.
 3. `docs/replication_targets.md`: the published numbers each replication must match.
 4. `docs/signallab_code_notes.md`: how SignalLab works, its data contract, and every
    US-specific piece that must change for China.
+5. `docs/data_layer.md`: what each processed panel contains, every cleaning decision, and
+   the validation evidence. `docs/deviation_log.md`: every number that does not match yet.
+6. `lighthouse.md` (frozen target, Chinese) and `benchmark.md` (progress log, Chinese).
 
 ## Layout
 
@@ -22,11 +25,13 @@ tests/                     executable checks; run with .venv/bin/python -m pytes
 external/signal-laboratory upstream SignalLab, cloned read-only (own .git, pinned commit in docs)
 data/raw/csmar/            CSMAR downloads exactly as delivered (never edited, never committed)
 data/interim/              cleaned intermediate tables
-data/processed/            analysis-ready panels
+data/processed/            analysis-ready panels (firm-level, never committed)
+src/csmar/                 data layer: registry, readers, panels, build and validate CLIs
+results/data_layer/        aggregate validation tables (committed)
 .venv/                     Python 3.12 environment (SignalLab installed editable)
 ```
 
-Code for the CSMAR pipeline and the replications will live in `src/` (not created yet).
+Replication code will live in `src/replication/{lsy,allen,li}` (milestones 1.2-1.4).
 
 ## Environment
 
@@ -43,7 +48,8 @@ Python >= 3.10, so always use `.venv/bin/python`. Recreate the venv with:
 .venv/bin/pip install -e 'external/signal-laboratory[paper]' -e '.[dev]' python-docx
 ```
 
-Rebuild every processed panel from `data/raw/` with `.venv/bin/python -m csmar.build`.
+Rebuild every processed panel from `data/raw/` with `.venv/bin/python -m csmar.build`, then
+check it with `.venv/bin/python -m csmar.validate` (all checks must print PASS).
 
 **Location matters.** The project lives in `~/Downloads/stock-exploration`, outside iCloud.
 It was moved off the Desktop on 2026-10-08 because the Desktop is synced to iCloud, which was
