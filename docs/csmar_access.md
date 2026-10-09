@@ -187,7 +187,8 @@ All under `data/raw/external/`. Approved by the user in discussion rounds 2-4.
 Notes:
 - Stambaugh series end 2021-12, so the >= 0.95 correlation check covers 2000-01 to 2021-12.
 - FRED/OECD China CPI series all end by 2025-04 (CHNCPIALLMINMEI: 1993-01 to 2025-04). The
-  NBS site (data.stats.gov.cn) returns HTTP 403 to non-mainland IPs. CPI after 2025-04 is open.
+  NBS site (data.stats.gov.cn) returns HTTP 403 to non-mainland IPs from this machine's default
+  network, but loads in the user's Chrome profile "Chenkai" (see NBS rows below).
 - Allen et al. JF replication code (SAS) contains analysis scripts only; the input datasets
   (`Asharew21`, `globalw22`, `monthly_ret_china_9018_3`, ...) are not included, so it documents
   conventions but cannot be run. Downloaded by the user (Wiley access works in the user's
@@ -196,3 +197,32 @@ Notes:
   (round 4, Q30). Its abstract figures match SSRN; table-level differences to be checked in
   milestone 1.4. The authors' replication files (services.informs.org) need an INFORMS login and
   were not obtained.
+
+### Later additions (2026-10-08)
+
+| File | Bytes / count | SHA-256 | How obtained |
+|---|---|---|---|
+| `external/nbs/nbs_cpi_mom_table_2021_2025.csv` | 351 records (13 indicators x 2023-10..2025-12) | `db17b104789887765df5496fdf07c48291e4e9f5b1ef852c1321edca74f6ff28` | NBS 国家数据 → 月度数据 → 价格指数 → 全国居民消费价格分类指数 (上月=100) (2021-2025), view "最近36个月" |
+| `external/nbs/nbs_cpi_mom_table_2026.csv` | 104 records (13 indicators x 2026-01..2026-08) | `48b2d936fcd673013b800595b42752b93ec7470799012ff9e92f12be04fd234b` | same tree, (2026-) node |
+| `external/li_et_al/replication_package_MS-FIN-21-02398/` | 608 files, 204 MB | per-file hashes in `external/li_et_al/replication_package_SHA256SUMS.txt` | downloaded by the user from INFORMS (account login) |
+
+NBS notes:
+- The NBS "下载" button requires a personal login with captcha, which the agent must not do.
+  The values were read from the public table rendered on the page (browser profile "Chenkai",
+  which reaches data.stats.gov.cn) and saved as CSV (`indicator,month,value`, UTF-8 BOM).
+  Column alignment was verified against the on-screen values (2025-12 = 100.2, 2025-11 = 99.9).
+- 2026-09 was not yet published on 2026-10-08.
+- Splice check against OECD (FRED CHNCPIALLMINMEI): month-on-month changes implied by the
+  OECD index match the NBS headline (居民消费价格指数(上月=100)) on the 19 overlapping months
+  2023-10..2025-04 within 0.2 index points (both rounded to one decimal).
+
+Li et al. replication package (`replication_package_MS-FIN-21-02398/`):
+- SAS code and logs per table (Tables 1, 3, 4&6, 5, 7), the Data Manual PDF, and readme.docx.
+- `allfactors.sas7bdat`: the authors' monthly factor series, 2000-07..2019-06 (228 months):
+  mkt, me, ia, roe, smbff5, hml, rmw, cma, mktch, smbch3, smbch4, vmg, pmo, smbff3, mom,
+  monthlyrf, hmlff3.
+- `g5_g1_2000_2019/` (157 files) and `g5_g1_2008_2019/` (122 files): monthly quintile returns
+  g1..g5 and g5_g1 for the significant anomalies (`*_lsvw` = Mainboard-VW versions).
+- `reg_results_*`, `merge_results_*`: factor-regression outputs.
+- No raw CSMAR data (licence), so it cannot be run end to end, but the monthly series allow
+  month-by-month comparison with our replication.
