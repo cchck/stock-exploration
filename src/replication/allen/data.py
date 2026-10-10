@@ -26,7 +26,7 @@ from csmar.registry import RAW_EXTERNAL
 # SASAC, Ministry of Finance, local SASACs, or other government agents".
 SOE_CODES = {"1100", "2000", "2100", "2120"}
 
-# Shareholder-nature strings (HLD_Shareholders.S0305a) treated as state holdings.
+# Share-type strings (HLD_Shareholders.S0305a) treated as state holdings.
 STATE_SHARE_PATTERN = r"国家股|国有法人股|国有股"
 
 
@@ -42,13 +42,17 @@ def fx_cny_per_usd() -> pd.Series:
 
 def soe_flags() -> pd.DataFrame:
     """SOE indicator per (stock, fiscal year) from the actual-controller nature at year end.
-    The controller file starts in 2003; earlier years are left missing (deviation_log ALN-1)."""
-    h = read_raw("HLD_Contrshr", columns=["Stkcd", "Reptdt", "S0702b"])
-    out = pd.DataFrame({"stkcd": h["Stkcd"], "fy": pd.to_datetime(h["Reptdt"]).dt.year,
-                        "nature": h["S0702b"].astype("string")})
-    out = out.drop_duplicates(["stkcd", "fy"], keep="last")
-    out["soe"] = out["nature"].isin(SOE_CODES).astype(float).where(out["nature"].notna())
-    return out[["stkcd", "fy", "soe"]]
+
+    HLD_Contrshr can have several rows per firm-date (controlling holder vs actual controller
+    roles) and comma-joined nature codes ("1100,2100"). A firm-year is SOE if any row's code
+    list contains a state code; it is non-SOE if the firm reports a controller of another
+    nature or no controller at all (S0701a = 0); it is missing only when the firm has no row
+    for the year. The file starts in 2003, so 2000-2002 have no flag (deviation_log ALN-1)."""
+    h = read_raw("HLD_Contrshr", columns=["Stkcd", "Reptdt", "S0701a", "S0702b"])
+    codes = h["S0702b"].astype("string").fillna("")
+    is_soe = codes.str.split(",").apply(lambda xs: any(x.strip() in SOE_CODES for x in xs))
+    out = pd.DataFrame({"stkcd": h["Stkcd"], "fy": pd.to_datetime(h["Reptdt"]).dt.year, "soe": is_soe.astype(float)})
+    return out.groupby(["stkcd", "fy"], as_index=False)["soe"].max()
 
 
 def listed_years() -> pd.DataFrame:
@@ -106,8 +110,9 @@ def accounting() -> pd.DataFrame:
     out["leverage"] = out["debt"] / at
     out["sales_growth"] = ((out["revenue"] - prev["revenue"]) / prev["revenue"].where(prev["revenue"] > 0)).where(consecutive)
     out["ni_growth"] = ((out["ni"] - prev["ni"]) / prev["ni"].abs().where(prev["ni"].abs() > 0)).where(consecutive)
-    out["roic"] = (out["ni"] + out["interest"] * 0.75) / (out["lt_borrow"] + out["minority"] + out["be"]).where(
-        lambda x: x > 0)
+    capital = out["lt_borrow"] + out["minority"] + out["be"]
+    # Invested capital of the previous year (Allen's Table X text: lagged invested capital)
+    out["roic"] = ((out["ni"] + out["interest"] * 0.75) / capital.groupby(out["stkcd"]).shift(1).where(lambda x: x > 0)).where(consecutive)
     return out.drop(columns=["wc", "lt_borrow", "minority", "interest"])
 
 
@@ -132,7 +137,12 @@ def rpt_flows(definition: str = "cash_by_category") -> pd.DataFrame:
                        "rt": pd.to_numeric(rp["Repttype"], errors="coerce"), "sub": pd.to_numeric(rp["Trasub"], errors="coerce"),
                        "dir": pd.to_numeric(rp["Direction"], errors="coerce"), "cat": pd.to_numeric(rp["Repat"], errors="coerce"),
                        "amt": pd.to_numeric(rp["Isam"], errors="coerce").fillna(0.0)})
-    rp = rp[(rp["rt"] == 1) & (rp["sub"] == 1)]
+    # Annual reports (Repttype 1; type 9 are other announcements), transactions with the
+    # listed firm (Trasub 1), RMB amounts only (rows in USD/EUR/HKD or without a currency are
+    # left out rather than summed as RMB), non-negative amounts. Direction 3 (cannot be
+    # determined) carries no cash direction and is left out.
+    cur = read_raw("RPT_Operation", columns=["Curtype"])["Curtype"].astype("string").reindex(rp.index)
+    rp = rp[(rp["rt"] == 1) & (rp["sub"] == 1) & cur.isin(["CNY", "RMB", "人民币"]).to_numpy() & (rp["amt"] >= 0)]
     funds = rp["cat"] == 5
     if definition == "funds":
         out = np.where(funds & (rp["dir"] == 1), rp["amt"], 0.0)
@@ -157,8 +167,8 @@ def governance(rpt_definition: str = "cash_by_category") -> pd.DataFrame:
     - exec_holdings: shares held by directors, supervisors and senior managers
       [CG_ManagerShareSalary.Holdshares] / total shares [TRD_Capchg.Nshrttl];
     - top5: holdings of the five largest shareholders [HLD_CR.Shrcr3] / 100;
-    - state_holdings: sum of top-10 holdings whose share nature is state (国家股/国有法人股)
-      [HLD_Shareholders] / 100;
+    - state_holdings: sum of top-10 holdings whose share type is state shares (国家股 / 国有
+      法人股) [HLD_Shareholders.S0305a] / 100 (see the note at its construction);
     - rpt_out, rpt_in: related-party cash outflows / inflows in the year (rpt_flows())."""
     cg = read_raw("CG_Ybasic", columns=["Stkcd", "Reptdt", "Y1001b"])
     cg = pd.DataFrame({"stkcd": cg["Stkcd"], "fy": parse_csmar_date(cg["Reptdt"]).dt.year,
@@ -176,10 +186,17 @@ def governance(rpt_definition: str = "cash_by_category") -> pd.DataFrame:
     ye = ms[["stkcd", "fy"]].assign(date=pd.to_datetime(ms["fy"].astype(str) + "-12-31")).sort_values("date")
     ye = pd.merge_asof(ye, cap, on="date", by="stkcd", direction="backward")
     ms = ms.merge(ye[["stkcd", "fy", "total_shares"]], on=["stkcd", "fy"], how="left")
-    ms["exec_holdings"] = (ms["exec_shares"].fillna(0) / ms["total_shares"]).clip(upper=1)
+    # A missing Holdshares is missing, not zero holdings.
+    ms["exec_holdings"] = (ms["exec_shares"] / ms["total_shares"]).clip(upper=1)
     cr = read_raw("HLD_CR", columns=["Stkcd", "Reptdt", "Shrcr3"])
     cr = pd.DataFrame({"stkcd": cr["Stkcd"], "fy": pd.to_datetime(cr["Reptdt"]).dt.year,
                        "top5": pd.to_numeric(cr["Shrcr3"], errors="coerce") / 100}).drop_duplicates(["stkcd", "fy"], keep="last")
+    # State holdings = top-10 holdings whose SHARE TYPE is state (国家股 / 国有法人股). After the
+    # split-share reform most state holdings are reclassified as tradable (流通A股), so this
+    # measure falls towards zero after 2008 even for SOEs. It is kept because it is what the
+    # printed statistics imply: it gives mean / median / sd 0.115 / 0 / 0.211 against Table
+    # VIII's 0.116 / 0 / 0.211, while the holder-nature measure (国家 / 国有法人 holders) gives
+    # 0.395 / 0.422 / 0.222 (deviation_log ALN-2).
     sh = read_raw("HLD_Shareholders", columns=["Stkcd", "Reptdt", "S0304a", "S0305a"])
     sh = pd.DataFrame({"stkcd": sh["Stkcd"], "date": pd.to_datetime(sh["Reptdt"]),
                        "pct": pd.to_numeric(sh["S0304a"], errors="coerce"),
@@ -227,19 +244,19 @@ def g_indices(panel: pd.DataFrame) -> pd.DataFrame:
                                + (p["exec_holdings"] > q("exec_holdings", 0.7)) + (p["board_size"] < q("board_size", 0.3))
                                + comp(p["top5"] > q("top5", 0.7), "top5") + (p["rpt_net_out"] <= 0), index=p.index).where(ok)
 
-    def three(c, high_is_good):
-        # "larger than the 70th percentile" = 2, "between" = 1, "smaller than the 30th" = 0
-        # (reversed for board size). A value equal to a percentile is not "larger" or
-        # "smaller" than it, so ties fall in the middle band; but a variable with a mass
-        # point at zero (executive holdings) has p30 = 0, and zero holdings then count as
-        # "between" unless "between" is read strictly. Strict reading used: lo < x <= hi.
+    def three(c, high_is_good, strict_low=False):
+        # Caption: 2 if "larger than" p70, 0 if "smaller than" p30, 1 otherwise (ties at a
+        # percentile fall in the middle band), reversed for board size. Executive holdings
+        # have a mass point at zero (p30 = 0): read literally, zero holdings would score 1;
+        # for them the middle band is lo < x <= hi (strict_low, deviation_log ALN-2).
         lo, hi = q(c, 0.3), q(c, 0.7)
         if high_is_good:
-            return np.where(p[c] > hi, 2, np.where(p[c] > lo, 1, 0))
-        return np.where(p[c] < lo, 2, np.where(p[c] < hi, 1, 0))
+            mid = (p[c] > lo) if strict_low else (p[c] >= lo)
+            return np.where(p[c] > hi, 2, np.where(mid, 1, 0))
+        return np.where(p[c] < lo, 2, np.where(p[c] <= hi, 1, 0))
 
     p["g_index_i"] = (p["ceo_duality"] + three("board_size", False) + np.where(p["top5"].notna(), three("top5", True), 0)
-                      + three("exec_holdings", True)).where(ok)
+                      + three("exec_holdings", True, strict_low=True)).where(ok)
     return p
 
 
@@ -263,14 +280,22 @@ def annual_returns() -> pd.DataFrame:
     out = pd.DataFrame({
         "ret": np.expm1(g["lr"].sum(min_count=1)),
         "n_months": g["ret"].count(),
-        "std_ret": g["ret"].std() * np.sqrt(12),
+        "std_ret_monthly": g["ret"].std() * np.sqrt(12),
         "volume": g["volume"].sum(),
         "mv_total_ye": last["mv_total"], "mv_float_ye": last["mv_float"], "close_ye": last["close"],
     }).reset_index()
     out["infl"] = out["fy"].map(infl)
     out["ret_real"] = (1 + out["ret"]) / (1 + out["infl"]) - 1
     out["turnover_year"] = out["volume"] / (out["mv_total_ye"] / out["close_ye"])
-    return out
+    # Return volatility: annualized std of daily returns (Appendix A: "estimated from daily or
+    # weekly stock returns"), at least 60 trading days in the year.
+    from csmar.panels import daily
+    d = daily(["Dretwd"])
+    d = d[d["board"].isin(["SH_MAIN", "SZ_MAIN", "SZ_SME", "CHINEXT", "STAR", "BSE"])]
+    d["fy"] = d["date"].dt.year
+    gd = d.groupby(["stkcd", "fy"])["Dretwd"]
+    vol = (gd.std() * np.sqrt(250)).where(gd.count() >= 60).rename("std_ret").reset_index()
+    return out.merge(vol, on=["stkcd", "fy"], how="left")
 
 
 def st_events() -> pd.DataFrame:
@@ -297,9 +322,9 @@ WINSORIZED = ["at", "at_usd_bn", "roa", "roe", "ocf", "ncf", "capx", "leverage",
 
 
 def winsorize(p: pd.DataFrame, cols: list[str], lower: float = 0.01, upper: float = 0.99) -> pd.DataFrame:
-    """Pooled 1%/99% winsorization, as in Allen et al. ("All the datasets have been winsorized",
-    code readme; Table I note on total assets). Applied after the G-indices are formed, so the
-    percentile scores use raw values."""
+    """1%/99% winsorization over the rows passed in, as in Allen et al. ("All the datasets have
+    been winsorized", code readme; Table I note on total assets). Called on one sample segment
+    at a time; the G-indices are formed before, from raw values."""
     p = p.copy()
     for c in cols:
         lo, hi = p[c].quantile([lower, upper])
@@ -322,15 +347,29 @@ def build_panel(rpt_definition: str = "cash_by_category") -> pd.DataFrame:
     ci = company_info().set_index("stkcd")
     co = read_raw("TRD_Co", columns=["Stkcd", "Estbdt", "PROVINCE", "Commnt"]).set_index("Stkcd")
     p["list_date"] = p["stkcd"].map(ci["list_date"])
-    p["industry"] = p["stkcd"].map(ci["csrc2012"]).str.slice(0, 3)
+    p["industry"] = p["stkcd"].map(ci["csrc2012"]).str.slice(0, 3)          # fixed effects (IndNumeric1-80)
+    p["industry_letter"] = p["stkcd"].map(ci["csrc2012"]).str.slice(0, 1)   # clusters and matching (Industry1)
     p["province"] = p["stkcd"].map(co["PROVINCE"])
-    p["cross_listed_h"] = p["stkcd"].map(co["Commnt"].notna()).astype(float)
+    # Cross-listed in Hong Kong in a year = H shares outstanding at that year end
+    # (TRD_Capchg.Nshrh > 0); the static H-share cross code in TRD_Co would also flag years
+    # before the H listing and firms that list H shares after the sample.
+    cap = read_raw("TRD_Capchg", columns=["Stkcd", "Shrchgdt", "Nshrh"])
+    cap = pd.DataFrame({"stkcd": cap["Stkcd"], "date": parse_csmar_date(cap["Shrchgdt"]),
+                        "h": pd.to_numeric(cap["Nshrh"], errors="coerce")}).dropna().sort_values("date")
+    cap["stkcd"] = cap["stkcd"].astype(str)
+    ye = p[["stkcd", "fy"]].assign(stkcd=p["stkcd"].astype(str), date=pd.to_datetime(p["fy"].astype(str) + "-12-31")).sort_values("date")
+    ye = pd.merge_asof(ye, cap, on="date", by="stkcd", direction="backward")
+    p = p.assign(stkcd=p["stkcd"].astype(str)).merge(ye[["stkcd", "fy", "h"]], on=["stkcd", "fy"], how="left")
+    p["cross_listed_h"] = (p["h"].fillna(0) > 0).astype(float)
+    p = p.drop(columns="h")
     est = parse_csmar_date(co["Estbdt"])
     p["firm_age"] = p["fy"] - p["stkcd"].map(est).dt.year
     fx = fx_cny_per_usd()
     p["at_usd_bn"] = p["at"] / p["fy"].map(fx) / 1e9
     p["mb"] = p["mv_total_ye"] / p["be"].where(p["be"] > 0)
-    p = winsorize(p, WINSORIZED)
+    # No winsorization here: it is done per sample segment in replication.allen.tables, so the
+    # 2000-2018 numbers never depend on later years (the authors winsorize their 2000-2018
+    # study dataset).
     p = p.sort_values(["stkcd", "fy"])
     lag = p.groupby("stkcd").shift(1)
     consecutive = (p["fy"] - lag["fy"]).eq(1)

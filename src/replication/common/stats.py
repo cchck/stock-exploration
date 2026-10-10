@@ -190,7 +190,7 @@ class PanelResult:
 
 
 def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] = (), cluster: list[str] = (),
-                     weight: str | None = None) -> PanelResult:
+                     weight: str | None = None, cluster_mode: str = "twoway") -> PanelResult:
     """OLS or WLS with fixed effects as dummies and one- or two-way clustered standard errors.
 
     - fe: categorical columns entered as dummies (first level dropped), like the industry,
@@ -198,6 +198,9 @@ def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] =
     - cluster: one or two columns. Two-way clustering follows Cameron, Gelbach and Miller
       (2011): V = V_a + V_b - V_ab. A finite-sample factor G/(G-1) * (N-1)/(N-K) is applied
       to each component, as SAS SURVEYREG does for its cluster variance.
+    - cluster_mode="cells": with two cluster columns, clusters are their unique combinations
+      (e.g. industry-by-year cells), which is how SAS PROC SURVEYREG forms clusters from
+      several CLUSTER variables; "twoway" is the CGM estimator above.
     - weight: WLS weights (rows are multiplied by sqrt(weight)).
     R-squared is that of the (weighted) regression including the fixed effects. Rows with any
     missing value in y, xs, fe, cluster or weight are dropped.
@@ -231,6 +234,9 @@ def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] =
         V = xtx_inv @ ((Xv * e[:, None]).T @ (Xv * e[:, None])) @ xtx_inv
     elif len(cluster) == 1:
         V = xtx_inv @ meat(d[cluster[0]].astype(str).to_numpy())[0] @ xtx_inv
+    elif len(cluster) == 2 and cluster_mode == "cells":
+        cells = (d[cluster[0]].astype(str) + "|" + d[cluster[1]].astype(str)).to_numpy()
+        V = xtx_inv @ meat(cells)[0] @ xtx_inv
     elif len(cluster) == 2:
         a = d[cluster[0]].astype(str).to_numpy()
         b = d[cluster[1]].astype(str).to_numpy()

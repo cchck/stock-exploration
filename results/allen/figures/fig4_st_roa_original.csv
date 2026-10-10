@@ -1,7 +1,7 @@
 table,segment,start,end,row,col,value,k
-F4,original,2000-01,2018-12,year-5,roa_weighted,0.03792415616234736,-5
-F4,original,2000-01,2018-12,year-4,roa_weighted,0.028099643599123793,-4
-F4,original,2000-01,2018-12,year-3,roa_weighted,0.035954910234885264,-3
-F4,original,2000-01,2018-12,year-2,roa_weighted,-0.02491840187768046,-2
-F4,original,2000-01,2018-12,year-1,roa_weighted,-0.0753086604256194,-1
-F4,original,2000-01,2018-12,year0,roa_weighted,-0.021062562989715747,0
+F4,original,2000-01,2018-12,year-5,roa_weighted,0.037922246718046254,-5
+F4,original,2000-01,2018-12,year-4,roa_weighted,0.02740833087783885,-4
+F4,original,2000-01,2018-12,year-3,roa_weighted,0.035953683223242223,-3
+F4,original,2000-01,2018-12,year-2,roa_weighted,-0.025080264342099624,-2
+F4,original,2000-01,2018-12,year-1,roa_weighted,-0.1185241701989927,-1
+F4,original,2000-01,2018-12,year0,roa_weighted,-0.2594326914847242,0

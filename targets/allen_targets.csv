@@ -3,13 +3,13 @@
 # (3 points, values stored as fractions); indices, board size, turnover and buy-and-hold values use count (relative 3%).
 table,row,col,paper,kind,source
 TI,2000,listed_firms,1062,count,Table I Panel A col (1)
-TI,2000,soe_firms,744,count,Table I Panel A col (2)
+TI,2000,soe_firms,744,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
 TI,2000,avg_assets_usd_bn,0.24,count,Table I Panel A col (3) ($ bn; relative 3% rule)
 TI,2001,listed_firms,1143,count,Table I Panel A col (1)
-TI,2001,soe_firms,751,count,Table I Panel A col (2)
+TI,2001,soe_firms,751,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
 TI,2001,avg_assets_usd_bn,0.32,count,Table I Panel A col (3) ($ bn; relative 3% rule)
 TI,2002,listed_firms,1205,count,Table I Panel A col (1)
-TI,2002,soe_firms,816,count,Table I Panel A col (2)
+TI,2002,soe_firms,816,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
 TI,2002,avg_assets_usd_bn,0.42,count,Table I Panel A col (3) ($ bn; relative 3% rule)
 TI,2003,listed_firms,1267,count,Table I Panel A col (1)
 TI,2003,soe_firms,820,count,Table I Panel A col (2)
@@ -104,11 +104,11 @@ TVIII,B:RPT Net Out Amt,max,0.524,share_frac,Table VIII Panel B
 TVIII,B:RPT Net Out Amt,min,-0.475,share_frac,Table VIII Panel B
 TVIII,B:Small-Large,first,2.722,count,Table VIII Panel B: Small
 TVIII,B:Small-Large,second,2.235,count,Table VIII Panel B: Large
-TVIII,B:Small-Large,difference,0.487,coef,Table VIII Panel B
+TVIII,B:Small-Large,difference,0.487,count,Table VIII Panel B
 TVIII,B:Small-Large,t,7.76,t,Table VIII Panel B
 TVIII,B:Non-SOE minus SOE,first,2.845,count,Table VIII Panel B: Non-SOE
 TVIII,B:Non-SOE minus SOE,second,2.211,count,Table VIII Panel B: SOE
-TVIII,B:Non-SOE minus SOE,difference,0.699,coef,Table VIII Panel B (printed as SOE vs Non-SOE difference 0.699)
+TVIII,B:Non-SOE minus SOE,difference,0.699,count,Table VIII Panel B (printed as SOE vs Non-SOE difference 0.699)
 TVIII,B:Non-SOE minus SOE,t,62.56,t,Table VIII Panel B
 TIX,B:Stock-Level Turnover,mean,3.148,count,Table IX Panel B
 TIX,B:Stock-Level Turnover,median,2.487,count,Table IX Panel B
@@ -120,7 +120,7 @@ TIX,B:Market-Level AH Premium,median,0.843,info,Table IX Panel B; NOT PRODUCIBLE
 TIX,B:Market-Level AH Premium,std,1.33,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
 TIX,B:Market-Level AH Premium,min,0.062,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
 TIX,B:Market-Level AH Premium,max,6.604,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
-TX,G-Index-A,(1),1.445,coef,Table X Panel B
+TX,G-Index-A,(1),1.445,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(G-Index-A),(1),2.885,t,Table X Panel B
 TX,R2 (%),(1),52.4,share_pct,Table X Panel B
 TX,Observations,(1),36044,count,Table X Panel B
@@ -128,11 +128,11 @@ TX,AH Premium,(2),-14.024,info,Table X Panel B; NOT PRODUCIBLE: column uses the 
 TX,t(AH Premium),(2),-2.335,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed)
 TX,R2 (%),(2),4.27,info,Table X Panel B; NOT PRODUCIBLE (AH premium column)
 TX,Observations,(2),28251,info,Table X Panel B; NOT PRODUCIBLE (AH premium column)
-TX,Stock-Level Turnover,(3),-2.475,coef,Table X Panel B
+TX,Stock-Level Turnover,(3),-2.475,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(Stock-Level Turnover),(3),-3.866,t,Table X Panel B
 TX,R2 (%),(3),52.33,share_pct,Table X Panel B
 TX,Observations,(3),34386,count,Table X Panel B
-TX,"ROA [-1, +1]",(4),0.869,coef,Table X Panel B
+TX,"ROA [-1, +1]",(4),0.869,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,"t(ROA [-1, +1])",(4),2.115,t,Table X Panel B
 TX,R2 (%),(4),52.41,share_pct,Table X Panel B
 TX,Observations,(4),36017,count,Table X Panel B
@@ -142,27 +142,27 @@ TX,AH Premium,(5),-0.951,info,Table X Panel B; NOT PRODUCIBLE: column uses the A
 TX,t(AH Premium),(5),-0.304,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed)
 TX,R2 (%),(5),53.67,info,Table X Panel B; NOT PRODUCIBLE (AH premium column)
 TX,Observations,(5),28251,info,Table X Panel B; NOT PRODUCIBLE (AH premium column)
-TX,G-Index-A,(6),1.359,coef,Table X Panel B
+TX,G-Index-A,(6),1.359,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(G-Index-A),(6),2.795,t,Table X Panel B
-TX,Stock-Level Turnover,(6),-1.617,coef,Table X Panel B
+TX,Stock-Level Turnover,(6),-1.617,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(Stock-Level Turnover),(6),-2.177,t,Table X Panel B
 TX,R2 (%),(6),53.27,share_pct,Table X Panel B
 TX,Observations,(6),34406,count,Table X Panel B
-TX,G-Index-A,(7),1.341,coef,Table X Panel B
+TX,G-Index-A,(7),1.341,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(G-Index-A),(7),2.355,t,Table X Panel B
-TX,Stock-Level Turnover,(7),-1.568,coef,Table X Panel B
+TX,Stock-Level Turnover,(7),-1.568,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(Stock-Level Turnover),(7),-1.892,t,Table X Panel B
-TX,"ROA [-1, +1]",(7),0.863,coef,Table X Panel B
+TX,"ROA [-1, +1]",(7),0.863,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,"t(ROA [-1, +1])",(7),2.093,t,Table X Panel B
 TX,R2 (%),(7),53.29,share_pct,Table X Panel B
 TX,Observations,(7),34406,count,Table X Panel B
-TX,G-Index-A,(8),0.914,coef,Table X Panel B
+TX,G-Index-A,(8),0.914,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(G-Index-A),(8),1.906,t,Table X Panel B
-TX,Stock-Level Turnover,(8),-0.72,coef,Table X Panel B
+TX,Stock-Level Turnover,(8),-0.72,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(Stock-Level Turnover),(8),-0.902,t,Table X Panel B
-TX,"ROA [-1, +1]",(8),0.051,coef,Table X Panel B
+TX,"ROA [-1, +1]",(8),0.051,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,"t(ROA [-1, +1])",(8),0.133,t,Table X Panel B
-TX,ROIC,(8),8.0,coef,Table X Panel B
+TX,ROIC,(8),8.0,pct_annual,Table X Panel B (coefficient in percentage points of annual return: 1.2-point rule)
 TX,t(ROIC),(8),8.013,t,Table X Panel B
 TX,R2 (%),(8),54.4,share_pct,Table X Panel B
 TX,Observations,(8),31712,count,Table X Panel B
@@ -190,11 +190,11 @@ TXIII,A:RPT Amt Out,(2) coef,0.001,coef,Table XIII
 TXIII,A:RPT Amt Out,(2) t,0.266,t,Table XIII
 TXIII,A:RPT Amt Out,(2) R2 (%),17.66,share_pct,Table XIII
 TXIII,A:RPT Amt Out,(2) N,2306,count,Table XIII
-TXIII,A:Stock Returns,(3) coef,1.588,coef,Table XIII
+TXIII,A:Stock Returns,(3) coef,1.588,pct_annual,Table XIII
 TXIII,A:Stock Returns,(3) t,0.972,t,Table XIII
 TXIII,A:Stock Returns,(3) R2 (%),46.72,share_pct,Table XIII
 TXIII,A:Stock Returns,(3) N,38505,count,Table XIII
-TXIII,A:Stock Returns,(4) coef,-0.954,coef,Table XIII
+TXIII,A:Stock Returns,(4) coef,-0.954,pct_annual,Table XIII
 TXIII,A:Stock Returns,(4) t,-0.609,t,Table XIII
 TXIII,A:Stock Returns,(4) R2 (%),62.23,share_pct,Table XIII
 TXIII,A:Stock Returns,(4) N,2423,count,Table XIII
@@ -235,8 +235,17 @@ F4,year-3,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3]
 F4,year-2,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
 F4,year-1,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
 F4,year0,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
-F5,average,investment_pct,4.4,pct_annual,Section III.A.3 text: A-share value-weighted investment around 4.4% per year (scored with the 1.2-point annual rule)
-F5,average,ncf_pct,1.5,pct_annual,Section III.A.3 text: A-share value-weighted net cash flows 1.5%
+F5,average,investment_pct,4.4,share_pct,Section III.A.3 text: A-share value-weighted investment around 4.4% per year (scored with the 1.2-point annual rule)
+F5,average,ncf_pct,1.5,share_pct,Section III.A.3 text: A-share value-weighted net cash flows 1.5%
 S3A2,delistings,avg_per_year,5,count,Section III.A.2 text: on average only five stocks delisted per year
 S3A2,delistings,avg_pct_of_listed,2.7,info,"Section III.A.2 text: '(or 2.7%)' - cannot be a share of listed firms (5 of ~2,000 is 0.25%); reported, not scored"
 S3A2,delistings,share_poor_performance_pct,50,upper_bound,Section III.A.2 text: less than half of delistings due to poor performance
+TXT,soe_share_last_year,pct,30,share_pct,Section I.A text: SOEs were 30% of listed firms by 2018
+TXT,soe_share_2000,pct,70,info,Section I.A text: 70% in 2000; NOT PRODUCIBLE: CSMAR's controller file starts in 2003
+TXT,listed_firms_1991,n,13,count,Section I.B text: 13 listed firms in 1991
+TXT,dividend_yield_last_year,pct,0.8,share_pct,Footnote 11: average dividend yield of A-share firms 0.8% in 2018
+TXT,vw_mean_ocf,pct,6.5,share_pct,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%
+TXT,g_index_a_small_minus_large_2004,value,0.058,coef,Footnote 32 (from Internet Appendix Table IA.XVIII): small-large G-Index-A gap 2004
+TXT,g_index_a_small_minus_large_2007,value,0.375,coef,Footnote 32: gap 0.375 by 2007
+TXT,capex_rise_after_ipo,pct,,info,"Section III.A.1 text 'from 3% to 7% of total assets'; NOT PRODUCIBLE: needs pre-IPO financials (CSMAR covers 1,099 firms) and belongs to the out-of-scope Tables V-VI"
+TXT,figure4_yearly_t_vs_US,t,,info,Figure 4 caption t-statistics of the A-share vs US difference; NOT PRODUCIBLE: needs US delisted-firm data (out of scope)

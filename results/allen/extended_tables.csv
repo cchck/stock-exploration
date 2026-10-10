@@ -1,210 +1,216 @@
 table,segment,start,end,row,col,value
 TI,extended,2019-01,2025-12,2019,listed_firms,3770.0
-TI,extended,2019-01,2025-12,2019,soe_firms,1130.0
-TI,extended,2019-01,2025-12,2019,avg_assets_usd_bn,3.2988914422963016
+TI,extended,2019-01,2025-12,2019,soe_firms,1148.0
+TI,extended,2019-01,2025-12,2019,avg_assets_usd_bn,3.661619729993737
 TI,extended,2019-01,2025-12,2020,listed_firms,4197.0
-TI,extended,2019-01,2025-12,2020,soe_firms,1196.0
-TI,extended,2019-01,2025-12,2020,avg_assets_usd_bn,3.3019199799954526
+TI,extended,2019-01,2025-12,2020,soe_firms,1216.0
+TI,extended,2019-01,2025-12,2020,avg_assets_usd_bn,3.6537797359175537
 TI,extended,2019-01,2025-12,2021,listed_firms,4703.0
-TI,extended,2019-01,2025-12,2021,soe_firms,1295.0
-TI,extended,2019-01,2025-12,2021,avg_assets_usd_bn,3.479179832951082
+TI,extended,2019-01,2025-12,2021,soe_firms,1314.0
+TI,extended,2019-01,2025-12,2021,avg_assets_usd_bn,3.8524499546783404
 TI,extended,2019-01,2025-12,2022,listed_firms,5109.0
-TI,extended,2019-01,2025-12,2022,soe_firms,1349.0
-TI,extended,2019-01,2025-12,2022,avg_assets_usd_bn,3.3772773806445406
+TI,extended,2019-01,2025-12,2022,soe_firms,1376.0
+TI,extended,2019-01,2025-12,2022,avg_assets_usd_bn,3.744255745510758
 TI,extended,2019-01,2025-12,2023,listed_firms,5380.0
-TI,extended,2019-01,2025-12,2023,soe_firms,1407.0
-TI,extended,2019-01,2025-12,2023,avg_assets_usd_bn,3.2183860953046333
+TI,extended,2019-01,2025-12,2023,soe_firms,1437.0
+TI,extended,2019-01,2025-12,2023,avg_assets_usd_bn,3.5834010802532092
 TI,extended,2019-01,2025-12,2024,listed_firms,5432.0
-TI,extended,2019-01,2025-12,2024,soe_firms,1431.0
-TI,extended,2019-01,2025-12,2024,avg_assets_usd_bn,3.187403912314886
+TI,extended,2019-01,2025-12,2024,soe_firms,1461.0
+TI,extended,2019-01,2025-12,2024,avg_assets_usd_bn,3.5685143519090006
 TI,extended,2019-01,2025-12,2025,listed_firms,5500.0
-TI,extended,2019-01,2025-12,2025,soe_firms,1483.0
-TI,extended,2019-01,2025-12,2025,avg_assets_usd_bn,3.271582557303588
+TI,extended,2019-01,2025-12,2025,soe_firms,1501.0
+TI,extended,2019-01,2025-12,2025,avg_assets_usd_bn,3.6689551138674346
 TI,extended,2019-01,2025-12,unique,listed_firms,5689.0
-TI,extended,2019-01,2025-12,unique,soe_firms,1567.0
-TI,extended,2019-01,2025-12,unique,avg_assets_usd_bn,3.3011500375440854
+TI,extended,2019-01,2025-12,unique,soe_firms,1585.0
+TI,extended,2019-01,2025-12,unique,avg_assets_usd_bn,3.6735044698002
 TVIII,extended,2019-01,2025-12,A:CEO Duality,mean,0.3361884368308351
 TVIII,extended,2019-01,2025-12,A:CEO Duality,median,0.0
 TVIII,extended,2019-01,2025-12,A:CEO Duality,std,0.4724119097537349
 TVIII,extended,2019-01,2025-12,A:CEO Duality,max,1.0
 TVIII,extended,2019-01,2025-12,A:CEO Duality,min,0.0
-TVIII,extended,2019-01,2025-12,A:Ownership Concentration,mean,0.5150294941874823
+TVIII,extended,2019-01,2025-12,A:Ownership Concentration,mean,0.5150114488670198
 TVIII,extended,2019-01,2025-12,A:Ownership Concentration,median,0.509996
-TVIII,extended,2019-01,2025-12,A:Ownership Concentration,std,0.15938089345503403
-TVIII,extended,2019-01,2025-12,A:Ownership Concentration,max,0.8898564399999987
-TVIII,extended,2019-01,2025-12,A:Ownership Concentration,min,0.181509
-TVIII,extended,2019-01,2025-12,A:Executive Holdings,mean,0.13856176597741324
-TVIII,extended,2019-01,2025-12,A:Executive Holdings,median,0.019284548866046664
-TVIII,extended,2019-01,2025-12,A:Executive Holdings,std,0.18873822992770412
-TVIII,extended,2019-01,2025-12,A:Executive Holdings,max,0.6785714334183673
+TVIII,extended,2019-01,2025-12,A:Ownership Concentration,std,0.1593952481729801
+TVIII,extended,2019-01,2025-12,A:Ownership Concentration,max,0.889286
+TVIII,extended,2019-01,2025-12,A:Ownership Concentration,min,0.180336
+TVIII,extended,2019-01,2025-12,A:Executive Holdings,mean,0.1426208141309526
+TVIII,extended,2019-01,2025-12,A:Executive Holdings,median,0.025122120124297383
+TVIII,extended,2019-01,2025-12,A:Executive Holdings,std,0.19022420690790232
+TVIII,extended,2019-01,2025-12,A:Executive Holdings,max,0.6897406324482969
 TVIII,extended,2019-01,2025-12,A:Executive Holdings,min,0.0
 TVIII,extended,2019-01,2025-12,A:Board Size,mean,15.058222095995456
 TVIII,extended,2019-01,2025-12,A:Board Size,median,14.0
 TVIII,extended,2019-01,2025-12,A:Board Size,std,3.8650290118688626
 TVIII,extended,2019-01,2025-12,A:Board Size,max,40.0
 TVIII,extended,2019-01,2025-12,A:Board Size,min,5.0
-TVIII,extended,2019-01,2025-12,A:G-Index-I,mean,2.711797992534536
+TVIII,extended,2019-01,2025-12,A:G-Index-I,mean,2.7850757573028093
 TVIII,extended,2019-01,2025-12,A:G-Index-I,median,3.0
-TVIII,extended,2019-01,2025-12,A:G-Index-I,std,1.6120708305789349
+TVIII,extended,2019-01,2025-12,A:G-Index-I,std,1.58157329933162
 TVIII,extended,2019-01,2025-12,A:G-Index-I,max,7.0
 TVIII,extended,2019-01,2025-12,A:G-Index-I,min,0.0
-TVIII,extended,2019-01,2025-12,B:G-Index-A,mean,2.6911804943301005
+TVIII,extended,2019-01,2025-12,B:G-Index-A,mean,2.6969867291178766
 TVIII,extended,2019-01,2025-12,B:G-Index-A,median,3.0
-TVIII,extended,2019-01,2025-12,B:G-Index-A,std,1.208942161002868
+TVIII,extended,2019-01,2025-12,B:G-Index-A,std,1.2111507177305398
 TVIII,extended,2019-01,2025-12,B:G-Index-A,max,6.0
 TVIII,extended,2019-01,2025-12,B:G-Index-A,min,0.0
-TVIII,extended,2019-01,2025-12,B:State Ownership,mean,0.03198640316755476
+TVIII,extended,2019-01,2025-12,B:State Ownership,mean,0.031390426317347536
 TVIII,extended,2019-01,2025-12,B:State Ownership,median,0.0
-TVIII,extended,2019-01,2025-12,B:State Ownership,std,0.11951344912287183
-TVIII,extended,2019-01,2025-12,B:State Ownership,max,0.7207759999999994
+TVIII,extended,2019-01,2025-12,B:State Ownership,std,0.1162550696659314
+TVIII,extended,2019-01,2025-12,B:State Ownership,max,0.6407679999999993
 TVIII,extended,2019-01,2025-12,B:State Ownership,min,0.0
-TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,mean,-0.003265700256763943
+TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,mean,-0.003264615151924387
 TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,median,0.0
-TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,std,0.10603983453119081
-TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,max,0.562533358296716
-TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,min,-0.5137059624055007
-TVIII,extended,2019-01,2025-12,B:Small-Large,first,2.953799326013697
-TVIII,extended,2019-01,2025-12,B:Small-Large,second,2.3420824295010845
-TVIII,extended,2019-01,2025-12,B:Small-Large,difference,0.6117168965126125
-TVIII,extended,2019-01,2025-12,B:Small-Large,t,35.98802623012984
-TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,first,3.008411214953271
-TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,second,1.8920623996329433
-TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,difference,1.1163488153203276
-TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,t,80.4333590648221
-TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,mean,4.767160591099697
+TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,std,0.10040497899417651
+TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,max,0.503193213138727
+TVIII,extended,2019-01,2025-12,B:RPT Net Out Amt,min,-0.45007655069006974
+TVIII,extended,2019-01,2025-12,B:Small-Large,first,2.954886388705052
+TVIII,extended,2019-01,2025-12,B:Small-Large,second,2.346771438332764
+TVIII,extended,2019-01,2025-12,B:Small-Large,difference,0.608114950372288
+TVIII,extended,2019-01,2025-12,B:Small-Large,t,35.09062460647708
+TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,first,2.979691581697143
+TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,second,1.8877095645881077
+TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,difference,1.0919820171090355
+TVIII,extended,2019-01,2025-12,B:Non-SOE minus SOE,t,76.92660132611185
+TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,mean,4.806012094418266
 TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,median,3.7086640047316637
-TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,std,3.6348675688434144
-TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,max,16.40256091977528
-TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,min,0.2431999290854055
-TX,extended,2019-01,2025-12,G-Index-A,(1),0.6700315489682522
-TX,extended,2019-01,2025-12,t(G-Index-A),(1),1.3205225584550953
-TX,extended,2019-01,2025-12,R2 (%),(1),18.379700979248128
-TX,extended,2019-01,2025-12,Observations,(1),28832.0
-TX,extended,2019-01,2025-12,Stock-Level Turnover,(3),1.3638600775846865
-TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(3),1.189921590745608
-TX,extended,2019-01,2025-12,R2 (%),(3),17.39011051210001
-TX,extended,2019-01,2025-12,Observations,(3),29689.0
-TX,extended,2019-01,2025-12,G-Index-A,(4),3.055913808442282
-TX,extended,2019-01,2025-12,t(G-Index-A),(4),1.3552974413955459
-TX,extended,2019-01,2025-12,"ROA [-1, +1]",(4),1.5882739610628283
-TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(4),1.1421444751047027
-TX,extended,2019-01,2025-12,R2 (%),(4),22.15534188446907
-TX,extended,2019-01,2025-12,Observations,(4),4622.0
-TX,extended,2019-01,2025-12,G-Index-A,(6),0.8571061803474396
-TX,extended,2019-01,2025-12,t(G-Index-A),(6),1.6417237374700802
-TX,extended,2019-01,2025-12,Stock-Level Turnover,(6),1.7510170722402083
-TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(6),1.465144102493986
-TX,extended,2019-01,2025-12,R2 (%),(6),18.438466320072088
-TX,extended,2019-01,2025-12,Observations,(6),28832.0
-TX,extended,2019-01,2025-12,G-Index-A,(7),3.132450913914078
-TX,extended,2019-01,2025-12,t(G-Index-A),(7),1.3386247131159352
-TX,extended,2019-01,2025-12,Stock-Level Turnover,(7),0.8231825402763666
-TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(7),0.4794023148100334
-TX,extended,2019-01,2025-12,"ROA [-1, +1]",(7),1.6626245876355905
-TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(7),1.1648138780814947
-TX,extended,2019-01,2025-12,R2 (%),(7),22.16957466277567
-TX,extended,2019-01,2025-12,Observations,(7),4622.0
-TX,extended,2019-01,2025-12,G-Index-A,(8),2.5652866975190207
-TX,extended,2019-01,2025-12,t(G-Index-A),(8),1.184978313294246
-TX,extended,2019-01,2025-12,Stock-Level Turnover,(8),1.5331100222871328
-TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(8),0.9935729566134586
-TX,extended,2019-01,2025-12,"ROA [-1, +1]",(8),1.2335325771715542
-TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(8),0.9235022259862932
-TX,extended,2019-01,2025-12,ROIC,(8),11.883002980784322
-TX,extended,2019-01,2025-12,t(ROIC),(8),5.710640650271569
-TX,extended,2019-01,2025-12,R2 (%),(8),25.216531054391368
-TX,extended,2019-01,2025-12,Observations,(8),4581.0
-TXI,extended,2019-01,2025-12,G-Index-A,(1),0.5493218877635525
-TXI,extended,2019-01,2025-12,t(G-Index-A),(1),9.723267058044776
-TXI,extended,2019-01,2025-12,R2 (%),(1),16.67847084805323
-TXI,extended,2019-01,2025-12,Observations,(1),30639.0
-TXI,extended,2019-01,2025-12,G-Index-A,(2),0.9834548780876038
-TXI,extended,2019-01,2025-12,t(G-Index-A),(2),8.892515613597892
-TXI,extended,2019-01,2025-12,R2 (%),(2),7.623383643111592
-TXI,extended,2019-01,2025-12,Observations,(2),30043.0
-TXI,extended,2019-01,2025-12,G-Index-A,(3),0.42736304805086667
-TXI,extended,2019-01,2025-12,t(G-Index-A),(3),4.113442170235791
-TXI,extended,2019-01,2025-12,R2 (%),(3),4.447726720912881
-TXI,extended,2019-01,2025-12,Observations,(3),30043.0
-TXI,extended,2019-01,2025-12,G-Index-A,(4),0.42736304805086667
-TXI,extended,2019-01,2025-12,t(G-Index-A),(4),4.113442170235791
-TXI,extended,2019-01,2025-12,R2 (%),(4),4.447726720912881
-TXI,extended,2019-01,2025-12,Observations,(4),30043.0
-TXIII,extended,2019-01,2025-12,matched,cross_listed_firms,159.0
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) coef,-0.002986943549688803
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) t,-0.777198812454243
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) R2 (%),5.562256610361893
+TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,std,3.765119514624439
+TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,max,19.093853204925487
+TIX,extended,2019-01,2025-12,B:Stock-Level Turnover,min,0.370224131968254
+TX,extended,2019-01,2025-12,G-Index-A,(1),0.5768398854329922
+TX,extended,2019-01,2025-12,t(G-Index-A),(1),1.153352870542524
+TX,extended,2019-01,2025-12,R2 (%),(1),19.403210384461524
+TX,extended,2019-01,2025-12,Observations,(1),28063.0
+TX,extended,2019-01,2025-12,Stock-Level Turnover,(3),0.6164907964223689
+TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(3),0.7412594386031622
+TX,extended,2019-01,2025-12,R2 (%),(3),17.97193486845333
+TX,extended,2019-01,2025-12,Observations,(3),29665.0
+TX,extended,2019-01,2025-12,G-Index-A,(4),2.9467208796890407
+TX,extended,2019-01,2025-12,t(G-Index-A),(4),1.994213585362287
+TX,extended,2019-01,2025-12,"ROA [-1, +1]",(4),1.3813679432009451
+TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(4),1.3138040912030535
+TX,extended,2019-01,2025-12,R2 (%),(4),23.472290044525344
+TX,extended,2019-01,2025-12,Observations,(4),4530.0
+TX,extended,2019-01,2025-12,G-Index-A,(6),0.6936386348297262
+TX,extended,2019-01,2025-12,t(G-Index-A),(6),1.4190576795258436
+TX,extended,2019-01,2025-12,Stock-Level Turnover,(6),1.0304138441719504
+TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(6),1.2456089976408398
+TX,extended,2019-01,2025-12,R2 (%),(6),19.426117168699186
+TX,extended,2019-01,2025-12,Observations,(6),28063.0
+TX,extended,2019-01,2025-12,G-Index-A,(7),2.8981345309343456
+TX,extended,2019-01,2025-12,t(G-Index-A),(7),1.8976005270833263
+TX,extended,2019-01,2025-12,Stock-Level Turnover,(7),-0.45392885089822665
+TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(7),-0.3815651922779518
+TX,extended,2019-01,2025-12,"ROA [-1, +1]",(7),1.3433020363171932
+TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(7),1.3026189156674968
+TX,extended,2019-01,2025-12,R2 (%),(7),23.47743508937
+TX,extended,2019-01,2025-12,Observations,(7),4530.0
+TX,extended,2019-01,2025-12,G-Index-A,(8),1.981260758446025
+TX,extended,2019-01,2025-12,t(G-Index-A),(8),1.580789594009215
+TX,extended,2019-01,2025-12,Stock-Level Turnover,(8),0.2617913725304417
+TX,extended,2019-01,2025-12,t(Stock-Level Turnover),(8),0.22914139606180933
+TX,extended,2019-01,2025-12,"ROA [-1, +1]",(8),0.6156045881077948
+TX,extended,2019-01,2025-12,"t(ROA [-1, +1])",(8),0.6908780953181282
+TX,extended,2019-01,2025-12,ROIC,(8),13.275292145179144
+TX,extended,2019-01,2025-12,t(ROIC),(8),5.689076100104263
+TX,extended,2019-01,2025-12,R2 (%),(8),27.920859082712802
+TX,extended,2019-01,2025-12,Observations,(8),4497.0
+TXI,extended,2019-01,2025-12,G-Index-A,(1),0.5461313246956623
+TXI,extended,2019-01,2025-12,t(G-Index-A),(1),14.295659928504286
+TXI,extended,2019-01,2025-12,R2 (%),(1),16.826045087801244
+TXI,extended,2019-01,2025-12,Observations,(1),29758.0
+TXI,extended,2019-01,2025-12,G-Index-A,(2),0.9838534116552899
+TXI,extended,2019-01,2025-12,t(G-Index-A),(2),15.481280409987145
+TXI,extended,2019-01,2025-12,R2 (%),(2),7.6228100008012944
+TXI,extended,2019-01,2025-12,Observations,(2),29271.0
+TXI,extended,2019-01,2025-12,G-Index-A,(3),0.43101601543713874
+TXI,extended,2019-01,2025-12,t(G-Index-A),(3),6.748915299638944
+TXI,extended,2019-01,2025-12,R2 (%),(3),4.456353252228018
+TXI,extended,2019-01,2025-12,Observations,(3),29271.0
+TXI,extended,2019-01,2025-12,G-Index-A,(4),0.43101601543713874
+TXI,extended,2019-01,2025-12,t(G-Index-A),(4),6.748915299638944
+TXI,extended,2019-01,2025-12,R2 (%),(4),4.456353252228018
+TXI,extended,2019-01,2025-12,Observations,(4),29271.0
+TXIII,extended,2019-01,2025-12,matched,cross_listed_firms,175.0
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) coef,-0.0016320294766178022
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) t,-0.6838138207874149
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) R2 (%),5.614925899711087
 TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(1) N,29568.0
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) coef,-0.01743970052014744
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) t,-3.1556732048853307
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) R2 (%),18.58132725279039
-TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) N,1541.0
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) coef,6.156827486176505
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) t,1.4073439555671763
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) R2 (%),16.752816798015356
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) coef,-0.001012751178051208
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) t,-0.35305589445164176
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) R2 (%),23.6481739425496
+TXIII,extended,2019-01,2025-12,A:RPT Amt Out,(2) N,1872.0
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) coef,1.693645492071475
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) t,0.8008940399516581
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) R2 (%),17.578612229705392
 TXIII,extended,2019-01,2025-12,A:Stock Returns,(3) N,29771.0
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) coef,12.21760478608664
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) t,1.738091765421929
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) R2 (%),29.235356815186996
-TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) N,1544.0
-TXIII,extended,2019-01,2025-12,B:ROA,(1) coef,0.0026402580667345002
-TXIII,extended,2019-01,2025-12,B:ROA,(1) t,0.9168239141492539
-TXIII,extended,2019-01,2025-12,B:ROA,(1) R2 (%),47.737818043753975
-TXIII,extended,2019-01,2025-12,B:ROA,(1) N,1541.0
-TXIII,extended,2019-01,2025-12,B:ROE,(2) coef,9.828301564254326e-05
-TXIII,extended,2019-01,2025-12,B:ROE,(2) t,0.007938451206097761
-TXIII,extended,2019-01,2025-12,B:ROE,(2) R2 (%),28.358201513873816
-TXIII,extended,2019-01,2025-12,B:ROE,(2) N,1535.0
-TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) coef,0.033324347985037646
-TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) t,0.14436758064482033
-TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) R2 (%),5.048882382122388
-TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) N,1541.0
-TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) coef,-0.010896665099370779
-TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) t,-1.526166891973926
-TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) R2 (%),17.352978071333837
-TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) N,1541.0
-TXIII,extended,2019-01,2025-12,B:Investment,(5) coef,0.005920330351146586
-TXIII,extended,2019-01,2025-12,B:Investment,(5) t,1.2386382627269943
-TXIII,extended,2019-01,2025-12,B:Investment,(5) R2 (%),18.913545656447784
-TXIII,extended,2019-01,2025-12,B:Investment,(5) N,1541.0
-TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) coef,-0.016602179862050544
-TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) t,-2.6899173839467463
-TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) R2 (%),14.187727285003026
-TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) N,1541.0
-F1-2,extended,2019-01,2025-12,BHR_end,all,1.75088957709787
-F1-2,extended,2019-01,2025-12,BHR_end,small,2.714330415604804
-F1-2,extended,2019-01,2025-12,BHR_end,medium,1.8144401829088277
-F1-2,extended,2019-01,2025-12,BHR_end,large,1.6949592030005947
-F4,extended,2019-01,2025-12,ST,firms_first_st_in_period,412.0
-F4,extended,2019-01,2025-12,ST,permanent_st_firms,125.0
-F4,extended,2019-01,2025-12,year-5,roa_weighted,0.021099421299109942
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) coef,-2.8961727295662643
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) t,-0.7126776113881823
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) R2 (%),24.260698448464048
+TXIII,extended,2019-01,2025-12,A:Stock Returns,(4) N,1884.0
+TXIII,extended,2019-01,2025-12,B:ROA,(1) coef,-0.005663854133981306
+TXIII,extended,2019-01,2025-12,B:ROA,(1) t,-3.0472533659238
+TXIII,extended,2019-01,2025-12,B:ROA,(1) R2 (%),53.82174670267419
+TXIII,extended,2019-01,2025-12,B:ROA,(1) N,1872.0
+TXIII,extended,2019-01,2025-12,B:ROE,(2) coef,-0.004543881439907884
+TXIII,extended,2019-01,2025-12,B:ROE,(2) t,-0.5204384152068138
+TXIII,extended,2019-01,2025-12,B:ROE,(2) R2 (%),38.81156834136029
+TXIII,extended,2019-01,2025-12,B:ROE,(2) N,1866.0
+TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) coef,-0.052635947824127505
+TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) t,-0.30779836981642483
+TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) R2 (%),6.827880869662728
+TXIII,extended,2019-01,2025-12,B:Net Income Growth,(3) N,1872.0
+TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) coef,-0.01448252107556151
+TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) t,-2.065042481390782
+TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) R2 (%),23.308573467750538
+TXIII,extended,2019-01,2025-12,B:Operating Cash Flows,(4) N,1872.0
+TXIII,extended,2019-01,2025-12,B:Investment,(5) coef,-0.003076806012785384
+TXIII,extended,2019-01,2025-12,B:Investment,(5) t,-1.9659271165216008
+TXIII,extended,2019-01,2025-12,B:Investment,(5) R2 (%),29.96945325371637
+TXIII,extended,2019-01,2025-12,B:Investment,(5) N,1872.0
+TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) coef,-0.011801691350859414
+TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) t,-1.7522863423884898
+TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) R2 (%),18.934284480081097
+TXIII,extended,2019-01,2025-12,B:Net Cash Flows,(6) N,1872.0
+F1-2,extended,2019-01,2025-12,BHR_end,all,1.8471289893652818
+F1-2,extended,2019-01,2025-12,BHR_end,small,2.7906038772964017
+F1-2,extended,2019-01,2025-12,BHR_end,medium,1.85412891729695
+F1-2,extended,2019-01,2025-12,BHR_end,large,1.7981580267921022
+F4,extended,2019-01,2025-12,ST,firms_first_st_in_period,405.0
+F4,extended,2019-01,2025-12,ST,permanent_st_firms,123.0
+F4,extended,2019-01,2025-12,year-5,roa_weighted,0.019042897188350304
 F4,extended,2019-01,2025-12,year-5,n,116.0
-F4,extended,2019-01,2025-12,year-4,roa_weighted,0.024812046861474063
+F4,extended,2019-01,2025-12,year-4,roa_weighted,0.024925913246339828
 F4,extended,2019-01,2025-12,year-4,n,120.0
-F4,extended,2019-01,2025-12,year-3,roa_weighted,0.010792560354332391
-F4,extended,2019-01,2025-12,year-3,n,123.0
-F4,extended,2019-01,2025-12,year-2,roa_weighted,-0.020507449716034368
-F4,extended,2019-01,2025-12,year-2,n,123.0
-F4,extended,2019-01,2025-12,year-1,roa_weighted,-0.1163182658486036
-F4,extended,2019-01,2025-12,year-1,n,124.0
-F4,extended,2019-01,2025-12,year0,roa_weighted,-0.07294463498894513
-F4,extended,2019-01,2025-12,year0,n,121.0
-F5,extended,2019-01,2025-12,2019,investment_pct,2.913878191074079
-F5,extended,2019-01,2025-12,2019,ncf_pct,1.6499643478292196
-F5,extended,2019-01,2025-12,2020,investment_pct,2.9655870608876715
-F5,extended,2019-01,2025-12,2020,ncf_pct,0.30500546374714355
-F5,extended,2019-01,2025-12,2021,investment_pct,3.1558127159340317
-F5,extended,2019-01,2025-12,2021,ncf_pct,1.547501962333244
-F5,extended,2019-01,2025-12,2022,investment_pct,3.3458751772539284
-F5,extended,2019-01,2025-12,2022,ncf_pct,1.245257049275314
-F5,extended,2019-01,2025-12,2023,investment_pct,3.5325817933045762
-F5,extended,2019-01,2025-12,2023,ncf_pct,1.9892716184130583
-F5,extended,2019-01,2025-12,2024,investment_pct,3.2918684146398194
-F5,extended,2019-01,2025-12,2024,ncf_pct,2.860959937941
-F5,extended,2019-01,2025-12,2025,investment_pct,3.120209770652708
-F5,extended,2019-01,2025-12,2025,ncf_pct,2.1354613538673237
-F5,extended,2019-01,2025-12,average,investment_pct,3.189401874820973
-F5,extended,2019-01,2025-12,average,ncf_pct,1.676203104772329
-S3A2,extended,2019-01,2025-12,delistings,avg_per_year,34.285714285714285
-S3A2,extended,2019-01,2025-12,delistings,avg_pct_of_listed,0.6795157260019286
-S3A2,extended,2019-01,2025-12,delistings,share_poor_performance_pct,89.16666666666667
+F4,extended,2019-01,2025-12,year-3,roa_weighted,0.01118351239026984
+F4,extended,2019-01,2025-12,year-3,n,122.0
+F4,extended,2019-01,2025-12,year-2,roa_weighted,-0.02276962830926405
+F4,extended,2019-01,2025-12,year-2,n,122.0
+F4,extended,2019-01,2025-12,year-1,roa_weighted,-0.12381679987075037
+F4,extended,2019-01,2025-12,year-1,n,123.0
+F4,extended,2019-01,2025-12,year0,roa_weighted,-0.10630474329647269
+F4,extended,2019-01,2025-12,year0,n,120.0
+F5,extended,2019-01,2025-12,2019,investment_pct,2.7194057284555155
+F5,extended,2019-01,2025-12,2019,ncf_pct,1.6703951594679405
+F5,extended,2019-01,2025-12,2020,investment_pct,2.7519881270027007
+F5,extended,2019-01,2025-12,2020,ncf_pct,0.22577717874698752
+F5,extended,2019-01,2025-12,2021,investment_pct,2.9203711208826055
+F5,extended,2019-01,2025-12,2021,ncf_pct,1.4849798961617784
+F5,extended,2019-01,2025-12,2022,investment_pct,3.1385428318374653
+F5,extended,2019-01,2025-12,2022,ncf_pct,1.3346721302658386
+F5,extended,2019-01,2025-12,2023,investment_pct,3.3151965603904046
+F5,extended,2019-01,2025-12,2023,ncf_pct,1.9989811210460169
+F5,extended,2019-01,2025-12,2024,investment_pct,3.091097409257567
+F5,extended,2019-01,2025-12,2024,ncf_pct,2.821904218404025
+F5,extended,2019-01,2025-12,2025,investment_pct,2.9375693536518157
+F5,extended,2019-01,2025-12,2025,ncf_pct,2.073250661264911
+F5,extended,2019-01,2025-12,average,investment_pct,2.9820244473540107
+F5,extended,2019-01,2025-12,average,ncf_pct,1.6585657664796425
+S3A2,extended,2019-01,2025-12,delistings,avg_per_year,31.428571428571427
+S3A2,extended,2019-01,2025-12,delistings,avg_pct_of_listed,0.6196871631675512
+S3A2,extended,2019-01,2025-12,delistings,share_poor_performance_pct,91.36363636363637
+TXT,extended,2019-01,2025-12,soe_share_last_year,pct,27.480776272427683
+TXT,extended,2019-01,2025-12,listed_firms_1991,n,13.0
+TXT,extended,2019-01,2025-12,dividend_yield_last_year,pct,1.0356725523548902
+TXT,extended,2019-01,2025-12,vw_mean_ocf,pct,5.985498461672685
+TXT,extended,2019-01,2025-12,g_index_a_small_minus_large_2004,value,
+TXT,extended,2019-01,2025-12,g_index_a_small_minus_large_2007,value,
