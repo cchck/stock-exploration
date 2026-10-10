@@ -117,3 +117,16 @@ def test_bound_and_annual_rules():
     assert judge("lower_bound", 50, 51) and not judge("lower_bound", 50, 38)
     assert judge("pct_annual", 12.36, 11.2) and not judge("pct_annual", 18, 13.9)
     assert judge("share_pct", 15, 17.9) and not judge("share_pct", 82, 77.7)
+
+
+def test_panel_regression_matches_statsmodels_one_way_cluster():
+    from replication.common.stats import panel_regression
+    rng = np.random.default_rng(3)
+    n = 600
+    df = pd.DataFrame({"g": rng.integers(0, 30, n), "yr": rng.integers(0, 10, n), "x": rng.normal(size=n)})
+    df["y"] = 1 + 0.5 * df["x"] + 0.3 * (df["yr"] % 3) + rng.normal(size=n) + df["g"] * 0.01
+    ours = panel_regression(df, "y", ["x"], fe=["yr"], cluster=["g"])
+    X = sm.add_constant(pd.concat([df[["x"]], pd.get_dummies(df["yr"].astype(str), prefix="yr", drop_first=True, dtype=float)], axis=1))
+    ref = sm.OLS(df["y"], X).fit(cov_type="cluster", cov_kwds={"groups": df["g"]})
+    assert ours.params["x"] == pytest.approx(ref.params["x"])
+    assert ours.tstats["x"] == pytest.approx(ref.tvalues["x"], rel=1e-6)

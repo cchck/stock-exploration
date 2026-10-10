@@ -16,6 +16,7 @@ per printed number: table, row, col, paper, kind). `kind` selects the tolerance 
 | count       | count (deals, stocks): |ours / paper - 1| <= 3% (3.3: counts are       |
 |             | compared as proportions within 3 points)                               |
 | share_pct   | proportion in %: |ours - paper| <= 3 points                            |
+| share_frac  | proportion stored as a fraction (0.539): |ours - paper| <= 0.03         |
 | pvalue      | same reject / not-reject conclusion at 5%. A p-value printed as 0.05   |
 |             | (rounded, so on the boundary) passes when ours also rounds to 0.05.    |
 | series_corr | month-by-month correlation with a published series >= the threshold    |
@@ -56,6 +57,8 @@ def judge(kind: str, paper: float, ours: float) -> bool | None:
             return None
         return np.sign(ours) == np.sign(paper)
     if kind == "count":
+        if paper == 0:
+            return abs(ours) <= 1e-9
         return abs(ours / paper - 1) * 100 <= 3.0 + 1e-9
     if kind == "pct_annual":
         return abs(ours - paper) <= 1.2 + 1e-9
@@ -63,6 +66,8 @@ def judge(kind: str, paper: float, ours: float) -> bool | None:
         return ours <= paper + 1e-9
     if kind == "lower_bound":
         return ours >= paper - 1e-9
+    if kind == "share_frac":
+        return abs(ours - paper) <= 0.03 + 1e-9
     if kind == "share_pct":
         return abs(ours - paper) <= 3.0 + 1e-9
     if kind == "pvalue":

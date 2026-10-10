@@ -179,3 +179,79 @@ def fama_macbeth(df: pd.DataFrame, y: str, xs: list[str], *, time: str = "month"
         means[c], ts[c] = s.mean, s.t
     return FMResult(coef=pd.Series(means), tstats=pd.Series(ts), avg_r2=float(np.mean(r2s)), avg_adj_r2=float(np.mean(adj)),
                     n_periods=len(coefs), coef_series=coefs)
+
+
+@dataclass(frozen=True)
+class PanelResult:
+    params: pd.Series
+    tstats: pd.Series
+    r2: float
+    n: int
+
+
+def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] = (), cluster: list[str] = (),
+                     weight: str | None = None) -> PanelResult:
+    """OLS or WLS with fixed effects as dummies and one- or two-way clustered standard errors.
+
+    - fe: categorical columns entered as dummies (first level dropped), like the industry,
+      year and province dummies in Allen et al.'s SAS PROC SURVEYREG code.
+    - cluster: one or two columns. Two-way clustering follows Cameron, Gelbach and Miller
+      (2011): V = V_a + V_b - V_ab. A finite-sample factor G/(G-1) * (N-1)/(N-K) is applied
+      to each component, as SAS SURVEYREG does for its cluster variance.
+    - weight: WLS weights (rows are multiplied by sqrt(weight)).
+    R-squared is that of the (weighted) regression including the fixed effects. Rows with any
+    missing value in y, xs, fe, cluster or weight are dropped.
+    """
+    # A column may serve as both a fixed effect and a cluster dimension (industry, year):
+    # select it once.
+    cols = list(dict.fromkeys([y, *xs, *fe, *cluster] + ([weight] if weight else [])))
+    d = df[cols].dropna()
+    if weight:
+        d = d[d[weight] > 0]
+    X = d[list(xs)].astype(float)
+    for f in fe:
+        X = pd.concat([X, pd.get_dummies(d[f].astype(str), prefix=f, drop_first=True, dtype=float)], axis=1)
+    X.insert(0, "const", 1.0)
+    Xv, yv = X.to_numpy(float), d[y].to_numpy(float)
+    if weight:
+        w = np.sqrt(d[weight].to_numpy(float))
+        Xv, yv = Xv * w[:, None], yv * w
+    n, k = Xv.shape
+    xtx_inv = np.linalg.pinv(Xv.T @ Xv)
+    beta = xtx_inv @ Xv.T @ yv
+    e = yv - Xv @ beta
+
+    def meat(groups: np.ndarray) -> tuple[np.ndarray, int]:
+        u = Xv * e[:, None]
+        s = pd.DataFrame(u).groupby(groups).sum().to_numpy()
+        G = s.shape[0]
+        return s.T @ s * (G / (G - 1)) * ((n - 1) / (n - k)), G
+
+    if len(cluster) == 0:
+        V = xtx_inv @ ((Xv * e[:, None]).T @ (Xv * e[:, None])) @ xtx_inv
+    elif len(cluster) == 1:
+        V = xtx_inv @ meat(d[cluster[0]].astype(str).to_numpy())[0] @ xtx_inv
+    elif len(cluster) == 2:
+        a = d[cluster[0]].astype(str).to_numpy()
+        b = d[cluster[1]].astype(str).to_numpy()
+        ab = np.char.add(np.char.add(a.astype(str), "|"), b.astype(str))
+        Va = xtx_inv @ meat(a)[0] @ xtx_inv
+        Vb = xtx_inv @ meat(b)[0] @ xtx_inv
+        V = Va + Vb - xtx_inv @ meat(ab)[0] @ xtx_inv
+        # The two-way estimate can have a negative diagonal (e.g. a regressor constant within
+        # firm and few clusters). Following Cameron, Gelbach and Miller (2011), such entries
+        # fall back to the larger one-way variance instead of returning no standard error.
+        neg = np.diag(V) <= 0
+        if neg.any():
+            fallback = np.maximum(np.diag(Va), np.diag(Vb))
+            V[np.diag_indices_from(V)] = np.where(neg, fallback, np.diag(V))
+    else:
+        raise ValueError("at most two cluster dimensions")
+    se = np.sqrt(np.clip(np.diag(V), 0, None))
+    ybar = np.average(d[y], weights=d[weight]) if weight else d[y].mean()
+    yc = (d[y].to_numpy(float) - ybar) * (np.sqrt(d[weight].to_numpy(float)) if weight else 1)
+    names = X.columns
+    keep = ["const", *xs]
+    params = pd.Series(beta, index=names)[keep]
+    tstats = pd.Series(beta / np.where(se > 0, se, np.nan), index=names)[keep]
+    return PanelResult(params=params, tstats=tstats, r2=float(1 - e @ e / (yc @ yc)), n=n)

@@ -1,0 +1,239 @@
+table,row,col,paper,kind,source,ours,diff,pass,deviation
+TI,2000,listed_firms,1062.0,count,Table I Panel A col (1),1061.0,-1.0,True,
+TI,2000,soe_firms,744.0,count,Table I Panel A col (2),0.0,-744.0,False,ALN-1
+TI,2000,avg_assets_usd_bn,0.24,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.24240348803307257,0.0024034880330725816,True,
+TI,2001,listed_firms,1143.0,count,Table I Panel A col (1),1140.0,-3.0,True,
+TI,2001,soe_firms,751.0,count,Table I Panel A col (2),2.0,-749.0,False,ALN-1
+TI,2001,avg_assets_usd_bn,0.32,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.3206442087998887,0.0006442087998886903,True,
+TI,2002,listed_firms,1205.0,count,Table I Panel A col (1),1208.0,3.0,True,
+TI,2002,soe_firms,816.0,count,Table I Panel A col (2),1.0,-815.0,False,ALN-1
+TI,2002,avg_assets_usd_bn,0.42,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.4151310480865304,-0.004868951913469588,True,
+TI,2003,listed_firms,1267.0,count,Table I Panel A col (1),1267.0,0.0,True,
+TI,2003,soe_firms,820.0,count,Table I Panel A col (2),901.0,81.0,False,ALN-1
+TI,2003,avg_assets_usd_bn,0.5,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.5069236717228854,0.006923671722885438,True,
+TI,2004,listed_firms,1356.0,count,Table I Panel A col (1),1363.0,7.0,True,
+TI,2004,soe_firms,821.0,count,Table I Panel A col (2),932.0,111.0,False,ALN-1
+TI,2004,avg_assets_usd_bn,0.52,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.5618223300498636,0.041822330049863576,False,ALN-1
+TI,2005,listed_firms,1352.0,count,Table I Panel A col (1),1367.0,15.0,True,
+TI,2005,soe_firms,784.0,count,Table I Panel A col (2),928.0,144.0,False,ALN-1
+TI,2005,avg_assets_usd_bn,0.57,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.6444934163974516,0.07449341639745166,False,ALN-1
+TI,2006,listed_firms,1435.0,count,Table I Panel A col (1),1419.0,-16.0,True,
+TI,2006,soe_firms,813.0,count,Table I Panel A col (2),911.0,98.0,False,ALN-1
+TI,2006,avg_assets_usd_bn,0.72,count,Table I Panel A col (3) ($ bn; relative 3% rule),0.8661337635690697,0.1461337635690697,False,ALN-1
+TI,2007,listed_firms,1548.0,count,Table I Panel A col (1),1530.0,-18.0,True,
+TI,2007,soe_firms,834.0,count,Table I Panel A col (2),939.0,105.0,False,ALN-1
+TI,2007,avg_assets_usd_bn,1.19,count,Table I Panel A col (3) ($ bn; relative 3% rule),1.4991415150038818,0.3091415150038819,False,ALN-1
+TI,2008,listed_firms,1603.0,count,Table I Panel A col (1),1603.0,0.0,True,
+TI,2008,soe_firms,843.0,count,Table I Panel A col (2),955.0,112.0,False,ALN-1
+TI,2008,avg_assets_usd_bn,1.37,count,Table I Panel A col (3) ($ bn; relative 3% rule),1.6834203617523937,0.31342036175239363,False,ALN-1
+TI,2009,listed_firms,1751.0,count,Table I Panel A col (1),1700.0,-51.0,True,
+TI,2009,soe_firms,865.0,count,Table I Panel A col (2),960.0,95.0,False,ALN-1
+TI,2009,avg_assets_usd_bn,1.58,count,Table I Panel A col (3) ($ bn; relative 3% rule),1.9082925185078574,0.32829251850785734,False,ALN-1
+TI,2010,listed_firms,2106.0,count,Table I Panel A col (1),2043.0,-63.0,True,
+TI,2010,soe_firms,903.0,count,Table I Panel A col (2),1003.0,100.0,False,ALN-1
+TI,2010,avg_assets_usd_bn,1.62,count,Table I Panel A col (3) ($ bn; relative 3% rule),1.9586321558775017,0.3386321558775016,False,ALN-1
+TI,2011,listed_firms,2341.0,count,Table I Panel A col (1),2321.0,-20.0,True,
+TI,2011,soe_firms,901.0,count,Table I Panel A col (2),1002.0,101.0,False,ALN-1
+TI,2011,avg_assets_usd_bn,1.72,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.0634784151029733,0.3434784151029733,False,ALN-1
+TI,2012,listed_firms,2470.0,count,Table I Panel A col (1),2473.0,3.0,True,
+TI,2012,soe_firms,927.0,count,Table I Panel A col (2),989.0,62.0,False,ALN-1
+TI,2012,avg_assets_usd_bn,1.82,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.198977805671741,0.378977805671741,False,ALN-1
+TI,2013,listed_firms,2515.0,count,Table I Panel A col (1),2472.0,-43.0,True,
+TI,2013,soe_firms,926.0,count,Table I Panel A col (2),988.0,62.0,False,ALN-1
+TI,2013,avg_assets_usd_bn,2.02,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.4527134261278407,0.4327134261278407,False,ALN-1
+TI,2014,listed_firms,2632.0,count,Table I Panel A col (1),2593.0,-39.0,True,
+TI,2014,soe_firms,879.0,count,Table I Panel A col (2),991.0,112.0,False,ALN-1
+TI,2014,avg_assets_usd_bn,2.21,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.635902883991819,0.4259028839918191,False,ALN-1
+TI,2015,listed_firms,2823.0,count,Table I Panel A col (1),2813.0,-10.0,True,
+TI,2015,soe_firms,1081.0,count,Table I Panel A col (2),997.0,-84.0,False,ALN-1
+TI,2015,avg_assets_usd_bn,2.38,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.8206086820380847,0.4406086820380848,False,ALN-1
+TI,2016,listed_firms,3118.0,count,Table I Panel A col (1),3035.0,-83.0,True,
+TI,2016,soe_firms,1103.0,count,Table I Panel A col (2),1018.0,-85.0,False,ALN-1
+TI,2016,avg_assets_usd_bn,2.5,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.9583774375909377,0.45837743759093774,False,ALN-1
+TI,2017,listed_firms,3495.0,count,Table I Panel A col (1),3471.0,-24.0,True,
+TI,2017,soe_firms,1150.0,count,Table I Panel A col (2),1048.0,-102.0,False,ALN-1
+TI,2017,avg_assets_usd_bn,2.46,count,Table I Panel A col (3) ($ bn; relative 3% rule),2.876052527839729,0.4160525278397289,False,ALN-1
+TI,2018,listed_firms,3591.0,count,Table I Panel A col (1),3574.0,-17.0,True,
+TI,2018,soe_firms,1078.0,count,Table I Panel A col (2),1073.0,-5.0,True,
+TI,2018,avg_assets_usd_bn,2.78,count,Table I Panel A col (3) ($ bn; relative 3% rule),3.1793412740253273,0.3993412740253275,False,ALN-1
+TI,unique,listed_firms,3695.0,count,Table I unique firms,3668.0,-27.0,True,
+TI,unique,soe_firms,1372.0,count,Table I unique SOEs,1407.0,35.0,True,
+TI,unique,avg_assets_usd_bn,1.59,count,Table I average assets,2.036693556331823,0.44669355633182284,False,ALN-1
+TVIII,A:CEO Duality,mean,0.208,share_frac,"Table VIII Panel A, Chinese A-share row",0.2109025396640902,0.002902539664090209,True,
+TVIII,A:CEO Duality,median,0.0,share_frac,"Table VIII Panel A, Chinese A-share row",0.0,0.0,True,
+TVIII,A:CEO Duality,std,0.406,share_frac,"Table VIII Panel A, Chinese A-share row",0.4079552603751191,0.001955260375119061,True,
+TVIII,A:CEO Duality,max,1.0,share_frac,"Table VIII Panel A, Chinese A-share row",1.0,0.0,True,
+TVIII,A:CEO Duality,min,0.0,share_frac,"Table VIII Panel A, Chinese A-share row",0.0,0.0,True,
+TVIII,A:Ownership Concentration,mean,0.539,share_frac,"Table VIII Panel A, Chinese A-share row",0.5295459208611702,-0.009454079138829785,True,
+TVIII,A:Ownership Concentration,median,0.546,share_frac,"Table VIII Panel A, Chinese A-share row",0.5330590000000001,-0.01294099999999998,True,
+TVIII,A:Ownership Concentration,std,0.152,share_frac,"Table VIII Panel A, Chinese A-share row",0.15430863475577408,0.002308634755774086,True,
+TVIII,A:Ownership Concentration,max,0.891,share_frac,"Table VIII Panel A, Chinese A-share row",0.8898564399999987,-0.0011435600000012647,True,
+TVIII,A:Ownership Concentration,min,0.201,share_frac,"Table VIII Panel A, Chinese A-share row",0.181509,-0.01949100000000001,True,
+TVIII,A:Executive Holdings,mean,0.104,share_frac,"Table VIII Panel A, Chinese A-share row",0.0764372740885021,-0.0275627259114979,True,
+TVIII,A:Executive Holdings,median,0.001,share_frac,"Table VIII Panel A, Chinese A-share row",0.00012659942796929097,-0.000873400572030709,True,
+TVIII,A:Executive Holdings,std,0.186,share_frac,"Table VIII Panel A, Chinese A-share row",0.16234671956820326,-0.023653280431796736,True,
+TVIII,A:Executive Holdings,max,0.681,share_frac,"Table VIII Panel A, Chinese A-share row",0.6785714334183673,-0.0024285665816327073,True,
+TVIII,A:Executive Holdings,min,0.0,share_frac,"Table VIII Panel A, Chinese A-share row",0.0,0.0,True,
+TVIII,A:Board Size,mean,16.8,count,"Table VIII Panel A, Chinese A-share row",16.88646041907555,0.08646041907555002,True,
+TVIII,A:Board Size,median,16.0,count,"Table VIII Panel A, Chinese A-share row",16.0,0.0,True,
+TVIII,A:Board Size,std,4.029,count,"Table VIII Panel A, Chinese A-share row",4.038490460784824,0.009490460784824073,True,
+TVIII,A:Board Size,max,54.0,count,"Table VIII Panel A, Chinese A-share row",54.0,0.0,True,
+TVIII,A:Board Size,min,1.0,count,"Table VIII Panel A, Chinese A-share row",1.0,0.0,True,
+TVIII,A:G-Index-I,mean,2.271,count,"Table VIII Panel A, Chinese A-share row",2.5971597480105535,0.3261597480105536,False,ALN-2
+TVIII,A:G-Index-I,median,2.0,count,"Table VIII Panel A, Chinese A-share row",3.0,1.0,False,ALN-2
+TVIII,A:G-Index-I,std,1.527,count,"Table VIII Panel A, Chinese A-share row",1.493954496661166,-0.03304550333883394,True,
+TVIII,A:G-Index-I,max,7.0,count,"Table VIII Panel A, Chinese A-share row",7.0,0.0,True,
+TVIII,A:G-Index-I,min,0.0,count,"Table VIII Panel A, Chinese A-share row",0.0,0.0,True,
+TVIII,B:G-Index-A,mean,2.482,count,Table VIII Panel B,2.390934235613201,-0.09106576438679914,False,ALN-2
+TVIII,B:G-Index-A,median,2.0,count,Table VIII Panel B,2.0,0.0,True,
+TVIII,B:G-Index-A,std,1.181,count,Table VIII Panel B,1.2737963138569393,0.0927963138569392,False,ALN-2
+TVIII,B:G-Index-A,max,6.0,count,Table VIII Panel B,6.0,0.0,True,
+TVIII,B:G-Index-A,min,0.0,count,Table VIII Panel B,0.0,0.0,True,
+TVIII,B:State Ownership,mean,0.116,share_frac,Table VIII Panel B,0.12537487179854054,0.009374871798540532,True,
+TVIII,B:State Ownership,median,0.0,share_frac,Table VIII Panel B,0.0,0.0,True,
+TVIII,B:State Ownership,std,0.211,share_frac,Table VIII Panel B,0.21592659051869925,0.004926590518699259,True,
+TVIII,B:State Ownership,max,1.0,share_frac,Table VIII Panel B,0.7207759999999994,-0.2792240000000006,False,ALN-2
+TVIII,B:State Ownership,min,0.0,share_frac,Table VIII Panel B,0.0,0.0,True,
+TVIII,B:RPT Net Out Amt,mean,0.007,share_frac,Table VIII Panel B,-0.006449373036638807,-0.013449373036638807,True,
+TVIII,B:RPT Net Out Amt,median,0.0,share_frac,Table VIII Panel B,0.0,0.0,True,
+TVIII,B:RPT Net Out Amt,std,0.117,share_frac,Table VIII Panel B,0.12297184043044758,0.0059718404304475725,True,
+TVIII,B:RPT Net Out Amt,max,0.524,share_frac,Table VIII Panel B,0.562533358296716,0.038533358296716,False,ALN-2
+TVIII,B:RPT Net Out Amt,min,-0.475,share_frac,Table VIII Panel B,-0.5137059624055007,-0.03870596240550073,False,ALN-2
+TVIII,B:Small-Large,first,2.722,count,Table VIII Panel B: Small,2.5492794274107746,-0.17272057258922535,False,ALN-2
+TVIII,B:Small-Large,second,2.235,count,Table VIII Panel B: Large,2.0813513251140665,-0.15364867488593337,False,ALN-2
+TVIII,B:Small-Large,difference,0.487,coef,Table VIII Panel B,0.4679281022967081,-0.019071897703291874,True,
+TVIII,B:Small-Large,t,7.76,t,Table VIII Panel B,28.027200146306647,20.26720014630665,True,
+TVIII,B:Non-SOE minus SOE,first,2.845,count,Table VIII Panel B: Non-SOE,3.0975032996040475,0.25250329960404727,False,ALN-2
+TVIII,B:Non-SOE minus SOE,second,2.211,count,Table VIII Panel B: SOE,1.7898997942796468,-0.421100205720353,False,ALN-2
+TVIII,B:Non-SOE minus SOE,difference,0.699,coef,Table VIII Panel B (printed as SOE vs Non-SOE difference 0.699),1.3076035053244006,0.6086035053244007,True,
+TVIII,B:Non-SOE minus SOE,t,62.56,t,Table VIII Panel B,110.36717923424477,47.80717923424477,True,
+TIX,B:Stock-Level Turnover,mean,3.148,count,Table IX Panel B,3.0730162576150137,-0.0749837423849864,True,
+TIX,B:Stock-Level Turnover,median,2.487,count,Table IX Panel B,2.350505009581995,-0.13649499041800528,False,ALN-2
+TIX,B:Stock-Level Turnover,std,2.383,count,Table IX Panel B,2.5431243130994505,0.16012431309945052,False,ALN-2
+TIX,B:Stock-Level Turnover,min,0.271,count,Table IX Panel B,0.2431999290854055,-0.02780007091459452,False,ALN-2
+TIX,B:Stock-Level Turnover,max,12.178,count,Table IX Panel B,16.40256091977528,4.2245609197752785,False,ALN-2
+TIX,B:Market-Level AH Premium,mean,1.328,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed),,,,
+TIX,B:Market-Level AH Premium,median,0.843,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed),,,,
+TIX,B:Market-Level AH Premium,std,1.33,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed),,,,
+TIX,B:Market-Level AH Premium,min,0.062,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed),,,,
+TIX,B:Market-Level AH Premium,max,6.604,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed),,,,
+TX,G-Index-A,(1),1.445,coef,Table X Panel B,1.3258022386800066,-0.11919776131999349,True,
+TX,t(G-Index-A),(1),2.885,t,Table X Panel B,2.3458490410750112,-0.5391509589249885,False,ALN-4
+TX,R2 (%),(1),52.4,share_pct,Table X Panel B,50.65210346819009,-1.7478965318099071,True,
+TX,Observations,(1),36044.0,count,Table X Panel B,31705.0,-4339.0,False,ALN-4
+TX,AH Premium,(2),-14.024,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,t(AH Premium),(2),-2.335,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,R2 (%),(2),4.27,info,Table X Panel B; NOT PRODUCIBLE (AH premium column),,,,
+TX,Observations,(2),28251.0,info,Table X Panel B; NOT PRODUCIBLE (AH premium column),,,,
+TX,Stock-Level Turnover,(3),-2.475,coef,Table X Panel B,-1.1077210994600717,1.3672789005399284,True,
+TX,t(Stock-Level Turnover),(3),-3.866,t,Table X Panel B,-1.1764542658269108,2.6895457341730893,False,ALN-4
+TX,R2 (%),(3),52.33,share_pct,Table X Panel B,50.603739131323124,-1.7262608686768743,True,
+TX,Observations,(3),34386.0,count,Table X Panel B,32634.0,-1752.0,False,ALN-4
+TX,"ROA [-1, +1]",(4),0.869,coef,Table X Panel B,1.9844950551175669,1.1154950551175669,True,
+TX,"t(ROA [-1, +1])",(4),2.115,t,Table X Panel B,1.8044314300949076,-0.31056856990509263,False,ALN-4
+TX,R2 (%),(4),52.41,share_pct,Table X Panel B,39.23414183260211,-13.175858167397884,False,ALN-4
+TX,Observations,(4),36017.0,count,Table X Panel B,2364.0,-33653.0,False,ALN-4
+TX,G-Index-A,(5),1.358,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,t(G-Index-A),(5),2.556,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,AH Premium,(5),-0.951,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,t(AH Premium),(5),-0.304,info,Table X Panel B; NOT PRODUCIBLE: column uses the AH premium (H-share prices not subscribed),,,,
+TX,R2 (%),(5),53.67,info,Table X Panel B; NOT PRODUCIBLE (AH premium column),,,,
+TX,Observations,(5),28251.0,info,Table X Panel B; NOT PRODUCIBLE (AH premium column),,,,
+TX,G-Index-A,(6),1.359,coef,Table X Panel B,1.213167635440735,-0.14583236455926496,True,
+TX,t(G-Index-A),(6),2.795,t,Table X Panel B,1.910162521916293,-0.8848374780837069,False,ALN-4
+TX,Stock-Level Turnover,(6),-1.617,coef,Table X Panel B,-0.904458928771156,0.712541071228844,True,
+TX,t(Stock-Level Turnover),(6),-2.177,t,Table X Panel B,-0.9303405106299026,1.2466594893700975,False,ALN-4
+TX,R2 (%),(6),53.27,share_pct,Table X Panel B,50.66662617381811,-2.603373826181894,True,
+TX,Observations,(6),34406.0,count,Table X Panel B,31705.0,-2701.0,False,ALN-4
+TX,G-Index-A,(7),1.341,coef,Table X Panel B,2.71052936877084,1.3695293687708399,True,
+TX,t(G-Index-A),(7),2.355,t,Table X Panel B,1.0759419123519791,-1.2790580876480209,False,ALN-4
+TX,Stock-Level Turnover,(7),-1.568,coef,Table X Panel B,-1.5630133563642694,0.004986643635730648,True,
+TX,t(Stock-Level Turnover),(7),-1.892,t,Table X Panel B,-0.8368942843723762,1.0551057156276236,True,
+TX,"ROA [-1, +1]",(7),0.863,coef,Table X Panel B,2.048493208504501,1.185493208504501,True,
+TX,"t(ROA [-1, +1])",(7),2.093,t,Table X Panel B,1.888853386501969,-0.20414661349803098,False,ALN-4
+TX,R2 (%),(7),53.29,share_pct,Table X Panel B,39.272071459783106,-14.017928540216893,False,ALN-4
+TX,Observations,(7),34406.0,count,Table X Panel B,2364.0,-32042.0,False,ALN-4
+TX,G-Index-A,(8),0.914,coef,Table X Panel B,2.6635030388663803,1.7495030388663801,True,
+TX,t(G-Index-A),(8),1.906,t,Table X Panel B,1.1052354197586522,-0.8007645802413477,True,
+TX,Stock-Level Turnover,(8),-0.72,coef,Table X Panel B,-1.1324167773633151,-0.41241677736331517,True,
+TX,t(Stock-Level Turnover),(8),-0.902,t,Table X Panel B,-0.6379321403850724,0.2640678596149276,True,
+TX,"ROA [-1, +1]",(8),0.051,coef,Table X Panel B,1.589142868601273,1.538142868601273,True,
+TX,"t(ROA [-1, +1])",(8),0.133,t,Table X Panel B,1.5959150062675451,1.4629150062675451,True,
+TX,ROIC,(8),8.0,coef,Table X Panel B,8.891366144653517,0.8913661446535173,True,
+TX,t(ROIC),(8),8.013,t,Table X Panel B,3.0927700726497624,-4.9202299273502375,True,
+TX,R2 (%),(8),54.4,share_pct,Table X Panel B,41.038063546743295,-13.361936453256703,False,ALN-4
+TX,Observations,(8),31712.0,count,Table X Panel B,2358.0,-29354.0,False,ALN-4
+TXI,G-Index-A,(1),0.387,coef,Table XI Panel C,0.5517316728800096,0.16473167288000956,True,
+TXI,t(G-Index-A),(1),11.452,t,Table XI Panel C,5.982748483664604,-5.469251516335396,True,
+TXI,R2 (%),(1),12.52,share_pct,Table XI Panel C,15.432782583773886,2.912782583773886,True,
+TXI,Observations,(1),31085.0,count,Table XI Panel C,33989.0,2904.0,False,ALN-4
+TXI,G-Index-A,(2),0.448,coef,Table XI Panel C,0.7278268493767225,0.2798268493767225,True,
+TXI,t(G-Index-A),(2),4.812,t,Table XI Panel C,4.084246513418012,-0.7277534865819879,True,
+TXI,R2 (%),(2),10.23,share_pct,Table XI Panel C,8.80634562254351,-1.42365437745649,True,
+TXI,Observations,(2),29885.0,count,Table XI Panel C,33636.0,3751.0,False,ALN-4
+TXI,G-Index-A,(3),0.066,coef,Table XI Panel C,0.16570322477610253,0.09970322477610252,True,
+TXI,t(G-Index-A),(3),0.823,t,Table XI Panel C,1.4585647823092873,0.6355647823092874,True,
+TXI,R2 (%),(3),2.32,share_pct,Table XI Panel C,3.698287715299009,1.3782877152990092,True,
+TXI,Observations,(3),29885.0,count,Table XI Panel C,33636.0,3751.0,False,ALN-4
+TXI,G-Index-A,(4),0.136,coef,Table XI Panel C,0.2055278851576668,0.06952788515766678,True,
+TXI,t(G-Index-A),(4),1.782,t,Table XI Panel C,1.4337300973724867,-0.34826990262751334,True,
+TXI,R2 (%),(4),2.31,share_pct,Table XI Panel C,3.9488044480342266,1.6388044480342265,True,
+TXI,Observations,(4),19153.0,count,Table XI Panel C,21830.0,2677.0,False,ALN-4
+TXIII,A:RPT Amt Out,(1) coef,-0.026,coef,Table XIII,0.0012800283824682466,0.027280028382468246,False,ALN-5
+TXIII,A:RPT Amt Out,(1) t,-2.445,t,Table XIII,0.48725557175203393,2.9322555717520338,False,ALN-5
+TXIII,A:RPT Amt Out,(1) R2 (%),4.67,share_pct,Table XIII,3.084709535910135,-1.5852904640898648,True,
+TXIII,A:RPT Amt Out,(1) N,33028.0,count,Table XIII,32726.0,-302.0,True,
+TXIII,A:RPT Amt Out,(2) coef,0.001,coef,Table XIII,0.0008999822439850826,-0.00010001775601491743,True,
+TXIII,A:RPT Amt Out,(2) t,0.266,t,Table XIII,0.144618975700428,-0.12138102429957201,True,
+TXIII,A:RPT Amt Out,(2) R2 (%),17.66,share_pct,Table XIII,9.6788020511135,-7.9811979488865,False,ALN-5
+TXIII,A:RPT Amt Out,(2) N,2306.0,count,Table XIII,1786.0,-520.0,False,ALN-5
+TXIII,A:Stock Returns,(3) coef,1.588,coef,Table XIII,4.387180485786978,2.7991804857869775,True,
+TXIII,A:Stock Returns,(3) t,0.972,t,Table XIII,2.5294904587416878,1.5574904587416878,False,ALN-5
+TXIII,A:Stock Returns,(3) R2 (%),46.72,share_pct,Table XIII,51.72444471706965,5.004444717069653,False,ALN-5
+TXIII,A:Stock Returns,(3) N,38505.0,count,Table XIII,32651.0,-5854.0,False,ALN-5
+TXIII,A:Stock Returns,(4) coef,-0.954,coef,Table XIII,2.2048564630768612,3.1588564630768614,False,ALN-5
+TXIII,A:Stock Returns,(4) t,-0.609,t,Table XIII,0.7589941915949066,1.3679941915949065,True,
+TXIII,A:Stock Returns,(4) R2 (%),62.23,share_pct,Table XIII,58.89722791589895,-3.3327720841010446,False,ALN-5
+TXIII,A:Stock Returns,(4) N,2423.0,count,Table XIII,1794.0,-629.0,False,ALN-5
+TXIII,B:ROA,(1) coef,-0.006,coef,Table XIII,0.003920978284068598,0.009920978284068599,False,ALN-5
+TXIII,B:ROA,(1) t,-1.513,t,Table XIII,1.117905145620498,2.630905145620498,True,
+TXIII,B:ROA,(1) R2 (%),56.1,share_pct,Table XIII,41.79362499544117,-14.30637500455883,False,ALN-5
+TXIII,B:ROA,(1) N,2438.0,count,Table XIII,1795.0,-643.0,False,ALN-5
+TXIII,B:ROE,(2) coef,0.033,coef,Table XIII,-0.0038745310341427646,-0.03687453103414277,False,ALN-5
+TXIII,B:ROE,(2) t,0.372,t,Table XIII,-0.3662396532027617,-0.7382396532027617,True,
+TXIII,B:ROE,(2) R2 (%),1.92,share_pct,Table XIII,21.34238856684354,19.422388566843537,False,ALN-5
+TXIII,B:ROE,(2) N,2463.0,count,Table XIII,1772.0,-691.0,False,ALN-5
+TXIII,B:Net Income Growth,(3) coef,-0.041,coef,Table XIII,-0.09501590899003635,-0.05401590899003635,True,
+TXIII,B:Net Income Growth,(3) t,-0.592,t,Table XIII,-0.3655766650615617,0.22642333493843825,True,
+TXIII,B:Net Income Growth,(3) R2 (%),14.01,share_pct,Table XIII,5.4333327734128245,-8.576667226587176,False,ALN-5
+TXIII,B:Net Income Growth,(3) N,2463.0,count,Table XIII,1796.0,-667.0,False,ALN-5
+TXIII,B:Operating Cash Flows,(4) coef,-0.007,coef,Table XIII,-0.005433626579287458,0.0015663734207125423,True,
+TXIII,B:Operating Cash Flows,(4) t,-1.542,t,Table XIII,-0.9153746408803178,0.6266253591196822,True,
+TXIII,B:Operating Cash Flows,(4) R2 (%),32.2,share_pct,Table XIII,18.800212283237716,-13.399787716762287,False,ALN-5
+TXIII,B:Operating Cash Flows,(4) N,2162.0,count,Table XIII,1792.0,-370.0,False,ALN-5
+TXIII,B:Investment,(5) coef,0.007,coef,Table XIII,0.005872201106000228,-0.001127798893999772,True,
+TXIII,B:Investment,(5) t,1.552,t,Table XIII,1.3328453219536678,-0.21915467804633226,True,
+TXIII,B:Investment,(5) R2 (%),58.41,share_pct,Table XIII,28.736726695576476,-29.67327330442352,False,ALN-5
+TXIII,B:Investment,(5) N,2451.0,count,Table XIII,1795.0,-656.0,False,ALN-5
+TXIII,B:Net Cash Flows,(6) coef,-0.008,coef,Table XIII,-0.01178547890512465,-0.0037854789051246507,True,
+TXIII,B:Net Cash Flows,(6) t,-1.637,t,Table XIII,-4.102371701342759,-2.4653717013427587,False,ALN-5
+TXIII,B:Net Cash Flows,(6) R2 (%),9.48,share_pct,Table XIII,8.500005224013506,-0.9799947759864942,True,
+TXIII,B:Net Cash Flows,(6) N,2162.0,count,Table XIII,1792.0,-370.0,False,ALN-5
+TXIII,matched,cross_listed_firms,99.0,count,Table XIII note / section III.D.2 text (99 A+H firms),111.0,12.0,False,ALN-5
+F1-2,BHR_end,all,1.01,count,Figure 1 / section I.B text: RMB 1 -> 1.01 real by 2018,1.7638815841410187,0.7538815841410187,False,ALN-6
+F1-2,BHR_end,small,,info,"Figure 2 (plot only, no printed value; user visual check)",9.255880558462602,,,
+F1-2,BHR_end,medium,,info,"Figure 2 (plot only, no printed value; user visual check)",3.0747663600543786,,,
+F1-2,BHR_end,large,,info,"Figure 2 (plot only, no printed value; user visual check)",1.5723221567880212,,,
+F4,ST,firms_first_st_in_period,572.0,count,Section III.A.2 text: 572 firms received ST status 2000-2018,606.0,34.0,False,ALN-7
+F4,ST,permanent_st_firms,65.0,count,Section III.A.2 text: 65 permanent ST firms,80.0,15.0,False,ALN-7
+F4,year-5,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",0.03792415616234736,,,
+F4,year-4,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",0.028099643599123793,,,
+F4,year-3,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",0.035954910234885264,,,
+F4,year-2,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",-0.02491840187768046,,,
+F4,year-1,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",-0.0753086604256194,,,
+F4,year0,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)",-0.021062562989715747,,,
+F5,average,investment_pct,4.4,pct_annual,Section III.A.3 text: A-share value-weighted investment around 4.4% per year (scored with the 1.2-point annual rule),4.681442882438076,0.2814428824380757,True,
+F5,average,ncf_pct,1.5,pct_annual,Section III.A.3 text: A-share value-weighted net cash flows 1.5%,1.2034657889896028,-0.29653421101039723,True,
+S3A2,delistings,avg_per_year,5.0,count,Section III.A.2 text: on average only five stocks delisted per year,6.157894736842105,1.1578947368421053,False,ALN-7
+S3A2,delistings,avg_pct_of_listed,2.7,info,"Section III.A.2 text: '(or 2.7%)' - cannot be a share of listed firms (5 of ~2,000 is 0.25%); reported, not scored",0.3557786935041732,-2.344221306495827,,
+S3A2,delistings,share_poor_performance_pct,50.0,upper_bound,Section III.A.2 text: less than half of delistings due to poor performance,55.55555555555556,5.555555555555557,False,ALN-7

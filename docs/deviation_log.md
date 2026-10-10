@@ -27,6 +27,13 @@ caveats that may cause future deviations are listed too, marked **caveat**.
 | LSY-7 | deviation | Tables 6–10 and section 6–7 text: anomalies, reversal, CH-4 summary |
 | LSY-8 | resolved | Table 4 text: industry portfolios (Shenyin-Wanguo not available) |
 | LSY-9 | resolved | Section 5.3 text: FF-5 comparison |
+| ALN-1 | deviation | Allen Table I: SOE counts (controller file from 2003) and average assets |
+| ALN-2 | partly resolved | Allen Tables VIII-IX: governance components, G-indices, turnover |
+| ALN-3 | resolved | Allen RPT measure: which related-party transactions count as cash outflows |
+| ALN-4 | deviation | Allen Tables X-XI: return and operating-performance regressions |
+| ALN-5 | deviation | Allen Table XIII: cross-listed firms |
+| ALN-6 | deviation | Allen Figure 1: real buy-and-hold value of RMB 1 |
+| ALN-7 | deviation | Allen Figures 4-5 and section III.A.2: ST firms, delistings, investment |
 
 LSY numbers are scored in `results/lsy_comparison.csv` (regenerate with
 `python -m replication.lsy`). The `deviation` column there points to the entries below.
@@ -364,3 +371,150 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     administrative - financial expenses) / book equity.
   - Result: p 0.96 and p 7.6e-7. Both printed conclusions are reproduced; corr(RMW, VMG) is
     0.77. Adopted in `factors.ff5`.
+
+## ALN-1 Allen Table I (deviation)
+
+Comparison: `results/allen_comparison.csv`, table TI.
+
+- **Listed firms:** all 19 years are within 3%; the unique-firm count is 3,668 vs 3,695.
+- **SOE counts:**
+  - CSMAR's actual-controller file (HLD_Contrshr) starts in 2003, so 2000–2002 have no
+    SOE flag.
+  - SOE = controller nature 1100 (SOE), 2000 (government agency), 2100 (central SASAC /
+    MoF) or 2120 (local SASAC), following the paper's definition.
+  - 2003–2014 come out 6–13% above the printed counts; 2015–2017 come out 8–9% below.
+  - The printed series jumps from 879 to 1,081 in 2015 while ours moves smoothly. The 2018
+    SOE share matches: 30.0% vs 30.0%.
+  - Round 1 (codes 2xxx only: government controllers only): 2003–2014 within -1% to -9%,
+    but 2015–2018 between -11% and -21%. Round 2 (1100 + 2100 + 2120, without government
+    agencies): +2% to +9% and -11% to -4%. Neither set matches every year. The literal
+    definition is kept.
+- **Average assets ($ bn, winsorized 1%/99%):**
+  - 2000–2002 match exactly (0.24, 0.32, 0.42). Later years run 8–25% high, e.g. 2018
+    3.18 vs 2.78.
+  - Round 1, per-year winsorization: 2003–2009 too low, 2015–2018 even higher.
+  - Round 2, non-financial firms only: 2009–2018 25–35% too low.
+  - The printed values lie between all-firm and non-financial averages. Most likely
+    cause: a different treatment of large financial firms, or a different FX conversion
+    (we use FRED's annual average CNY/USD).
+
+## ALN-2 Allen Tables VIII–IX: governance and turnover (partly resolved)
+
+- **Matched closely:**
+  - Ownership concentration (top-5 holdings, HLD_CR): mean / median / sd 0.538 / 0.544 /
+    0.157 vs 0.539 / 0.546 / 0.152.
+  - State ownership: 0.115 / 0 / 0.211 vs 0.116 / 0 / 0.211.
+  - Executive holdings: 0.089 / 0.000 / 0.176 vs 0.104 / 0.001 / 0.186.
+  - CEO duality: 0.224 vs 0.208.
+  - Turnover: mean 3.07 vs 3.148.
+- **Rounds:**
+  1. Board size: directors alone give a median of 9. The printed mean 16.8 / max 54 is the
+     full governance team (directors, supervisors, senior managers: `TotalNumber`), which
+     gives 16.8 / 16. Adopted. Board size is no longer winsorized (printed min 1, max 54).
+  2. Panel A means: value-weighting every component gives ownership concentration 0.634
+     vs printed 0.539. The equal-weighted mean (0.538) matches, so only G-Index-I is
+     value-weighted, as the caption says.
+  3. G-Index-I ties: executive holdings have a mass point at zero (p30 = 0). The strict
+     reading of "between p30 and p70" (lo < x <= hi) is used: mean 2.60 / median 3 vs
+     printed 2.271 / 2.
+  4. Missing components before 2003: ownership concentration and state holdings come from
+     shareholder lists that start in 2003. As lighthouse 5.2 requires, the G-indices are
+     then the sum of the remaining components.
+- **Result:**
+  - G-Index-A: mean 2.39, sd 1.27 vs printed 2.482, 1.181.
+  - Small vs large: 2.55 vs 2.08 against printed 2.722 vs 2.235. The difference (0.47 vs
+    0.487) and the t band match.
+  - SOE vs non-SOE: 1.79 vs 3.10 against printed 2.211 vs 2.845. Our gap is larger because
+    the state-holdings < 40% component correlates with our SOE flag.
+- **Turnover distribution:** median 2.35 vs 2.487, sd 2.54 vs 2.383, max 16.4 vs 12.18.
+  Shares outstanding = total A shares (Appendix A); circulating shares give a mean of 5.3.
+- **AH premium:** NYU's CSMAR subscription has no Hong Kong stock or AH-ratio tables (checked
+  2026-10-09), so it is not producible (lighthouse 5.2: then only turnover).
+
+## ALN-3 Allen RPT measure (resolved)
+
+Allen's text calls it "loan-based RPTs". The printed Table VIII Panel B statistics (RPT net
+out: mean 0.007, sd 0.117, min -0.475, max 0.524) were the test.
+
+- Round 1, funds transactions only (Repat 05): sd 0.054, range -0.33..0.18. Too narrow.
+- Round 2, funds + guarantees: sd 0.160, mean -0.053. Too wide.
+- Round 3, every cash-settled category with the cash direction set per category: buying
+  goods/assets/services/leases/equity/debt and lending funds are outflows; the opposite
+  positions are inflows.
+  - Result: sd 0.123, range -0.51..0.56.
+  - Independent check: the G-Index-A mean moves from 2.80 (round 1) to 2.50 and the median
+    to 2, against printed 2.482 and 2.
+  - Adopted for Table VIII and the G-Index-A (`rpt_flows("cash_by_category")`).
+- Table XIII's "RPT Amt Out" is explicitly "cash outflows from loan-based transactions", so
+  it uses the funds-only outflow (`rpt_loan_out`).
+
+## ALN-4 Allen Tables X–XI: regressions (deviation)
+
+The specification follows the authors' SAS code:
+- WLS weighted by lagged market cap;
+- controls: lagged log assets, leverage, ROA, sales growth, log firm age and return
+  volatility;
+- year, CSRC-industry and province fixed effects;
+- standard errors clustered by industry and year.
+
+Results:
+- **Table X Panel B:**
+  - G-Index-A: 1.33 vs 1.445 (t 2.35 vs 2.885).
+  - Turnover: -1.11 vs -2.475 (t -1.18 vs -3.87).
+  - Signs match in every column. Our t-statistics are smaller.
+  - N: 31,705 vs 36,044. Ours drops firm-years without lagged returns or controls.
+- **ROA[-1,+1]:** needs pre-IPO financials. CSMAR has the prospectus year for only 1,099
+  firms, mostly recent IPOs; Allen used Worldscope pre-IPO data. Columns (4), (7) and (8)
+  therefore have about 2,360 observations instead of about 34,000.
+- **Two-way clustering:** in the ROA[-1,+1] columns the two-way variance was negative (NaN
+  t). It now falls back to the larger one-way variance (Cameron, Gelbach and Miller 2011).
+- **Table XI Panel C:** all signs and t-bands match (12 of 16 pass). Coefficients are
+  1.4–2.5 times the printed ones. N is 34,000 vs 31,000 (the G-indices now cover 2000–2002).
+- **Not producible:** columns (2) and (5), which need the AH premium.
+
+## ALN-5 Allen Table XIII (deviation)
+
+- **Matching:** A+H cross-listed firms come from TRD_Co's H-share cross code: 111 matched
+  vs 99 printed. Each is matched with the non-cross-listed firm in the same CSRC industry
+  with the closest assets in the listing year (the authors' SAS logic).
+- **RPT Amt Out, full sample:** ours 0.001 (t 0.49) vs printed -0.026 (t -2.445). The
+  printed coefficient implies a much larger scale of loan outflows than CSMAR's funds
+  transactions give.
+- **Matched-sample returns and performance:** mostly insignificant in both. Several signs
+  differ for near-zero coefficients (ROA -0.006 vs ours 0.004, ROE 0.033 vs -0.004).
+- **NCF:** -0.012 (t -4.10) vs -0.008 (t -1.64).
+- Not investigated further: the printed results are mostly insignificant, so these sign
+  flips are not economically meaningful; the source-data differences are documented in
+  ALN-3 and ALN-4.
+
+## ALN-6 Allen Figure 1 (deviation)
+
+- RMB 1 invested in the value-weighted A-share market in 2000 is worth 1.76 in real terms
+  at the end of 2018 vs the printed 1.01.
+- Round 1, summed rather than compounded monthly returns: 2.22.
+- Round 2, circulating-cap weights: 2.32.
+- Round 3, no winsorization: nominal 2.77, real 1.82.
+- Cross-check: the SSE Composite price index rose about 1.8-fold over 2000–2018; with
+  roughly 1% a year of dividends and CPI growth of 1.52, that implies about 1.4 in real
+  terms. Our 1.76 is consistent with this; 1.01 is not.
+- Most likely cause: the paper's return source (CAFR to 2013, WIND after) or its CPI
+  adjustment. The size ordering of Figure 2 (small 9.3, medium 3.1, large 1.6) and the
+  large-cap underperformance are reproduced.
+
+## ALN-7 Allen Figures 4–5 and section III.A.2 (deviation)
+
+- **Figure 4:**
+  - First-time ST firms 2000–2018: 606 vs 572 (+6%).
+  - Permanent ST firms: "still ST at the end of 2018" plus footnote 21's five years of
+    prior financials gives 80 vs 65. The stricter "never re-emerged" reading gives 43.
+  - The ROA path is reproduced: positive in years -5 to -3 (0.038, 0.028, 0.036), negative
+    from -2 (-0.025, -0.075, -0.021).
+- **Figure 5:** average assets-weighted investment 4.68% (printed 4.4%) and net cash flows
+  1.20% (printed 1.5%), both within tolerance.
+- **Delistings:**
+  - 6.2 per year vs "about five".
+  - CSMAR codes most terminations with a generic reason, so a delisting counts as poor
+    performance if the stock was ST/*ST/PT or suspended when delisted: 56% vs "less than
+    half".
+  - The printed "(or 2.7%)" cannot be a share of listed firms (five of about 2,000 is
+    0.25%); it is reported, not scored.

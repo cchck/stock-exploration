@@ -1,0 +1,7 @@
+table,segment,start,end,row,col,value,k
+F4,extended,2019-01,2025-12,year-5,roa_weighted,0.021099421299109942,-5
+F4,extended,2019-01,2025-12,year-4,roa_weighted,0.024812046861474063,-4
+F4,extended,2019-01,2025-12,year-3,roa_weighted,0.010792560354332391,-3
+F4,extended,2019-01,2025-12,year-2,roa_weighted,-0.020507449716034368,-2
+F4,extended,2019-01,2025-12,year-1,roa_weighted,-0.1163182658486036,-1
+F4,extended,2019-01,2025-12,year0,roa_weighted,-0.07294463498894513,0
