@@ -370,188 +370,226 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     (2015) and Guo et al.
   - Change: RMW from annual operating profitability = (revenue - COGS - selling -
     administrative - financial expenses) / book equity.
-  - Result: p 0.96 and p## ALN-0 Allen review fixes that changed many numbers (2026-10-10)
+  - Result: p 0.96 and p## ALN-0 Allen review fixes (2026-10-10, two review rounds)
 
-The milestone 1.3 guard failed the first version. The fixes, which apply to every ALN
-entry below:
+The milestone 1.3 guard failed twice. The fixes below apply to every ALN entry. All
+numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
 
-1. **Figure 1–2 start month.** Lighthouse 3.1 prescribes monthly from 2000-12 to 2018-12;
-   the first version compounded from 2000-01. Corrected, the 2018 value is 1.10, not 1.76
-   (ALN-6).
-2. **Winsorization within each segment.** It had been pooled over 1990–2026; it is now
-   done separately for each sample segment, levels and lags. As a result:
-   - turnover max 16.4 becomes 11.95 (paper 12.18);
-   - 2018 average assets 3.18 becomes 2.87 (paper 2.78).
-3. **A shares only for ST and delistings.** B-share tickers had been counted:
-   - first-ST firms: 606 becomes 562 (paper 572);
-   - delistings: 6.2 a year becomes 5.3 (paper about 5).
-4. **Province fixed effects in Table XIII**, as printed and in Table13.sas.
-5. **Clustering as in the SAS code.** "cluster Industry1 fyear" with Industry1 = CSRC
-   industry letter (SAS notes). In PROC SURVEYREG, several CLUSTER variables define clusters
-   as their combinations, so the clusters are industry-letter by year cells. Fixed effects
-   stay at the CSRC two-digit level (IndNumeric1-80).
-6. **SOE flag.** Any of a firm-year's controller rows with a state code, comma-joined code
-   lists included, makes it SOE. A reported "no controller" counts as non-SOE.
-7. **Data definitions.**
-   - Missing executive holdings stay missing (not zero).
-   - RPT amounts are restricted to RMB and non-negative values.
-   - ROIC uses the previous year's invested capital.
-   - Return volatility comes from daily returns (Appendix A).
-   - Cross-listing is time-varying: H shares outstanding at the year end.
-8. **Scoring.** Coefficients in return units (Table X; Table XIII returns) use the
-   annualized return rule (1.2 points); investment / NCF levels use the 3-point proportion
-   rule.
+- **First review:**
+  1. Figures 1–2 compounded from 2000-01; lighthouse 3.1 prescribes 2000-12..2018-12.
+  2. Winsorization was pooled over 1990–2026; it is now done within each segment.
+  3. ST and delisting counts included B shares; they are now A shares only.
+  4. Table XIII lacked the province fixed effects.
+  5. Clustering was not as in the SAS code. It is now SAS "cluster Industry1 fyear":
+     Industry1 is the CSRC letter, and SURVEYREG forms clusters from the combinations of
+     the CLUSTER variables, i.e. industry-letter by year cells.
+  6. SOE flag: year-end controller rows; comma-joined codes are handled.
+  7. Missing executive holdings stay missing; RPT amounts are RMB and non-negative only;
+     ROIC uses lagged capital; volatility comes from daily returns; cross-listing is
+     time-varying (H shares outstanding).
+- **Second review:**
+  8. Winsorization follows the lists in Winsorize.sas: 1%/99% for the variables named
+     there and their lags, including the lagged market-cap weight, log size and log firm
+     age; then lagged sales growth and NCF at 5%/95%. Not winsorized, because they are not
+     in the lists: board size, state holdings, CEO duality, ROE. One addition: net-income
+     growth (see ALN-5).
+  9. Sales growth uses the current-year denominator (Appendix A). Revenue falls back to
+     total operating revenue, which financial firms report.
+  10. Table XIII matching uses information up to the segment end only. Before, a later H
+      listing could make a firm "cross-listed" in 2000–2018 (look-ahead).
+  11. ROA[-1,+1] covers only IPOs whose year +1 lies in the segment, and is winsorized
+      within it.
+  12. Scoring:
+      - coefficients in return units: annualized return rule (1.2 points);
+      - group differences and footnote 32's gaps: relative 3%;
+      - investment / NCF / OCF / dividend-yield levels: 3-point proportion rule.
+      The proportion rule and the relative rule for non-count statistics are extensions of
+      lighthouse 3.3, which has no rule for continuous descriptive statistics. Their use is
+      up to the user (benchmark 1.3.2).
 
 ## ALN-1 Allen Table I (deviation)
 
 - **Listed firms:** all 19 years are within 3%; the unique-firm count is 3,668 vs 3,695.
 - **SOE counts:**
   - 2000–2002 are not producible: the controller file starts in 2003.
-  - 2003–2014 are 9–15% above the printed counts; 2015–2017 are 6–8% below; 2018 is
-    1,082 vs 1,078.
-  - The printed series jumps from 879 to 1,081 in 2015; ours is smooth.
-  - Rounds 1–2 (code sets without government agencies or without SOE-enterprise
-    controllers) improved some years and worsened others. The literal definition is kept.
+  - 2003–2014 are 10–19% above the printed counts (2005: 933 vs 784, +19%).
+  - 2015–2017 are 6–8% below; 2018 is 1,082 vs 1,078.
+  - The printed series jumps by 23% in 2015 (879 to 1,081) while ours moves by 0.5%.
+  - Rounds:
+    1. Government controllers only (2xxx codes): 2003–2014 within -1% to -9%, but
+       2015–2018 between -11% and -21%.
+    2. Without government agencies (1100 + 2100 + 2120): +2% to +9% in 2003–2014, -4% to
+       -11% after.
+    3. Year-end rows only, any row with a state code: the current numbers.
+  - Most likely cause: the paper's SOE source (WIND "ultimate controller", per the Table I
+    note) reclassifies firms differently, e.g. the break in 2015, which is not in CSMAR's
+    controller file.
 - **Average assets ($ bn):**
-  - 2000–2002 match.
-  - After per-segment winsorization, the 2018 value is 2.87 vs 2.78 (+3%) and 2015 is 2.51
-    vs 2.38 (+5%). The unique-firm average is 1.82 vs 1.59.
+  - 2000–2003 match.
+  - 2004–2018 are 3–8% above the printed values (2018: 2.87 vs 2.78); the unique-firm
+    average is 1.82 vs 1.59.
   - Rounds:
     1. Per-year winsorization: worse.
-    2. Non-financial firms only: 30% too low.
-    3. Per-segment winsorization: adopted, as above.
+    2. Non-financial firms only: about 30% too low.
+    3. Winsorization within the segment: the current numbers.
+  - Most likely cause: a different treatment of the largest (financial) firms. The printed
+    values lie between all-firm and non-financial averages.
 
 ## ALN-2 Allen Tables VIII–IX: governance and turnover (partly resolved)
 
 - **Within tolerance:**
   - CEO duality: 0.211 vs 0.208.
   - Ownership concentration: 0.530 / 0.533 / 0.154 vs 0.539 / 0.546 / 0.152.
-  - Executive holdings: 0.079 vs 0.104 (3-point rule).
-  - Board size: 16.9 / 16 / 4.04, min 1, max 54 vs 16.8 / 16 / 4.029 / 1 / 54.
-  - State ownership: 0.126 vs 0.116.
-  - Turnover mean: 3.05 vs 3.148; max 11.95 vs 12.18.
+  - Executive holdings: 0.079 vs 0.104.
+  - Board size: 16.9 / 16 / 4.04, range 1–54, vs 16.8 / 16 / 4.029, range 1–54.
+  - State ownership: 0.126 / 0 / 0.218 vs 0.116 / 0 / 0.211.
+  - RPT net out: -0.007 / 0 / 0.127 vs 0.007 / 0 / 0.117.
+  - Turnover: mean 3.05 vs 3.148; max 11.95 vs 12.18.
+  - G-Index-A small-large difference: 0.480 vs 0.487.
 - **Rounds:**
   1. Board size = directors + supervisors + senior managers (`TotalNumber`). Directors
-     alone have a median of 9; the full count reproduces 16.8 / 16.
+     alone have a median of 9.
   2. Panel A means: only G-Index-I is value-weighted. Value-weighting every component gives
-     ownership concentration 0.634.
-  3. G-Index-I ties follow the caption (middle band includes the percentiles), except
-     executive holdings, whose mass point at zero (p30 = 0) would otherwise give a point to
-     every firm with zero holdings.
-  4. Missing components before 2003 (ownership lists): the index is the sum of the
-     remaining components (lighthouse 5.2).
-  5. State holdings by holder nature (国家 / 国有法人 holders) instead of share type.
-     - Rationale (review): share-type state shares shrink after the split-share reform even
-       for SOEs.
-     - Result: mean 0.395 / median 0.422 vs printed 0.116 / 0, and the G-Index-A mean fell
-       to 2.06.
-     - The share-type measure (0.126 / 0 / 0.211 vs 0.116 / 0 / 0.211) is therefore what
-       the paper used. It is kept, with the post-reform shrinkage as a known property of the
-       paper's own measure.
-- **Remaining:**
-  - G-Index-A: mean 2.39 vs 2.482 (relative 3% rule: miss, -3.5%); median 2 vs 2; sd 1.28
-    vs 1.181.
-  - G-Index-I value-weighted: mean 2.66 vs 2.271, median 3 vs 2.
-  - SOE vs non-SOE G-Index-A: 1.79 vs 3.07 against printed 2.211 vs 2.845. The difference
-    1.27 vs 0.699 comes from the state-holdings component (SOEs held state shares before
-    the reform).
+     ownership concentration 0.63.
+  3. G-Index-I ties follow the caption, except executive holdings, whose mass point at
+     zero would otherwise give a point to every firm with zero holdings.
+  4. Missing components before 2003: the index is the sum of the remaining components
+     (lighthouse 5.2).
+  5. State holdings by holder nature (国家 / 国有法人 holders): mean 0.395 / median 0.422
+     vs printed 0.116 / 0.
+     - The share-type measure is therefore what the paper used, and it is kept.
+     - Its known property: it falls towards zero after the split-share reform even for
+       SOEs. This drives the SOE vs non-SOE gap (ours 1.79 vs 3.08, printed 2.211 vs 2.845,
+       difference 1.28 vs 0.699).
+- **Remaining misses:**
+  - G-Index-A: mean 2.39 vs 2.482 (-3.5%), sd 1.28 vs 1.181; median 2 = 2.
+  - Small / large levels: 2.56 / 2.08 vs 2.722 / 2.235 (both 6% low; the difference
+    matches).
+  - G-Index-I (value-weighted): 2.79 vs 2.271, median 3 vs 2.
+  - Extremes:
+    - state-ownership max 0.922 vs 1 (no top-10 list in CSMAR sums to 100% state
+      shares);
+    - RPT net out max / min 0.590 / -0.573 vs 0.524 / -0.475 (the winsorization tail is
+      set by our own RPT distribution, ALN-3).
+  - Turnover: median 2.35 vs 2.487, sd 2.47 vs 2.383, min 0.20 vs 0.271.
+    - Round 1: circulating shares as denominator gives a mean of 5.3, which is worse.
+    - Round 2: the SAS winsorization list: the max now matches, the median does not.
+    - Most likely cause: CSMAR vs WIND trading volume in the reform years.
 - **AH premium:** not producible (no Hong Kong data in NYU's subscription).
 
 ## ALN-3 Allen RPT measure (resolved)
 
-Unchanged from the first version. The funds-only "loan" reading gives sd 0.054; every
-cash-settled category with the cash direction set per category gives sd 0.127 and a range
--0.57..0.59 against printed 0.117 and -0.475..0.524. The G-Index-A mean then matches best.
-Table XIII uses the loan-only outflow, as its text says.
+- Funds-only "loan" reading: sd 0.054, which is far too narrow.
+- Every cash-settled category, with the cash direction set per category: sd 0.127 and a
+  range of -0.57..0.59, against printed 0.117 and -0.475..0.524.
+- The G-Index-A mean then matches best (2.39 vs 2.80 with loans only; printed 2.482).
+- Table XIII's "RPT Amt Out" is described as loan-based, so it uses the funds-only
+  outflow.
 
 ## ALN-4 Allen Tables X–XI (deviation)
 
-- **Table X col (1):** G-Index-A 1.447 vs printed 1.445.
-- **Clustering rounds**, t of G-Index-A in col (1) (printed 2.885) and col (6) (printed
-  2.795):
-
-  | Clustering | col (1) | col (6) |
-  |---|---|---|
-  | Industry letter × year cells (SAS spec, adopted) | 2.29 | 2.12 |
-  | Letter, two-way | 3.13 | 2.78 |
-  | Two-digit industry, two-way | 2.41 | 2.16 |
-  | Two-digit × year cells | 2.98 | 2.83 |
-
-  The SAS specification is kept even though another fits better.
-- **Turnover:** -0.59 (t -0.82) vs -2.475 (-3.87).
-  - Round 1: total vs circulating shares in the denominator. Circulating shares give mean
-    turnover 5.3 vs printed 3.148, so total is kept.
-  - Round 2: per-segment winsorization. The turnover coefficient stays small.
-  - Not resolved. Most likely cause: CSMAR vs WIND turnover in the 2006–2009 reform years,
-    when tradable shares changed.
-- **ROA[-1,+1]:** CSMAR has pre-IPO financials for only 1,099 firms. Columns (4), (7) and
-  (8) have about 2,360 observations vs about 34,000 printed (data limit; Allen used
-  Worldscope pre-IPO data).
-- **Table XI Panel C:** 10 of 16 pass. Signs agree in every column. The coefficients run
-  above the printed ones (0.57 vs 0.387 in col (1)).
+- **Table X, original segment** (printed in brackets):
+  - G-Index-A col (1): 1.085, t 1.90 (1.445, 2.885).
+  - Turnover col (3): -0.80, t -1.33 (-2.475, -3.87).
+  - R² about 50% (52%).
+  - N 30,256 (36,044).
+- **Rounds on G-Index-A col (1):**
+  1. The first version (incomplete winsorization) gave 1.447. With the SAS winsorization
+     lists it is 1.085. The close match was an artifact of the winsorization choice.
+  2. Clustering (with the first version's data): letter × year cells 2.29, letter two-way
+     3.13, two-digit two-way 2.41, two-digit × year cells 2.98. The SAS specification
+     (cells) is kept.
+  3. SOE and ST controls, named in the caption but absent from Table10.sas: 1.20 (t 2.16)
+     with N 27,296, because there are no SOE flags before 2003. The SAS specification (no
+     SOE / ST) is kept, as the paper's own code.
+- **N gap** (36,044 vs 30,256): of 38,453 firm-years, the missing values are
+  - lagged G-Index-A 4,874;
+  - lagged sales growth 5,163 (needs two consecutive annual reports);
+  - lagged daily volatility 4,564 (needs 60 trading days in the previous year);
+  - lagged market cap 2,879.
+  The paper keeps more firm-years. Its WIND sample likely fills lagged values that CSMAR
+  leaves missing in IPO years. Not resolved.
+- **ROA[-1,+1] columns (4), (7), (8):**
+  - CSMAR has pre-IPO financials for only 1,033 firms, so N is 2,408–2,413 vs about
+    34,000.
+  - These columns are a different, IPO-heavy sample. Their coefficients (e.g. ROIC 13.3 vs
+    8.0; turnover -3.6 vs -1.57 in col (7)) are not comparable.
+- **Table XI Panel C:**
+  - Signs agree in all four columns.
+  - Coefficients are above the printed ones: 0.56 vs 0.387 in col (1), 0.14 vs 0.066 in
+    col (3).
+  - NCF t is 2.00 vs 0.82, so our cols (3)–(4) are significant where the paper's are not.
+  - N 32,936 vs 31,085: the indices cover 2000–2002 via the remaining components.
 
 ## ALN-5 Allen Table XIII (deviation)
 
-- Rounds:
+- **Rounds:**
   1. Province FE added.
-  2. Matching on CSRC letter, keeping unmatched cross-listed firms, matched on the full
-     panel because the listing year can precede 2000. The matched sample N is 2,138–2,193
-     vs printed 2,162–2,463.
-  3. Time-varying H-share flag: 111 matched cross-listed firms vs 99.
+  2. Matching on the CSRC letter, keeping unmatched cross-listed firms, using information
+     up to the segment end only.
+  3. Time-varying H-share flag: 111 cross-listed firms vs 99. The matched-sample N is
+     1,835–2,024 vs printed 2,162–2,463.
 - **Result:**
-  - RPT Amt Out, full sample: 0.003 (t 2.24) vs -0.026 (t -2.445), opposite sign. The
-    printed scale of loan outflows is larger than what CSMAR's funds transactions give.
-  - Matched sample:
-    - RPT 0.001 vs 0.001;
-    - returns 2.04 vs -0.95, both insignificant;
-    - NCF -0.015 vs -0.008;
-    - ROA -0.010 vs -0.006.
-  - Signs agree for 6 of the 10 coefficients. Our t-statistics are larger with the
-    letter × year clusters.
+  - RPT Amt Out, full sample: 0.003 (t 2.58) vs -0.026 (-2.445), opposite sign. The
+    printed scale of loan outflows is larger than CSMAR's funds transactions.
+  - Matched sample: 6 of the 10 coefficients agree in sign. The four that disagree are RPT
+    (1), RPT (2), returns (4) and ROE.
+  - NCF -0.021 (t -3.90) vs -0.008 (-1.64).
+- **Net-income growth:** a ratio over last year's net income, which can be near zero.
+  - Unwinsorized (as in the SAS lists) its coefficient is -3.1 vs printed -0.041; at
+    1%/99% it is -0.263 (t -1.07).
+  - Winsorized, as the one addition to the SAS lists.
 
 ## ALN-6 Allen Figure 1 (partly resolved)
 
-- Round 0 (guard): the lighthouse start month, 2000-12. The 2018 value is 1.10 vs printed
-  1.01; the first version's 1.76 came from compounding 2000.
-- Earlier rounds (with the wrong start): summed returns, circulating-cap weights and no
-  winsorization did not explain the gap.
-- The remaining 9% (outside the relative 3% rule) is attributed to the return source
-  (CAFR/WIND vs CSMAR).
-- Figure 2: small 4.31, medium 1.70, large 1.08. The small-cap outperformance and
-  large-cap underperformance are reproduced.
+- With the lighthouse start month 2000-12, the 2018 value is 1.10 vs printed 1.01 (+9%).
+  The first version's 1.76 came from compounding 2000.
+- Rounds with the wrong start (summed returns, circulating-cap weights, no winsorization)
+  did not explain the gap. The remaining 9% is attributed to the return source (CAFR / WIND
+  vs CSMAR).
+- Figure 2: small 4.31, medium 1.70, large 1.08. The small-cap outperformance and large-cap
+  underperformance are reproduced.
 
 ## ALN-7 Allen Figures 4–5 and section III.A.2 (deviation)
 
 - **ST firms:** first-time ST firms 2000–2018: 562 vs 572 (within 3%).
-- **Permanent ST:** still ST at the end of 2018, plus footnote 21's five prior years of
-  financials: 78 vs 65.
-  - Round 1, "never re-emerged": 43.
-  - Round 2, no financial-history requirement: 86.
-  - Neither matches; the literal definition is kept.
+- **Permanent ST:** 78 vs 65.
+  - Round 1, never re-emerged: 43.
+  - Round 2, still ST at the end of 2018 without the financial-history requirement: 86.
+  - Round 3, the literal rule plus footnote 21's five prior years: 78, kept.
 - **Figure 4:** the ROA path is reproduced: positive in -5..-3, negative from -2.
-- **Figure 5:** investment 4.9% vs 4.4% and NCF 1.2% vs 1.5%, both within the 3-point
-  proportion rule.
+- **Figure 5:** investment 4.9% vs 4.4%, NCF 1.1% vs 1.5%. The unique firms with non-missing
+  investment / NCF / assets are 3,569 vs 3,695 (-3.4%).
 - **Delistings:**
-  - 5.3 per year vs "about five" (+6%, outside the 3% count rule).
+  - 5.3 per year vs "about five".
+    - Round 1: A shares only (was 6.2 with B shares).
+    - Round 2: terminations from the listing-status file, which CSMAR records at the
+      termination date. Gives 101 A-share terminations in 2000–2018.
+    - The remaining +6% is outside the 3% count rule for a printed "about five".
   - Poor-performance share 57% vs "less than half".
-  - Round 1, reason codes: CSMAR uses a generic code for most terminations, so it gives
-    4%.
-  - Round 2, ST/*ST/PT or suspended at delisting: 57%. Kept.
-  - The printed "(or 2.7%)" is reported, not scored.
+    - Round 1, reason codes: 4% (CSMAR uses a generic code for most).
+    - Round 2, ST / *ST / PT or suspended at delisting: 57%, kept.
+  - The printed "(or 2.7%)" is inconsistent with "five stocks a year" (five of about 1,700
+    listed firms is 0.3%; ours is 0.31%). It is reported, not scored.
 
 ## ALN-8 Allen text numbers (partly resolved)
 
-- **Matching:**
+- **Within tolerance:**
   - SOE share 2018: 30.4% vs 30%.
   - Listed firms in 1991: 13 vs 13.
-  - Dividend yield 2018 (cash dividends with 2018 ex-dates over the year-end close): 1.33%
-    vs 0.8%, within the 3-point rule.
-  - Value-weighted OCF / assets: 7.5% vs 6.5%, within the 3-point rule.
-- **Footnote 32** (small-minus-large G-Index-A gap, from the Internet Appendix): 0.33 in
-  2004 vs 0.058, and 0.39 in 2007 vs 0.375. The sign rule passes both, but 2004 is far off.
-  Our gap in 2004 is already large because the state-holdings component favours small
-  firms.
+  - IPO ROA: 14.3% the year before vs 7.2% the year after (printed 13% and 6%; the pre-IPO
+    year is in CSMAR for 1,033 firms).
+  - Capex one year after the IPO: 8.1% vs 7%.
+  - Dividend yield 2018: 1.33% vs 0.8%, and value-weighted OCF / assets 7.5% vs 6.5%. Both
+    are within the 3-point rule, but the relative gaps are 66% and 16%, so the rule is loose
+    here (see ALN-0 item 12).
+- **Misses:**
+  - Capex the year before the IPO: 7.4% vs 3%. CSMAR's prospectus-year cash-flow
+    statements already show high capex; most likely a definition difference in the
+    pre-IPO year.
+  - Footnote 32 (small minus large G-Index-A, Internet Appendix): 2004 0.333 vs 0.058 and
+    2007 0.392 vs 0.375. The 2004 gap is driven by the state-holdings component (SOEs held
+    state shares before the reform).
 - **Not producible:**
-  - the 2000 SOE share (70%);
-  - the post-IPO capex rise (needs pre-IPO data);
-  - the Figure 4 t-statistics (need US data).
+  - the 2000 SOE share (70%; no controller data before 2003);
+  - the Figure 4 t-statistics against US firms (need US data).

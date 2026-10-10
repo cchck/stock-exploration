@@ -54,7 +54,8 @@ def _in(seg: Segment) -> pd.DataFrame:
     p = panel()
     x = p[p["fy"].isin(_years(seg))].copy()
     cols = [c for c in D.WINSORIZED if c in x] + [f"{c}_lag" for c in D.WINSORIZED if f"{c}_lag" in x]
-    return D.winsorize(x, cols)
+    x = D.winsorize(x, cols)
+    return D.winsorize(x, [c for c in D.WINSORIZED_5_95 if c in x], 0.05, 0.95)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -153,8 +154,8 @@ def figure4(seg: Segment) -> pd.DataFrame:
     first = first[(first >= start)]
     # Permanent ST: "ST status continues to apply through the end of our sample period" =
     # still ST, *ST or PT at the segment end (the stricter "never re-emerged in between" gives
-    # 43 firms vs the printed 65; this rule gives 86, and 80 after footnote 21's requirement of
-    # financial data for the five years before the first designation; deviation_log ALN-7).
+    # 43 firms vs the printed 65; with footnote 21's requirement of financial data for the five
+    # years before the first designation this rule gives 78; deviation_log ALN-7).
     last_type = ev.groupby("stkcd")["type"].last()
     acc_years = D.accounting().dropna(subset=["roa"]).groupby("stkcd")["fy"].apply(set)
     five = lambda s: s in acc_years.index and all((first[s].year - k) in acc_years[s] for k in range(1, 6))
@@ -285,15 +286,16 @@ CLUSTER = ["industry_letter", "fy"]
 CLUSTER_MODE = "cells"
 
 
-def _ipo_roa_change() -> pd.Series:
+def _ipo_roa_change(seg: Segment) -> pd.Series:
     """ROA[-1,+1]: ROA in the year after the IPO minus ROA in the year before (CSMAR keeps the
-    pre-listing statements disclosed in the prospectus)."""
+    pre-listing statements disclosed in the prospectus for 1,033 firms). Only IPOs whose year
+    +1 lies in the segment; winsorized at 1%/99% over those firms."""
     p = panel()
     acc = D.accounting()[["stkcd", "fy", "roa"]]
     lst = p.drop_duplicates("stkcd").set_index("stkcd")["list_date"].dt.year
     acc["ipo"] = acc["stkcd"].map(lst)
     pre = acc[acc["fy"] == acc["ipo"] - 1].set_index("stkcd")["roa"]
-    post = acc[acc["fy"] == acc["ipo"] + 1].set_index("stkcd")["roa"]
+    post = acc[(acc["fy"] == acc["ipo"] + 1) & (acc["fy"] <= seg.end.year)].set_index("stkcd")["roa"]
     d = (post - pre).dropna()
     lo, hi = d.quantile([0.01, 0.99])
     return d.clip(lo, hi)
@@ -313,7 +315,7 @@ def table10(seg: Segment) -> pd.DataFrame:
     x["y"] = x["ret_real"] * 100
     x["G-Index-A"] = _norm(x["g_index_a_lag"])
     x["Stock-Level Turnover"] = _norm(x["turnover_year_lag"])
-    x["ROA [-1, +1]"] = _norm(x["stkcd"].map(_ipo_roa_change()))
+    x["ROA [-1, +1]"] = _norm(x["stkcd"].map(_ipo_roa_change(seg)))
     x["ROIC"] = _norm(x["roic"])
     x["std_ret_lag"] = x["std_ret_lag"]
     specs = {"(1)": ["G-Index-A"], "(3)": ["Stock-Level Turnover"], "(4)": ["G-Index-A", "ROA [-1, +1]"],
@@ -374,8 +376,12 @@ def table13(seg: Segment) -> pd.DataFrame:
     year. Cross-listed in a year = H shares outstanding at that year end."""
     x = _in(seg).copy()
     x["Cross-Listed"] = x["cross_listed_h"]
-    # Matching uses the full panel: a cross-listed firm's listing year can precede the segment.
-    matched = set(matched_cross_listed(panel()))
+    # Matching uses every year up to the segment end (a cross-listed firm's listing year can
+    # precede the segment), never later years: an H listing after the segment must not make a
+    # firm "cross-listed" in it.
+    p_upto = panel()
+    p_upto = p_upto[p_upto["fy"] <= seg.end.year]
+    matched = set(matched_cross_listed(p_upto))
     xm = x[x["stkcd"].isin(matched)]
     items = [("matched", "cross_listed_firms", float(xm.loc[xm["cross_listed_h"] == 1, "stkcd"].nunique()))]
     specs = [("A", "RPT Amt Out", "(1)", x, "rpt_loan_out", None, CONTROLS),
@@ -436,4 +442,22 @@ def text_numbers(seg: Segment) -> pd.DataFrame:
         else:
             gap = np.nan
         items.append((f"g_index_a_small_minus_large_{y}", "value", float(gap)))
+    # Section III.A.1 (IPO process): average ROA in the year before vs after the IPO (printed
+    # 13% -> 6%) and capex / assets (printed 3% -> 7%), equal-weighted over A-share IPOs of the
+    # segment that have the pre-IPO year in CSMAR (prospectus statements, 1,033 firms in all).
+    acc = D.accounting()[["stkcd", "fy", "roa", "capx"]]
+    lst = panel().drop_duplicates("stkcd").set_index("stkcd")["list_date"].dt.year
+    acc["k"] = acc["fy"] - acc["stkcd"].map(lst)
+    ipo_in = acc["stkcd"].map(lst).between(seg.start.year, seg.end.year - 1)
+    a2 = acc[ipo_in & acc["k"].isin([-1, 1])]
+    both = a2.groupby("stkcd")["k"].nunique().eq(2)
+    a2 = a2[a2["stkcd"].map(both).fillna(False)]
+    a2 = D.winsorize(a2, ["roa", "capx"])
+    for var, name in (("roa", "ipo_roa"), ("capx", "ipo_capex")):
+        items += [(f"{name}_year_minus1", "pct", float(a2.loc[a2["k"] == -1, var].mean() * 100)),
+                  (f"{name}_year_plus1", "pct", float(a2.loc[a2["k"] == 1, var].mean() * 100))]
+    items.append(("ipo_firms_with_pre_ipo_year", "n", float(a2["stkcd"].nunique())))
+    # Figure 5 caption: unique A-share firms with non-missing investment, NCF and assets
+    f5 = x.dropna(subset=["capx", "ncf", "at"])
+    items.append(("figure5_unique_firms", "n", float(f5["stkcd"].nunique())))
     return _rows("TXT", seg, items)

@@ -46,9 +46,10 @@ def soe_flags() -> pd.DataFrame:
     HLD_Contrshr can have several rows per firm-date (controlling holder vs actual controller
     roles) and comma-joined nature codes ("1100,2100"). A firm-year is SOE if any row's code
     list contains a state code; it is non-SOE if the firm reports a controller of another
-    nature or no controller at all (S0701a = 0); it is missing only when the firm has no row
-    for the year. The file starts in 2003, so 2000-2002 have no flag (deviation_log ALN-1)."""
+    nature, no controller at all (S0701a = 0) or a row without a nature code; it is missing
+    only when the firm has no year-end row for the year. The file starts in 2003, so 2000-2002 have no flag (deviation_log ALN-1)."""
     h = read_raw("HLD_Contrshr", columns=["Stkcd", "Reptdt", "S0701a", "S0702b"])
+    h = h[h["Reptdt"].astype("string").str.endswith("12-31")]  # year-end rows only
     codes = h["S0702b"].astype("string").fillna("")
     is_soe = codes.str.split(",").apply(lambda xs: any(x.strip() in SOE_CODES for x in xs))
     out = pd.DataFrame({"stkcd": h["Stkcd"], "fy": pd.to_datetime(h["Reptdt"]).dt.year, "soe": is_soe.astype(float)})
@@ -91,7 +92,9 @@ def accounting() -> pd.DataFrame:
     out = pd.DataFrame({
         "stkcd": st["stkcd"], "fy": st["fy"], "announce_date": st["announce_date"],
         "at": g("A001000000"), "be": g("A003100000"), "debt": g("A002000000"),
-        "revenue": g("B001101000"), "ni": g("B002000000"),
+        # Revenue: operating revenue, else total operating revenue (financial firms report the
+        # latter only).
+        "revenue": g("B001101000").fillna(g("B001100000")), "ni": g("B002000000"),
         "ebit": g("B001000000") + interest.fillna(0.0),
         "da": z("D000103000") + z("D000104000") + z("D000105000"),
         "capex": z("C002006000"), "taxes": z("B002100000"),
@@ -108,7 +111,8 @@ def accounting() -> pd.DataFrame:
     out["capx"] = out["capex"] / at
     out["ncf"] = out["ocf"] - out["capx"]
     out["leverage"] = out["debt"] / at
-    out["sales_growth"] = ((out["revenue"] - prev["revenue"]) / prev["revenue"].where(prev["revenue"] > 0)).where(consecutive)
+    # Appendix A: (Net Sales_t - Net Sales_t-1) / Net Sales_t (current-year denominator)
+    out["sales_growth"] = ((out["revenue"] - prev["revenue"]) / out["revenue"].where(out["revenue"] > 0)).where(consecutive)
     out["ni_growth"] = ((out["ni"] - prev["ni"]) / prev["ni"].abs().where(prev["ni"].abs() > 0)).where(consecutive)
     capital = out["lt_borrow"] + out["minority"] + out["be"]
     # Invested capital of the previous year (Allen's Table X text: lagged invested capital)
@@ -315,10 +319,19 @@ def delistings() -> pd.DataFrame:
                          "reason": l["Chgreas"].astype("string"), "reason_text": l["Chgrsdis"]})
 
 
-# Board size is a count with natural bounds and is not winsorized (Table VIII prints min 1, max 54).
-WINSORIZED = ["at", "at_usd_bn", "roa", "roe", "ocf", "ncf", "capx", "leverage", "sales_growth", "ni_growth", "roic",
-              "exec_holdings", "top5", "state_holdings", "rpt_net_out", "rpt_amt_out", "rpt_loan_out", "turnover_year",
-              "ret", "ret_real", "std_ret", "mb"]
+# Winsorization lists from the authors' Winsorize.sas (dataset Ashare34 -> Asharew1 -> Asharew2):
+# at 1%/99%: returns, capex / OCF / NCF, lagged market cap, turnover (and its lag), log size,
+# leverage, ROA, sales growth, log firm age, return volatility, ROIC, market-to-book, AT,
+# executive holdings, top-5 holdings and the RPT ratios, each also as its one-year lag;
+# then lagged sales growth and NCF again at 5%/95%. Not in the lists, so not winsorized:
+# board size, state holdings, CEO duality, ROE. One addition: net-income growth (Table XIII
+# Panel B) is not in the SAS lists but is a ratio over last year's net income, which can be
+# near zero; unwinsorized, its coefficient is -3.1 against the printed -0.041
+# (deviation_log ALN-5).
+WINSORIZED = ["ret", "ret_real", "capx", "ocf", "ncf", "mcap_lag", "mcap_lag_usd", "log_mcap_lag_usd", "turnover_year",
+              "size", "leverage", "roa", "sales_growth", "log_firm_age", "std_ret", "roic", "mb", "at", "at_usd_bn",
+              "exec_holdings", "top5", "rpt_net_out", "rpt_amt_out", "rpt_loan_out", "ni_growth"]
+WINSORIZED_5_95 = ["sales_growth_lag", "ncf"]
 
 
 def winsorize(p: pd.DataFrame, cols: list[str], lower: float = 0.01, upper: float = 0.99) -> pd.DataFrame:
@@ -378,6 +391,8 @@ def build_panel(rpt_definition: str = "cash_by_category") -> pd.DataFrame:
     for c in ("g_index_a", "turnover_year", "at", "leverage", "roa", "sales_growth", "firm_age", "std_ret", "mb",
               "soe", "mv_total_ye"):
         p[f"{c}_lag"] = lag[c].where(consecutive)
+    p["size"] = np.log(p["at"].where(p["at"] > 0))
+    p["log_firm_age"] = np.log1p(p["firm_age"].clip(lower=0))
     p["size_lag"] = np.log(p["at_lag"].where(p["at_lag"] > 0))
     p["log_firm_age_lag"] = np.log1p(p["firm_age_lag"].clip(lower=0))
     p["log_mcap_lag_usd"] = np.log(p["mcap_lag_usd"].where(p["mcap_lag_usd"] > 0))

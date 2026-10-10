@@ -16,6 +16,11 @@ asset pricing) to the Chinese market.
    the validation evidence. `docs/deviation_log.md`: every number that does not match yet.
 6. `lighthouse.md` (frozen target, Chinese) and `benchmark.md` (progress log, Chinese).
 
+## Status (2026-10-10)
+
+Milestones 1.1 (data layer) and 1.2 (LSY) done; 1.3 (Allen) in review; 1.4 (Li) and 1.5 (report) next.
+Progress log: `benchmark.md`; deviations: `docs/deviation_log.md`.
+
 ## Layout
 
 ```

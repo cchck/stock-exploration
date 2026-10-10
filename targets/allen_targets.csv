@@ -245,7 +245,11 @@ TXT,soe_share_2000,pct,70,info,Section I.A text: 70% in 2000; NOT PRODUCIBLE: CS
 TXT,listed_firms_1991,n,13,count,Section I.B text: 13 listed firms in 1991
 TXT,dividend_yield_last_year,pct,0.8,share_pct,Footnote 11: average dividend yield of A-share firms 0.8% in 2018
 TXT,vw_mean_ocf,pct,6.5,share_pct,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%
-TXT,g_index_a_small_minus_large_2004,value,0.058,coef,Footnote 32 (from Internet Appendix Table IA.XVIII): small-large G-Index-A gap 2004
-TXT,g_index_a_small_minus_large_2007,value,0.375,coef,Footnote 32: gap 0.375 by 2007
-TXT,capex_rise_after_ipo,pct,,info,"Section III.A.1 text 'from 3% to 7% of total assets'; NOT PRODUCIBLE: needs pre-IPO financials (CSMAR covers 1,099 firms) and belongs to the out-of-scope Tables V-VI"
+TXT,g_index_a_small_minus_large_2004,value,0.058,count,Footnote 32 (from Internet Appendix Table IA.XVIII): small-large G-Index-A gap 2004
+TXT,g_index_a_small_minus_large_2007,value,0.375,count,Footnote 32: gap 0.375 by 2007
 TXT,figure4_yearly_t_vs_US,t,,info,Figure 4 caption t-statistics of the A-share vs US difference; NOT PRODUCIBLE: needs US delisted-firm data (out of scope)
+TXT,ipo_roa_year_minus1,pct,13,share_pct,Section III.A.1 text: average ROA 13% in the year before the IPO (pre-IPO statements for a subset of firms in CSMAR)
+TXT,ipo_roa_year_plus1,pct,6,share_pct,Section III.A.1 text: 6% in the year after
+TXT,ipo_capex_year_minus1,pct,3,share_pct,Section III.A.3 text: capex / assets 3% before the IPO
+TXT,ipo_capex_year_plus1,pct,7,share_pct,Section III.A.3 text: 7% one year post-IPO
+TXT,figure5_unique_firms,n,3695,count,"Figure 5 caption: unique A-share firms with non-missing investment, NCF and assets"

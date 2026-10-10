@@ -38,3 +38,30 @@ def test_comparison_covers_every_target_and_links_misses():
     assert c.loc[c["kind"] != "info", "ours"].notna().all()
     misses = c[c["pass"].astype(str) == "False"]
     assert misses["deviation"].fillna("").str.startswith("ALN-").all()
+
+
+@needs_panel
+@pytest.mark.data
+def test_original_segment_is_self_contained():
+    # No 2000-2018 number may depend on later years: winsorization and matching are per segment.
+    seg = T.allen_segments()["original"]
+    x = T._in(seg)
+    assert x["fy"].between(2000, 2018).all()
+    p = T.panel()
+    upto = p[p["fy"] <= 2018]
+    treated_upto = set(upto.loc[upto["cross_listed_h"] == 1, "stkcd"])
+    treated_ever = set(p.loc[p["cross_listed_h"] == 1, "stkcd"])
+    m = set(T.matched_cross_listed(upto))
+    # Firms that list H shares only after 2018 may be controls, never treated firms.
+    assert treated_upto <= m
+    t13 = T.table13(seg)
+    n_treated = t13.loc[t13["col"] == "cross_listed_firms", "value"].iloc[0]
+    assert n_treated == len(treated_upto & m) < len(treated_ever)
+
+
+@needs_panel
+@pytest.mark.data
+def test_figure1_starts_at_one_in_2000_12():
+    b = T.bhr(T.allen_segments()["original"])
+    assert b.index[0] == pd.Period("2000-12", "M") and (b.iloc[0] == 1.0).all()
+    assert b.index[-1] == pd.Period("2018-12", "M")

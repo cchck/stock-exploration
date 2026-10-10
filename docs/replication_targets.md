@@ -58,6 +58,10 @@ in our copy.
 
 ## 3. Allen, Qian, Shan & Zhu (2024, JF 79(2):993-1054), "Dissecting the long-term performance of the Chinese stock market"
 
+**Superseded (2026-10-10):** every in-scope printed number is in `targets/allen_targets.csv` and scored in
+`results/allen_comparison.csv`. The rows below are kept for history. Table XII is out of scope per lighthouse 5.2
+(pending the user's decision on Panel A, benchmark 1.3.2).
+
 Only the within-A-share parts are in scope; cross-country tests need Worldscope, BoardEx,
 RiskMetrics and the NBS industrial firm database, which we do not have.
 
