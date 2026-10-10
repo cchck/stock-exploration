@@ -85,6 +85,11 @@ TABLES: dict[str, RawTable] = {t.code: t for t in [
     RawTable("CG_Ybasic", "治理综合信息文件 (free-text fields dropped)", ("_notext",), (74_458,),
              notes="The full-field download (_all) cannot be parsed; never read it."),
     RawTable("CG_ManagerShareSalary", "高管人数、持股及薪酬情况表", ("_all",), (148_912,)),
+    RawTable("RPT_Operation", "关联交易情况文件 (long free-text fields dropped; four Reptdt chunks)",
+             ("_1997_2008", "_2009_2014", "_2015_2019", "_2020_2026"), (190_112, 346_860, 622_435, 1_167_342),
+             notes="Downloaded 2026-10-09 for Allen et al. (loan-type RPT amounts). Dropped fields: "
+                   "关联关系1, 关联交易事项, 交易涉及的银行, 交易内容, 交易定价原则, 交易事项对公司利润的影响, 备注. "
+                   "A single all-years request fails on the platform, hence the chunks."),
     RawTable("RPT_Transfer", "关联交易中资金往来情况文件 (free-text fields dropped)", ("_notext",), (1_401_718,),
              notes="The full-field download (_all) cannot be parsed; never read it."),
     RawTable("STK_MA_TRADINGMAIN", "并购重组交易信息总表 (2007-2026, four chunks)", _MA_CHUNKS,

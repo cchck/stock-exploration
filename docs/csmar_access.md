@@ -246,3 +246,32 @@ download and confirmed on the download summary page.
 The daily table now spans 1999-12-01..2026-09-30 in seven contiguous chunks (the 1999-12
 chunk's last trading day is 1999-12-30; 1999-12-31 was a market holiday), 18,036,220 rows
 in total.
+
+### Batch 5 (2026-10-09): Allen et al. inputs
+
+Approved by the user on 2026-10-09 (both items: RPT_Operation and the FRED exchange rate).
+
+| Table | Code / chunk | Date filter (统计截止日期) | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 关联交易情况文件 (关联交易) | RPT_Operation_1997_2008 | 1997-12-31 – 2008-12-31 | 21 of 28 | 190,112 | 190,112 | 3,463,617 | `b5ab81cf9ee3a23d0faef8c0898b31f0600606c24d79a5c7fb813ce40c621794` |
+| 关联交易情况文件 | RPT_Operation_2009_2014 | 2009-01-01 – 2014-12-31 | 21 | 346,860 | 346,860 | 6,519,509 | `9bdb29f9e1bd1737696d61a072c9ed65721caa338d3576cfa13b18902cd11537` |
+| 关联交易情况文件 | RPT_Operation_2015_2019 | 2015-01-01 – 2019-12-31 | 21 | 622,435 | 622,435 | 10,990,651 | `5de185d7d5fc03e8367bab9b4279f6bb4ef77098030c28f5a205d1648d8281ba` |
+| 关联交易情况文件 | RPT_Operation_2020_2026 | 2020-01-01 – 2026-12-31 | 21 | 1,167,342 | 1,167,342 | 20,129,851 | `f68d36755d40eb88033e255d2952e032da0a53caeb946c01ec802d1e3c0537c1` |
+
+- Total 2,326,749 rows = the table's platform total. An all-years request returned
+  "请求异常" on the platform, hence the four chunks.
+- Dropped free-text fields (they break CSV exports, as with batches 2-3): 关联关系1, 关联交易事项,
+  交易涉及的银行, 交易内容, 交易定价原则, 交易事项对公司利润的影响, 备注. 关联方 (party name)
+  cannot be deselected on the platform and is kept.
+- Codes used: Repat 05 = 资金交易 (funds transactions); Direction 1 = listed firm on the
+  providing side, 2 = receiving side; Trasub 1 = transaction between the listed firm and a
+  related party.
+
+External: FRED `EXCHUS` (CNY per USD, monthly, 1981-01..2026-09, 550 lines, SHA-256
+`f1a7e13b5c01c51b22fb5d4e3beefc756d1d4d83b14a69417af9130ae46e0510`) and `AEXCHUS` (annual,
+1981..2025, SHA-256 `31bf7b23b3075842e37ea16d25b4b392e253b2e092f828f1472a4d54e23801ac`),
+in `data/raw/external/fred/`, downloaded 2026-10-09 with curl from fredgraph.csv.
+
+Access checks (2026-10-09, no download): 港股市场交易 (incl. AH股比价表) and 外汇市场 show
+"无权限" (not subscribed). Allen's AH premium therefore cannot be built (lighthouse 5.2: then
+only turnover).
