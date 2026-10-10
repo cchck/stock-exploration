@@ -110,3 +110,10 @@ def test_tolerance_rules():
     assert judge("pvalue", 0.05, 0.049) and judge("pvalue", 0.05, 0.051)
     assert judge("count", 133, 130) and not judge("count", 133, 108)
     assert judge("info", 1.0, float("nan")) is None
+
+
+def test_bound_and_annual_rules():
+    assert judge("upper_bound", 0.42, 0.42) and not judge("upper_bound", 0.42, 0.46)
+    assert judge("lower_bound", 50, 51) and not judge("lower_bound", 50, 38)
+    assert judge("pct_annual", 12.36, 11.2) and not judge("pct_annual", 18, 13.9)
+    assert judge("share_pct", 15, 17.9) and not judge("share_pct", 82, 77.7)

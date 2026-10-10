@@ -168,8 +168,12 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     - accruals: Sloan (1996), 2 x [(dCA - dCash) - (dCL - dSTD - dTP) - Dep] / (TA_t-1 + TA_t),
       with Cash = ending cash and equivalents (C006000000, else 货币资金 A001101000),
       STD = current portion of non-current liabilities (A002125000) + notes payable
-      (A002107000), TP = taxes payable (A002113000), Dep = depreciation (D000103000) +
+      (A002107000) exactly as LSY's Online Appendix B.1(f) lists it ("STD is the sum of
+      long-term debt due in one year and notes payable"; short-term borrowings are not in
+      it), TP = taxes payable (A002113000), Dep = depreciation (D000103000) +
       amortization of intangibles (D000104000);
+    - op: operating profitability, annual (revenue - COGS - selling - administrative -
+      financial expenses) / book equity, for FF-5's RMW;
     - noa: [(TA - cash - short-term investments) - (TA - short-term borrowing - long-term
       borrowing - minority interest - book equity)] / TA_t-1 (Hirshleifer et al. 2004).
     Components missing from a report (an item the firm does not have) count as zero;
@@ -178,12 +182,15 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     cols = {"A001000000": "ta", "A001100000": "ca", "A001101000": "cash_bs", "C006000000": "cash_cf",
             "A002100000": "cl", "A002125000": "cur_ncl", "A002107000": "notes_pay", "A002113000": "tax_pay",
             "D000103000": "dep", "D000104000": "amort", "A001107000": "st_inv", "A002101000": "st_borrow",
-            "A002201000": "lt_borrow", "A003200000": "minority", "A003100000": "be"}
+            "A002201000": "lt_borrow", "A003200000": "minority", "A003100000": "be",
+            "B001101000": "revenue", "B001201000": "cogs", "B001209000": "selling", "B001210000": "admin",
+            "B001211000": "fin_exp"}
     st = load("statements")
     st = st[st["report_type"] == 4][["stkcd", "period_end", "announce_date", *cols]].rename(columns=cols)
     st = st.dropna(subset=["announce_date"]).sort_values(["stkcd", "period_end"])
     st["fy"] = st["period_end"].dt.year
-    for c in ("notes_pay", "tax_pay", "cur_ncl", "dep", "amort", "st_inv", "st_borrow", "lt_borrow", "minority"):
+    for c in ("notes_pay", "tax_pay", "cur_ncl", "dep", "amort", "st_inv", "st_borrow", "lt_borrow", "minority",
+              "cogs", "selling", "admin", "fin_exp"):
         st[c] = st[c].fillna(0.0)
     st["cash"] = st["cash_cf"].fillna(st["cash_bs"])
     prev = st.groupby("stkcd").shift(1)
@@ -195,7 +202,10 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     oa = st["ta"] - st["cash"] - st["st_inv"]
     ol = st["ta"] - st["st_borrow"] - st["lt_borrow"] - st["minority"] - st["be"]
     st["noa"] = ((oa - ol) / prev["ta"]).where(consecutive & (prev["ta"] > 0))
-    return latest_by_month_end(st, months, ["asset_growth", "accruals", "noa"])
+    # Operating profitability (Fama and French 2015): revenue - cost of goods sold - selling,
+    # general/administrative and interest (financial) expenses, over book equity.
+    st["op"] = ((st["revenue"] - st["cogs"] - st["selling"] - st["admin"] - st["fin_exp"]) / st["be"]).where(st["be"] > 0)
+    return latest_by_month_end(st, months, ["asset_growth", "accruals", "noa", "op"])
 
 
 # ---------------------------------------------------------------------------------------------
@@ -262,7 +272,9 @@ def daily_characteristics_month_end() -> pd.DataFrame:
     out["rev20"] = np.where(nlr >= 15, np.expm1(slr), np.nan)
     out["max20"] = (pd.Series(r).groupby(d["stkcd"].to_numpy()).rolling(20, min_periods=15).max()
                     .reset_index(level=0, drop=True).sort_index().to_numpy())
-    return out.groupby(["stkcd", "month"], sort=False).last().reset_index()
+    # The month's last record, as a whole row (a NaN there stays NaN; never a value from an
+    # earlier day of the month).
+    return out.groupby(["stkcd", "month"], sort=False).tail(1).reset_index(drop=True)
 
 
 # ---------------------------------------------------------------------------------------------
@@ -316,7 +328,7 @@ def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered", mi
     s["cp"] = s["cash_flow"] / mv_all
 
     ann = annual_items_month_end(all_months)
-    s = s.merge(ann[["stkcd", "month", "asset_growth", "accruals", "noa"]], on=["stkcd", "month"], how="left")
+    s = s.merge(ann[["stkcd", "month", "asset_growth", "accruals", "noa", "op"]], on=["stkcd", "month"], how="left")
 
     dch = daily_characteristics_month_end()
     s = s.merge(dch, on=["stkcd", "month"], how="left")

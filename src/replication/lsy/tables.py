@@ -76,7 +76,10 @@ def factor_series_check(seg: Segment | None = None) -> pd.DataFrame:
     """Month-by-month comparison with Stambaugh's published series (lighthouse.md 3.3:
     correlation >= 0.95 over 2000-01..2021-12). CH-4 monthly series are published; CH-3
     monthly series are compounded from the published daily file."""
+    # Stambaugh's series end in 2021-12 (lighthouse 6): every segment is truncated there.
     seg = seg or Segment("stambaugh_overlap", pd.Period("2000-01", "M"), DATA_END["stambaugh"])
+    if seg.end > DATA_END["stambaugh"]:
+        seg = Segment(seg.name, seg.start, DATA_END["stambaugh"])
     ours4, web4 = ch4_factors(), factors.stambaugh_monthly()
     ours3, web3 = ch3_factors(), factors.stambaugh_ch3_monthly()
     items = []
@@ -498,7 +501,11 @@ def table1(seg: Segment, *, max_gap_days: int | None = 15, winsor: float | None 
             # exclude windows that contain a trading gap (suspension) longer than max_gap_days
             dd = dates.astype("datetime64[D]").astype(np.int64)
             gap = np.concatenate([[0], np.diff(dd)])
-            gmax = np.array([gap[a + 1:b + 1].max() if b > a else 0 for a, b in zip(lo - 1 if k == 0 else lo, hi)])
+            gap[starts == np.arange(len(gap))] = 0  # a stock's first record has no previous record
+            # gap[i] = calendar days between record i-1 and record i. Every return in the
+            # window t-k..t+k is measured from the previous record, so gaps at positions
+            # lo..hi (including the one before the window's first day) are checked.
+            gmax = np.array([gap[a:b + 1].max() for a, b in zip(lo, hi)])
             ok &= gmax <= max_gap_days
         sub = ev.assign(R=rr)[ok]
         if winsor is not None:

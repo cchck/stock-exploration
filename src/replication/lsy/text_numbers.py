@@ -146,6 +146,68 @@ def section6_text(seg: Segment) -> pd.DataFrame:
     return _r(items, seg)
 
 
+def counts_text(seg: Segment) -> pd.DataFrame:
+    """Counts stated in sections 1, 6, 6.2 and 8:
+    - anomalies surveyed (14) and those with a significant CAPM alpha in either sort (10);
+    - of the ten kept anomalies, how many CH-3 and FF-3 explain (insignificant alpha,
+      |t| < 1.96, unconditional sorts): printed 8 and 3;
+    - categories (of the six with significant anomalies) where FF-3 leaves a significant
+      alpha: printed 5 of 6;
+    - the smallest number of stocks in any decile portfolio (printed 'at least 60');
+    - Table 4 Panel A: CH-3 minus MKT R-squared (printed 15.1 points)."""
+    p = T.panel()
+    c3 = T.ch3_factors()
+
+    def capm_t(series):
+        df = pd.concat([series.rename("y"), c3["mkt"]], axis=1).dropna()
+        df = df[seg.mask(df.index.to_series())]
+        return ols(df["y"], df[["mkt"]], se="white").tstats["alpha"]
+
+    sp = T.anomaly_spreads()
+    keys14 = list(anomalies.ANOMALIES) + [k for k in anomalies.EXTRA_ANOMALIES if k != "rev12"]
+    sig = 0
+    for k in keys14:
+        ts = []
+        for neutral in (False, True):
+            if k == "size" and neutral:
+                continue
+            col = f"{'B' if neutral else 'A'}:{k}"
+            s_ = sp[col] if col in sp else anomalies.monthly_sort_spread(p, k, size_neutral=neutral)
+            ts.append(abs(capm_t(s_)))
+        sig += int(max(ts) >= 1.96)
+    t7 = T.table7(seg).pivot(index="row", columns="col", values="value")
+    t8 = T.table8(seg).pivot(index="row", columns="col", values="value")
+    keys10 = [f"A:{k}" for k in anomalies.ANOMALIES]
+    ch3_expl = int((t7.loc[keys10, "t(alpha)"].abs() < 1.96).sum())
+    ff3_expl = int((t8.loc[keys10, "t(alpha)"].abs() < 1.96).sum())
+    category = {"size": "size", "ep": "value", "bm": "value", "cp": "value", "roe": "profitability", "vol": "volatility",
+                "max": "volatility", "rev": "reversal", "turn12": "turnover", "abnturn": "turnover"}
+    ff3_sig = t8.loc[keys10, "t(alpha)"].abs() >= 1.96
+    cats = {category[k.split(":")[1]] for k in ff3_sig[ff3_sig].index}
+    u = anomalies._with_roe(p)
+    u = u[u["in_universe"] & seg.mask(u["month"]) & u["ret"].notna()]
+    min_dec = []
+    for k in anomalies.ANOMALIES:
+        if k == "rev":
+            continue
+        var = anomalies.MEASURE[k]
+        v = u[u[var] > 0] if k in anomalies.POSITIVE_ONLY else u[u[var].notna()]
+        from replication.common.portfolios import assign_groups
+        g = assign_groups(v, var, anomalies.DECILES, labels=list(range(1, 11)))
+        min_dec.append(v.assign(g=g).groupby(["month", "g"]).size().min())
+    t4 = T.table4(seg).set_index("row")["value"]
+    return _r([("S6.1:anomalies_surveyed", "n", float(len(keys14))),
+               ("S6.1:anomalies_significant_capm", "n", float(sig)),
+               ("S6.2:anomalies_explained_by_CH3", "n", float(ch3_expl)),
+               ("S6.2:anomalies_explained_by_FF3", "n", float(ff3_expl)),
+               ("S6.2:categories_with_significant_FF3_alpha", "n", float(len(cats))),
+               # The paper's "at least 60 stocks" is universe size / 10 (610 / 10 in 2000);
+               # the smallest actual decile count across anomalies and months is reported too.
+               ("S6.1:min_universe_over_10", "n", float(u.groupby("month").size().min() / 10)),
+               ("S6.1:min_stocks_in_any_decile", "n", float(min(min_dec))),
+               ("S5.1:R2_gain_CH3_over_MKT_panelA", "pct", t4["A:MKT, SMB, VMG"] - t4["A:MKT"])], seg)
+
+
 def section7_text(seg: Segment) -> pd.DataFrame:
     """Section 7 text: CH-4 SMB and PMO annualized means (printed 11% and 12%), the average
     cross-sectional rank correlation between abnormal turnover and the 20-day return
@@ -172,19 +234,33 @@ def section7_text(seg: Segment) -> pd.DataFrame:
     return _r(items, seg)
 
 
-def table4_text(seg: Segment) -> pd.DataFrame:
+def industry_groups(csrc2012: pd.Series, level: str = "division") -> pd.Series:
+    """Industry used for the Table 4 text (Shenyin-Wanguo is not available, LSY-8).
+    level="division": CSRC 2012 two-digit divisions (about 65 after merging small ones);
+    level="section_c_split" (default): CSRC sections, with manufacturing (C) split into its
+    divisions: 41 industries, closest to Shenyin-Wanguo's 37, and it reproduces the printed
+    72% / 82% (71.7% / 82.7%); the 65 finer divisions give 67.1% / 77.7% (LSY-8 round 1)."""
+    if level == "division":
+        return csrc2012.str.slice(0, 3)
+    if level == "section_c_split":
+        sec = csrc2012.str.slice(0, 1)
+        return sec.where(sec != "C", csrc2012.str.slice(0, 3))
+    raise ValueError(level)
+
+
+def table4_text(seg: Segment, *, industry_level: str = "section_c_split") -> pd.DataFrame:
     """Table 4 text: average R-squared of industry portfolios on MKT alone and on CH-3 (printed
     72% and 82%, Shenyin-Wanguo 37 industries) and of anomaly decile portfolios (printed 85%
-    and 90%). Industries here are CSRC 2012 divisions (two-digit codes, merged into their
-    section when a division has fewer than 10 stocks): Shenyin-Wanguo classifications are
-    not in our data (deviation_log LSY-8). Anomaly deciles: the ten month-end-sorted anomalies
+    and 90%). Industries here are CSRC 2012 groups (industry_groups(); groups with fewer
+    than 10 stocks are merged into their section): Shenyin-Wanguo classifications are not
+    in our data (deviation_log LSY-8). Anomaly deciles: the ten month-end-sorted anomalies
     (reversal is built from daily slices and has no month-end decile portfolios)."""
     p = T.panel()
     c3 = T.ch3_factors()
     from csmar.panels import load
     ci = load("company_info")[["stkcd", "csrc2012"]]
     u = p[p["eligible"] & seg.mask(p["month"])].merge(ci, on="stkcd", how="left").dropna(subset=["csrc2012", "ret"])
-    u["div"] = u["csrc2012"].str.slice(0, 3)
+    u["div"] = industry_groups(u["csrc2012"], industry_level)
     small = u.groupby("div")["stkcd"].nunique()
     u.loc[u["div"].isin(small[small < 10].index), "div"] = u["csrc2012"].str.slice(0, 1)
     from replication.common.portfolios import weighted_returns
@@ -230,4 +306,4 @@ def figure_text(f2: pd.DataFrame, seg: Segment) -> pd.DataFrame:
 
 def all_text(seg: Segment) -> pd.DataFrame:
     return pd.concat([section4_text(seg), section5_text(seg), section6_text(seg), section7_text(seg),
-                      table4_text(seg)], ignore_index=True)
+                      table4_text(seg), counts_text(seg)], ignore_index=True)

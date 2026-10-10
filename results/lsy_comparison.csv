@@ -18,13 +18,13 @@ T3,MKT,t_alpha_2f,2.3,t,Section 5.1 text,2.6950669842022803,0.3950669842022805,T
 T3,SMB,t_alpha_2f,6.92,t,Section 5.1 text,6.8227622003328365,-0.0972377996671634,True,
 T3,VMG,t_alpha_2f,7.94,t,Section 5.1 text,8.158529887398238,0.21852988739823775,True,
 T3,all,n_months,204.0,info,Table 3,204.0,0.0,,
-factor_check,CH-4 mkt,corr,0.95,series_corr,lighthouse 3.3,0.9992027576883112,0.04920275768831128,True,
-factor_check,CH-4 smb,corr,0.95,series_corr,lighthouse 3.3,0.9972898830535192,0.04728988305351922,True,
-factor_check,CH-4 vmg,corr,0.95,series_corr,lighthouse 3.3,0.9863560704787444,0.03635607047874445,True,
-factor_check,CH-4 pmo,corr,0.95,series_corr,lighthouse 3.3,0.981038449531938,0.031038449531938017,True,
-factor_check,CH-3 mkt,corr,0.95,series_corr,lighthouse 3.3,0.9992015371459518,0.04920153714595188,True,
-factor_check,CH-3 smb,corr,0.95,series_corr,lighthouse 3.3,0.9930009442687915,0.04300094426879153,True,
-factor_check,CH-3 vmg,corr,0.95,series_corr,lighthouse 3.3,0.9814040865181802,0.031404086518180274,True,
+factor_check,CH-4 mkt,corr,0.95,series_corr,lighthouse 3.3,0.9991836399228263,0.04918363992282637,True,
+factor_check,CH-4 smb,corr,0.95,series_corr,lighthouse 3.3,0.9968530238881382,0.04685302388813828,True,
+factor_check,CH-4 vmg,corr,0.95,series_corr,lighthouse 3.3,0.984346959343148,0.03434695934314802,True,
+factor_check,CH-4 pmo,corr,0.95,series_corr,lighthouse 3.3,0.9790091845959836,0.029009184595983672,True,
+factor_check,CH-3 mkt,corr,0.95,series_corr,lighthouse 3.3,0.9991830414083435,0.04918304140834351,True,
+factor_check,CH-3 smb,corr,0.95,series_corr,lighthouse 3.3,0.9919170630139997,0.04191706301399978,True,
+factor_check,CH-3 vmg,corr,0.95,series_corr,lighthouse 3.3,0.9785777206811268,0.02857772068112685,True,
 T2,Intercept,(1),0.0149,coef,Table 2,0.012821091733785995,-0.002078908266214005,True,
 T2,t(Intercept),(1),1.94,t,Table 2,1.677191680868458,-0.262808319131542,True,
 T2,beta,(1),-0.0002,coef,Table 2,0.001116083070492507,0.001316083070492507,False,LSY-3
@@ -805,18 +805,18 @@ T1,A:t(b),Largest,17.28,t,Table 1 Panel A,18.29245833051746,1.0124583305174575,T
 T1,A:R2_pct,Smallest,0.3,share_pct,Table 1 Panel A (0.003 in percent),0.36398166966459256,0.06398166966459257,True,
 T1,A:R2_pct,Middle,1.0,share_pct,Table 1 Panel A,0.7885590834015743,-0.21144091659842568,True,
 T1,A:R2_pct,Largest,1.7,share_pct,Table 1 Panel A,1.4420775174371903,-0.2579224825628097,True,
-T1,B:b,Smallest,0.43,coef,Table 1 Panel B,0.5804596769239236,0.15045967692392365,True,
-T1,B:b,Middle,0.58,coef,Table 1 Panel B,0.7220768454377835,0.14207684543778354,True,
-T1,B:b,Largest,0.59,coef,Table 1 Panel B,0.6723697439954497,0.08236974399544972,True,
-T1,B:t(b),Smallest,9.74,t,Table 1 Panel B,10.835042076791616,1.095042076791616,True,
-T1,B:t(b),Middle,17.91,t,Table 1 Panel B,19.067780505956797,1.1577805059567972,True,
-T1,B:t(b),Largest,17.6,t,Table 1 Panel B,19.96372011759476,2.3637201175947595,True,
-T1,B:R2_pct,Smallest,0.6,share_pct,Table 1 Panel B,0.6418758740574071,0.041875874057407114,True,
-T1,B:R2_pct,Middle,1.6,share_pct,Table 1 Panel B,1.2722970049096949,-0.3277029950903052,True,
-T1,B:R2_pct,Largest,2.1,share_pct,Table 1 Panel B,1.598515669064915,-0.5014843309350852,True,
+T1,B:b,Smallest,0.43,coef,Table 1 Panel B,0.5803188629176319,0.1503188629176319,True,
+T1,B:b,Middle,0.58,coef,Table 1 Panel B,0.720979230305134,0.14097923030513404,True,
+T1,B:b,Largest,0.59,coef,Table 1 Panel B,0.6712347807244594,0.08123478072445944,True,
+T1,B:t(b),Smallest,9.74,t,Table 1 Panel B,10.830988797021272,1.0909887970212715,True,
+T1,B:t(b),Middle,17.91,t,Table 1 Panel B,19.05432647660302,1.1443264766030197,True,
+T1,B:t(b),Largest,17.6,t,Table 1 Panel B,19.932995069564466,2.332995069564465,True,
+T1,B:R2_pct,Smallest,0.6,share_pct,Table 1 Panel B,0.6459960503485629,0.04599605034856291,True,
+T1,B:R2_pct,Middle,1.6,share_pct,Table 1 Panel B,1.2710832184806065,-0.32891678151939363,True,
+T1,B:R2_pct,Largest,2.1,share_pct,Table 1 Panel B,1.5976029711850304,-0.5023970288149697,True,
 F1,deals,n,133.0,count,Section 3.3 / Fig. 1 caption (WIND reverse mergers 2007-2016),108.0,-25.0,False,LSY-6
 F1,shells,share_bottom30_pct,83.0,share_pct,Section 3.3 text: 83% from the bottom 30%,65.74074074074075,-17.259259259259252,False,LSY-6
-F1,shells,share_bottom10_pct,50.0,info,"Section 3.3 text: 'more than half' from the bottom 10% (lower bound, not scored)",37.96296296296296,-12.037037037037038,,
+F1,shells,share_bottom10_pct,50.0,lower_bound,Section 3.3 text: 'more than half' from the bottom 10% (scored as a lower bound),37.96296296296296,-12.037037037037038,False,LSY-6
 F2,S_over_V,mean_pct,29.5,share_pct,Section 3.3 text: average S/V 29.5% over 2009-2016,8.910663988321833,-20.589336011678167,False,LSY-6
 TXT,S4:corr_slopes_logME_EP+_col6,value,0.42,coef,Section 4 text,0.28556935200996053,-0.13443064799003945,True,
 TXT,S4:one_sd_EP+_effect_col8,pct_per_month,0.52,pct_return,Section 4 text,0.5751261661532945,0.055126166153294465,True,
@@ -824,8 +824,8 @@ TXT,S5.1:negEP_slope_on_positive_VMG,b,-0.28,coef,Section 5.1 text,-0.3303848092
 TXT,S5.1:negEP_slope_on_positive_VMG,t,-3.31,t,Section 5.1 text,-4.208929212307009,-0.8989292123070087,True,
 TXT,S5.1:negEP_share_of_universe,pct,15.0,share_pct,Section 5.1 text,15.023997857487636,0.023997857487636054,True,
 TXT,S5.2:bottom30_share_of_market_cap,pct,7.0,share_pct,Sections 3.3/5.2 text,7.096663442603811,0.09666344260381088,True,
-TXT,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.88,pvalue,Section 5.3 text,0.3144499035962613,-0.5655500964037388,True,
-TXT,S5.3:GRS_FF5_on_SMB_VMG,p,0.0003,pvalue,Section 5.3 text,0.7133788703497288,0.7130788703497288,False,LSY-9
+TXT,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.88,pvalue,Section 5.3 text,0.9587342711183565,0.07873427111835651,True,
+TXT,S5.3:GRS_FF5_on_SMB_VMG,p,0.0003,pvalue,Section 5.3 text,7.62520123614517e-07,-0.0002992374798763855,True,
 TXT,S6.1:universe_stocks_first_month,n,610.0,count,"Section 6.1 text (stocks after filters, 2000)",607.0,-3.0,True,
 TXT,S6.1:universe_stocks_last_month,n,1872.0,count,"Section 6.1 text (stocks after filters, 2016)",1795.0,-77.0,False,LSY-7
 TXT,S6.1:size_premium_annual,pct,12.36,pct_annual,Section 6.1 text,11.796751186857518,-0.5632488131424811,True,
@@ -839,9 +839,9 @@ TXT,S6.1:rev_midprice_2012_2016_mean,pct,2.21,info,"Section 6.1 text; NOT PRODUC
 TXT,S6.1:rev_12m_capm_alpha_annual,pct,6.0,pct_annual,Section 6.1 text,4.292170698797321,-1.707829301202679,False,LSY-7
 TXT,S6.1:rev_12m_capm_alpha_annual,t,0.9,t,Section 6.1 text,0.6928329737887491,-0.20716702621125094,True,
 TXT,S6.1:investment_max_abs_capm_alpha,pct,0.22,upper_bound,Section 6.1 text ('0.22% or less'),0.16113487076692684,-0.05886512923307316,True,
-TXT,S6.1:accruals_max_abs_capm_alpha,pct,0.42,upper_bound,Section 6.1 text ('0.42% or less'),0.46032564123371406,0.04032564123371407,True,
+TXT,S6.1:accruals_max_abs_capm_alpha,pct,0.42,upper_bound,Section 6.1 text ('0.42% or less'),0.46032564123371406,0.04032564123371407,False,LSY-7
 TXT,S6.1:illiquidity_max_capm_alpha,pct,0.83,pct_return,Section 6.1 text ('as high as 0.83%'),0.7675292251285754,-0.062470774871424606,True,
-TXT,S6.1:illiquidity_max_capm_alpha,max_abs_t,0.0,t,Section 6.1 text ('not quite significant'; stored as 0 = insignificant band),1.4973164768596285,1.4973164768596285,True,
+TXT,S6.1:illiquidity_max_capm_alpha,max_abs_t,1.62,t,"Section 6.1 text ('not quite significant'); value from LSY Appendix Table A1 (0.83, t 1.62)",1.4973164768596285,-0.12268352314037156,True,
 TXT,S6.2:illiquidity_ch3_alpha,pct,0.23,pct_return,Section 6.2 text,0.24244229782529755,0.012442297825297544,True,
 TXT,S6.2:illiquidity_ch3_alpha,t,1.14,t,Section 6.2 text,1.2586535012909712,0.1186535012909713,True,
 TXT,S6.2:A:avg_abs_alpha_8_explained,CH-3,0.3,pct_return,Section 6.2 text,0.22887062465444039,-0.0711293753455596,True,
@@ -854,11 +854,28 @@ TXT,S7.2:rank_corr_abnturn_rev20,value,0.3,coef,Section 7.2 text,0.2808084675996
 TXT,T10:A:avg_abs_alpha,CH-4,0.3,pct_return,Section 7.2 text (Table 10 summary),0.44044181507347896,0.14044181507347897,False,LSY-7
 TXT,T10:A:avg_abs_t,CH-4,0.69,t,Section 7.2 text (Table 10 summary),1.1723808163373353,0.4823808163373353,True,
 TXT,T10:A:p,CH-4,0.41,pvalue,"Section 7.2 text (Table 10 summary, GRS10)",0.014093523816982544,-0.39590647618301744,False,LSY-7
-TXT,T4text:industries_avg_R2,MKT,72.0,share_pct,Section 5.1 text (Shenyin-Wanguo 37 industries),67.14861059899853,-4.8513894010014695,False,LSY-8
-TXT,T4text:industries_avg_R2,CH-3,82.0,share_pct,Section 5.1 text,77.72564795278588,-4.274352047214123,False,LSY-8
+TXT,T4text:industries_avg_R2,MKT,72.0,share_pct,Section 5.1 text (Shenyin-Wanguo 37 industries),71.65066880826919,-0.34933119173081195,True,
+TXT,T4text:industries_avg_R2,CH-3,82.0,share_pct,Section 5.1 text,82.67455177367982,0.6745517736798234,True,
 TXT,T4text:anomaly_deciles_avg_R2,MKT,85.0,share_pct,Section 5.1 text,87.84862123060422,2.8486212306042233,True,
 TXT,T4text:anomaly_deciles_avg_R2,CH-3,90.0,share_pct,Section 5.1 text,92.20445155564362,2.2044515556436153,True,
 TXT,S3.3:S_over_V,min_pct,10.0,share_pct,Section 3.3 text ('between 10% and 60%'),0.0,-10.0,False,LSY-6
 TXT,S3.3:S_over_V,max_pct,60.0,share_pct,Section 3.3 text,40.86153808795834,-19.138461912041663,False,LSY-6
-TXT,S3.3:shell_value_growth_factor,x,5.0,count,Section 3.3 text ('fivefold increase'; ratio scored with the relative 3% count rule),27.048519290273756,22.048519290273756,False,LSY-6
+TXT,S3.3:shell_value_growth_factor,x,5.0,info,"Section 3.3 text ('fivefold increase', a verbal magnitude; reported, not scored)",27.048519290273756,22.048519290273756,,
 TXT,S3.3:avg_one_year_deposit_rate_2007_2016,pct,3.0,share_pct,"Section 3.3 text ('3%', printed to the integer; 3-point rule)",2.7790829455242267,-0.22091705447577326,True,
+TXT,S6.1:anomalies_surveyed,n,14.0,count,Section 6.1 text,14.0,0.0,True,
+TXT,S6.1:anomalies_significant_capm,n,10.0,count,Section 6 intro / 6.1 text,7.0,-3.0,False,LSY-7
+TXT,S6.2:anomalies_explained_by_CH3,n,8.0,count,Section 6 intro / 6.2 text,8.0,0.0,True,
+TXT,S6.2:anomalies_explained_by_FF3,n,3.0,count,Section 6 intro text,5.0,2.0,False,LSY-7
+TXT,S6.2:categories_with_significant_FF3_alpha,n,5.0,count,Section 6.2 text ('five of the six categories'),4.0,-1.0,False,LSY-7
+TXT,S6.1:min_universe_over_10,n,60.0,lower_bound,Section 6.1 text ('at least 60 stocks'),52.1,-7.899999999999999,False,LSY-7
+TXT,S6.1:min_stocks_in_any_decile,n,60.0,info,Section 6.1 text; actual smallest decile reported for transparency,1.0,-59.0,,
+TXT,S5.1:R2_gain_CH3_over_MKT_panelA,pct,15.1,share_pct,Section 5.1 text (53.6% - 38.5%),15.123288113860923,0.023288113860923332,True,
+TXT,NP:abstract_intro_conclusion_annualized_restatements,-,,info,"NOT PRODUCIBLE: Abstract/intro/conclusion restate table numbers annualized (e.g. 17%, 16.7%, 5.6%, -0.5%, 4.1%, 5.4% vs 10.8%, 12%+); derived from Table 3/5/9 numbers already scored",,,,
+TXT,NP:footnotes_1_2_market_size,-,,info,"NOT PRODUCIBLE: Market capitalization and institution counts (27.4/7.3/5.0 trillion USD, 197 institutions, 0.6%) from external statistics; not CSMAR data",,,,
+TXT,NP:S3.1_IPO_review_counts,-,,info,"NOT PRODUCIBLE: CSRC IPO queue facts (538 firms, 31 cleared, 25-member committee); not in our data",,,,
+TXT,NP:S3.2_SF_DT_case_and_US_numbers,-,,info,"NOT PRODUCIBLE: SF Express / DT case values ($380m, 97%, $938m, 150%) and US reverse-merger figures (148/yr, $2m); case study and US data, not in scope",,,,
+TXT,NP:S3.2_avg_shell_value_200m_usd,-,,info,NOT PRODUCIBLE: Average Chinese shell value in USD; needs an FX series and WIND deal values; our shell values are in RMB (Fig. 2 Panel B),,,,
+TXT,NP:S3.3_CSI300_twofold,-,,info,NOT PRODUCIBLE: CSI 300 index level change 2009-2016; index series not downloaded (CSMAR market index file not in our batches),,,,
+TXT,NP:S3.3_SV_20_year_horizon_half,-,,info,NOT PRODUCIBLE: S/V under a 20-year horizon; the paper gives no formula for the finite-horizon version,,,,
+TXT,NP:S3.4_US_columns,-,,info,"NOT PRODUCIBLE: US numbers (Table 1 US columns, 27.3%/17.7% R2); out of scope (lighthouse 5.1)",,,,
+TXT,NP:S7.1_investor_counts,-,,info,"NOT PRODUCIBLE: 101 million accounts, 88% of free float held by individuals; external statistics (Jiang et al. 2016)",,,,

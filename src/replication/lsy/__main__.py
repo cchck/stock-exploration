@@ -128,13 +128,16 @@ def main(argv: list[str] | None = None) -> int:
         seg = segs[name]
         parts = [TABLE_FUNCS[t](seg) for t in args.tables]
         parts.append(text_numbers.all_text(seg))
-        if name == "original":
-            parts.append(T.factor_series_check())
+        parts.append(T.factor_series_check(seg))
         if not args.no_figures:
             parts.append(figures(name))
         out = pd.concat(parts, ignore_index=True)
-        out.to_csv(OUT / f"{name}_tables.csv", index=False)
-        print(f"{seg}: {len(out)} numbers -> {OUT / f'{name}_tables.csv'}")
+        complete = set(args.tables) == set(TABLE_FUNCS) and not args.no_figures
+        # A partial run (subset of tables or no figures) goes to *_partial.csv so that the
+        # committed full outputs and the comparison always describe the same run.
+        path = OUT / (f"{name}_tables.csv" if complete else f"{name}_tables_partial.csv")
+        out.to_csv(path, index=False)
+        print(f"{seg}: {len(out)} numbers -> {path}")
         if name == "original":
             original_rows.append(out)
     complete = set(args.tables) == set(TABLE_FUNCS) and not args.no_figures

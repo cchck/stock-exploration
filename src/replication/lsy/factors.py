@@ -124,15 +124,17 @@ def with_shells(panel: pd.DataFrame) -> pd.DataFrame:
 
 def ff5(panel: pd.DataFrame) -> pd.DataFrame:
     """FF-5 on the same universe, for the section 5.3 text comparison (details in LSY's
-    Appendix A.7, following Guo et al. 2017): 2x3 sorts of size with BM, profitability and
-    investment. Profitability = ROE (single-quarter earnings / book equity, as in LSY's ROE
-    anomaly); investment = annual asset growth. SMB averages the three size spreads;
-    RMW = robust - weak; CMA = conservative (low growth) - aggressive. Firms with
-    non-positive book equity are left out of the BM and ROE sorts."""
-    q = panel.assign(bm_pos=panel["bm"].where(panel["bm"] > 0),
-                     roe=(panel["earnings"] / panel["book_equity"].where(panel["book_equity"] > 0)))
+    Appendix A.7, following Guo et al. 2017): 2x3 sorts of size with BM, operating
+    profitability and investment. Profitability = annual operating profitability
+    (Fama and French 2015); investment = annual asset growth. SMB averages the three size
+    spreads; RMW = robust - weak; CMA = conservative (low growth) - aggressive. Firms with
+    non-positive book equity are left out of the BM and profitability sorts.
+    An ROE-based RMW (built from the same single-quarter earnings as VMG) was tried first and
+    reversed the paper's FF-5 conclusion (deviation_log LSY-9); operating profitability
+    reproduces both printed conclusions."""
+    q = panel.assign(bm_pos=panel["bm"].where(panel["bm"] > 0))
     out, smbs = {}, []
-    for name, var in (("hml", "bm_pos"), ("rmw", "roe"), ("cma", "asset_growth")):
+    for name, var in (("hml", "bm_pos"), ("rmw", "op"), ("cma", "asset_growth")):
         p = _two_by_three(q, var, negative_as_low=False, breakpoints="all")
         smbs.append(p[[("S", g) for g in "LMH"]].mean(axis=1) - p[[("B", g) for g in "LMH"]].mean(axis=1))
         hi = p[[("S", "H"), ("B", "H")]].mean(axis=1)

@@ -22,7 +22,8 @@ per printed number: table, row, col, paper, kind). `kind` selects the tolerance 
 |             | stored in the paper column (0.95 or 0.90)                               |
 | pct_annual  | an annualized return in % per year: |ours - paper| <= 1.2 (the monthly  |
 |             | 0.10-point rule times 12)                                               |
-| upper_bound | the paper states "x or less": ours <= paper + 0.10                     |
+| upper_bound | the paper states "x or less": ours <= paper (the bound as printed)     |
+| lower_bound | the paper states "at least x" / "more than x": ours >= paper           |
 | info        | reported, not scored (e.g. number of months)                            |
 """
 
@@ -59,7 +60,9 @@ def judge(kind: str, paper: float, ours: float) -> bool | None:
     if kind == "pct_annual":
         return abs(ours - paper) <= 1.2 + 1e-9
     if kind == "upper_bound":
-        return ours <= paper + 0.10 + 1e-9
+        return ours <= paper + 1e-9
+    if kind == "lower_bound":
+        return ours >= paper - 1e-9
     if kind == "share_pct":
         return abs(ours - paper) <= 3.0 + 1e-9
     if kind == "pvalue":

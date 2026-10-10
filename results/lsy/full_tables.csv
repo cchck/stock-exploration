@@ -11,18 +11,18 @@ T1,full,2000-01,2026-09,A:b,Largest,0.4236269063840705
 T1,full,2000-01,2026-09,A:t(b),Largest,39.69184856048538
 T1,full,2000-01,2026-09,A:R2_pct,Largest,2.5414300963398806
 T1,full,2000-01,2026-09,A:n,Largest,66129.0
-T1,full,2000-01,2026-09,B:b,Smallest,0.7823469980028955
-T1,full,2000-01,2026-09,B:t(b),Smallest,22.774846024202308
-T1,full,2000-01,2026-09,B:R2_pct,Smallest,0.9856266665384972
-T1,full,2000-01,2026-09,B:n,Smallest,57020.0
-T1,full,2000-01,2026-09,B:b,Middle,0.9631202243595625
-T1,full,2000-01,2026-09,B:t(b),Middle,38.89586158577238
-T1,full,2000-01,2026-09,B:R2_pct,Middle,1.9582263597151983
-T1,full,2000-01,2026-09,B:n,Middle,81991.0
-T1,full,2000-01,2026-09,B:b,Largest,0.8935879980906638
-T1,full,2000-01,2026-09,B:t(b),Largest,40.42940477493249
-T1,full,2000-01,2026-09,B:R2_pct,Largest,2.580592213817612
-T1,full,2000-01,2026-09,B:n,Largest,65990.0
+T1,full,2000-01,2026-09,B:b,Smallest,0.7815199399530312
+T1,full,2000-01,2026-09,B:t(b),Smallest,22.755242191241578
+T1,full,2000-01,2026-09,B:R2_pct,Smallest,0.9862014381586182
+T1,full,2000-01,2026-09,B:n,Smallest,57002.0
+T1,full,2000-01,2026-09,B:b,Middle,0.9627333354747454
+T1,full,2000-01,2026-09,B:t(b),Middle,38.886827446039234
+T1,full,2000-01,2026-09,B:R2_pct,Middle,1.9580934132423788
+T1,full,2000-01,2026-09,B:n,Middle,81962.0
+T1,full,2000-01,2026-09,B:b,Largest,0.8933301477138434
+T1,full,2000-01,2026-09,B:t(b),Largest,40.41855044201281
+T1,full,2000-01,2026-09,B:R2_pct,Largest,2.5816528395070315
+T1,full,2000-01,2026-09,B:n,Largest,65972.0
 T2,full,2000-01,2026-09,Intercept,(1),0.010236103934957922
 T2,full,2000-01,2026-09,t(Intercept),(1),1.9967905118864988
 T2,full,2000-01,2026-09,beta,(1),0.0005271631428510754
@@ -825,8 +825,8 @@ TXT,full,2000-01,2026-09,S5.1:negEP_slope_on_positive_VMG,b,-0.2958633326090193
 TXT,full,2000-01,2026-09,S5.1:negEP_slope_on_positive_VMG,t,-8.022489727209456
 TXT,full,2000-01,2026-09,S5.1:negEP_share_of_universe,pct,15.945775346368718
 TXT,full,2000-01,2026-09,S5.2:bottom30_share_of_market_cap,pct,6.1927543582727544
-TXT,full,2000-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,4.186512107373595e-05
-TXT,full,2000-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,0.051657755296929536
+TXT,full,2000-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.1328188959171537
+TXT,full,2000-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,3.34592428842803e-05
 TXT,full,2000-01,2026-09,S6.1:universe_stocks_first_month,n,607.0
 TXT,full,2000-01,2026-09,S6.1:universe_stocks_last_month,n,3195.0
 TXT,full,2000-01,2026-09,S6.1:size_premium_annual,pct,7.644113888852303
@@ -859,11 +859,55 @@ TXT,full,2000-01,2026-09,T10:B:avg_abs_alpha,CH-4,0.69521596481974
 TXT,full,2000-01,2026-09,T10:B:avg_abs_t,CH-4,2.053161965385372
 TXT,full,2000-01,2026-09,T10:B:GRS,CH-4,2.415114207961994
 TXT,full,2000-01,2026-09,T10:B:p,CH-4,0.011747256892176771
-TXT,full,2000-01,2026-09,T4text:industries_avg_R2,MKT,58.91390865442412
-TXT,full,2000-01,2026-09,T4text:industries_avg_R2,CH-3,68.71347908953086
-TXT,full,2000-01,2026-09,T4text:industries,n,74.0
+TXT,full,2000-01,2026-09,T4text:industries_avg_R2,MKT,63.26089537359431
+TXT,full,2000-01,2026-09,T4text:industries_avg_R2,CH-3,72.98429401114149
+TXT,full,2000-01,2026-09,T4text:industries,n,47.0
 TXT,full,2000-01,2026-09,T4text:anomaly_deciles_avg_R2,MKT,85.3133878421826
 TXT,full,2000-01,2026-09,T4text:anomaly_deciles_avg_R2,CH-3,90.73411263594787
+TXT,full,2000-01,2026-09,S6.1:anomalies_surveyed,n,14.0
+TXT,full,2000-01,2026-09,S6.1:anomalies_significant_capm,n,7.0
+TXT,full,2000-01,2026-09,S6.2:anomalies_explained_by_CH3,n,7.0
+TXT,full,2000-01,2026-09,S6.2:anomalies_explained_by_FF3,n,4.0
+TXT,full,2000-01,2026-09,S6.2:categories_with_significant_FF3_alpha,n,4.0
+TXT,full,2000-01,2026-09,S6.1:min_universe_over_10,n,52.1
+TXT,full,2000-01,2026-09,S6.1:min_stocks_in_any_decile,n,1.0
+TXT,full,2000-01,2026-09,S5.1:R2_gain_CH3_over_MKT_panelA,pct,15.240206189180817
+factor_check,full,2000-01,2021-12,CH-4 rf,corr,0.9988730698422376
+factor_check,full,2000-01,2021-12,CH-4 rf,mean_ours_pct,0.18894939133915456
+factor_check,full,2000-01,2021-12,CH-4 rf,mean_web_pct,0.18897727272727274
+factor_check,full,2000-01,2021-12,CH-4 rf,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-4 mkt,corr,0.9992027576883112
+factor_check,full,2000-01,2021-12,CH-4 mkt,mean_ours_pct,0.6796236004448449
+factor_check,full,2000-01,2021-12,CH-4 mkt,mean_web_pct,0.6617045454545455
+factor_check,full,2000-01,2021-12,CH-4 mkt,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-4 smb,corr,0.9972898830535192
+factor_check,full,2000-01,2021-12,CH-4 smb,mean_ours_pct,0.46640395182262867
+factor_check,full,2000-01,2021-12,CH-4 smb,mean_web_pct,0.5145075757575758
+factor_check,full,2000-01,2021-12,CH-4 smb,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-4 vmg,corr,0.9863560704787444
+factor_check,full,2000-01,2021-12,CH-4 vmg,mean_ours_pct,1.175624542440331
+factor_check,full,2000-01,2021-12,CH-4 vmg,mean_web_pct,1.0970454545454544
+factor_check,full,2000-01,2021-12,CH-4 vmg,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-4 pmo,corr,0.981038449531938
+factor_check,full,2000-01,2021-12,CH-4 pmo,mean_ours_pct,0.7990247850504761
+factor_check,full,2000-01,2021-12,CH-4 pmo,mean_web_pct,0.8037500000000001
+factor_check,full,2000-01,2021-12,CH-4 pmo,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-3 rf,corr,0.9998315063942561
+factor_check,full,2000-01,2021-12,CH-3 rf,mean_ours_pct,0.18894939133915456
+factor_check,full,2000-01,2021-12,CH-3 rf,mean_web_pct,0.1894651161678257
+factor_check,full,2000-01,2021-12,CH-3 rf,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-3 mkt,corr,0.9992015371459518
+factor_check,full,2000-01,2021-12,CH-3 mkt,mean_ours_pct,0.6796236004448449
+factor_check,full,2000-01,2021-12,CH-3 mkt,mean_web_pct,0.6615667534137901
+factor_check,full,2000-01,2021-12,CH-3 mkt,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-3 smb,corr,0.9930009442687915
+factor_check,full,2000-01,2021-12,CH-3 smb,mean_ours_pct,0.6616630638484745
+factor_check,full,2000-01,2021-12,CH-3 smb,mean_web_pct,0.6766340402445647
+factor_check,full,2000-01,2021-12,CH-3 smb,n_months,264.0
+factor_check,full,2000-01,2021-12,CH-3 vmg,corr,0.9814040865181802
+factor_check,full,2000-01,2021-12,CH-3 vmg,mean_ours_pct,1.175624542440331
+factor_check,full,2000-01,2021-12,CH-3 vmg,mean_web_pct,1.186810003105475
+factor_check,full,2000-01,2021-12,CH-3 vmg,n_months,264.0
 F1,full,2007-01,2026-09,deals,n,145.0
 F1,full,2007-01,2026-09,shells,share_bottom30_pct,58.620689655172406
 F1,full,2007-01,2026-09,shells,share_bottom10_pct,33.793103448275865

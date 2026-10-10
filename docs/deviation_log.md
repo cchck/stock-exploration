@@ -25,8 +25,8 @@ caveats that may cause future deviations are listed too, marked **caveat**.
 | LSY-5 | deviation | Table 1: announcement windows spanning suspensions (filter not in the paper) |
 | LSY-6 | deviation | Figures 1–2: reverse mergers identified by rule from CSMAR |
 | LSY-7 | deviation | Tables 6–10 and section 6–7 text: anomalies, reversal, CH-4 summary |
-| LSY-8 | deviation | Table 4 text: industry portfolios (Shenyin-Wanguo not available) |
-| LSY-9 | deviation | Section 5.3 text: FF-5 comparison |
+| LSY-8 | resolved | Table 4 text: industry portfolios (Shenyin-Wanguo not available) |
+| LSY-9 | resolved | Section 5.3 text: FF-5 comparison |
 
 LSY numbers are scored in `results/lsy_comparison.csv` (regenerate with
 `python -m replication.lsy`). The `deviation` column there points to the entries below.
@@ -168,8 +168,12 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     website series over 2000-01..2021-12.
   - Table 3: 17 of 18 scored numbers pass. The one miss is the two-factor alpha of MKT,
     1.76 vs 1.57, a source-data difference of 0.19 points.
-  - S5.2: the shell-free VMG alpha has t 2.46 vs printed 3.32 (band 1.96–2.78 vs > 2.78),
+  - S5.2: the shell-free VMG alpha has t 2.47 vs printed 3.32 (band 1.96–2.78 vs > 2.78),
     with the alpha itself within tolerance.
+  - Section 7.1: CH-4's SMB averages 9.3% a year vs printed 11%. That is 0.15 points a
+    month, just outside the annualized 1.2-point rule. The CH-3 SMB is close (0.98% vs
+    1.03% a month); the difference sits in the turnover-neutral half of the CH-4 SMB.
+    Same source-data cause as the other LSY-1 items.
 
 ## LSY-2 15-day filter in short months (resolved)
 
@@ -221,14 +225,18 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     own exclusion of returns after long suspensions in its sample filters (A.1).
   - The 15-day threshold was chosen after seeing the results, so it is a tuning choice and
     is labelled as such here.
-- Result: all 18 numbers are within the lighthouse tolerances. Two caveats:
-  - Those tolerances are loose for this table. The R² values (0.3–2.1%) are scored with
-    the 3-point proportion rule, which they cannot fail. The b values are scored by sign
-    plus the t band, and every printed t is above 2.78.
-  - The printed pattern holds for Panel A b and t and for R² in both panels (increasing
-    with size). It does **not** hold for Panel B b: ours is 0.58 / 0.72 / 0.67 (Smallest /
-    Middle / Largest) vs printed 0.43 / 0.58 / 0.59. Our b values are 20–40% higher than
-    printed.
+- Result: all 18 numbers are within the lighthouse tolerances. Caveats:
+  - Those tolerances are loose for this table. The R² values (printed 0.3–2.1%) are scored
+    with the 3-point proportion rule; it fails only above about 5%.
+  - The b values are scored by sign plus the t band, and every printed t is above 2.78.
+  - The printed pattern holds for Panel A (b and t increase with size) and for R² in both
+    panels. It does **not** hold in Panel B:
+    - b: ours 0.58 / 0.72 / 0.67 (Smallest / Middle / Largest) vs printed 0.43 / 0.58 / 0.59;
+    - t: ours 10.8 / 19.1 / 20.0 vs printed 9.74 / 17.91 / 17.60.
+  - Our b values are 13–42% above the printed ones.
+  - Review fix (2026-10-09): the gap filter now checks every return in the window, including
+    the one ending on the window's first day, for both k = 0 and k = 3. It also no longer
+    compares a stock's first record with the previous stock.
 - Marked as a deviation, not resolved.
 
 ## LSY-6 Figures 1–2: reverse mergers by rule (deviation)
@@ -243,8 +251,12 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     half").
 - The CSMAR M&A table yields few qualifying deals before 2012 (12 in 2008–2011). As a
   result, the estimated shell value is zero until mid-2011, and the average S/V for
-  2009–2016 is 8.9% vs 29.5% printed. The rise after 2012 (fivefold, as printed) is
-  reproduced.
+  2009–2016 is 8.9% vs 29.5% printed.
+- Further consequences:
+  - S/V ranges from 0% to 41% vs printed 10%–60%.
+  - S grows 27-fold vs the printed "fivefold". The ratio is large because S starts near
+    zero; it is reported, not scored.
+  - The shape (flat, then rising from 2012, a peak in 2015) matches; the level does not.
 - Rounds:
   1. Size decile at deal month - 3 from the latest traded month, because shells are often
      suspended: no stock is missing a decile any more.
@@ -257,9 +269,9 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
 
 ## LSY-7 Tables 6–10 and section 6–7 text: anomalies (deviation)
 
-- Tables 6, 7, 8 and 10: 506 of 608 numbers pass. Table 9: 27 of 32.
-- Misses by anomaly: reversal 24, BM 15, abnormal turnover 12, ROE 11, CP 10, MAX 9,
-  EP 7, size 7, vol 5, 12-month turnover 2.
+- Tables 6, 7, 8 and 10: 507 of 604 numbers pass. Table 9: 26 of 32 (rerun 2026-10-09 after the review fixes).
+- Misses by anomaly: reversal 23, BM 16, ROE 11, abnormal turnover 10, MAX 8, size 7,
+  CP 7, vol 5, EP 5, 12-month turnover 5.
 - Rounds shared by all anomalies:
   - the construction rounds of LSY-1;
   - single-quarter earnings and cash flow (CP 1.38 → 0.63, printed 0.73);
@@ -289,7 +301,15 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
   - Size-neutral alpha increases: ROE +0.70 vs +0.57, EP +0.39 vs +0.52, 12-month
     turnover +0.22 vs +0.21.
   - One-year reversal: 4.3% a year vs 6%; the insignificant t (0.69 vs 0.90) matches.
-- CH-4 summary (section 7.2):
+- CH-4 summary (section 7.2), round 1:
+  - Hypothesis: the gap comes from our CH-4 factors rather than from the anomaly
+    portfolios.
+  - Change: replace our factors with Stambaugh's published CH-4 series (all four, then PMO
+    alone).
+  - Result: average |alpha| 0.41 and GRS p 0.013 with the website factors (0.40 / 0.028
+    with our factors plus the website PMO). That is no better than ours (0.44 / 0.014), so
+    the factors are not the cause. The gap is in the anomaly spreads built from CSMAR data.
+- CH-4 summary details:
   - Average |alpha| 0.44 vs printed 0.30. Average |t| 1.17 vs 0.69 (same band).
   - GRS10 p 0.014 vs 0.41.
   - The gap is spread across several anomalies. Reversal and MAX match: 0.52 vs 0.49 and
@@ -301,37 +321,46 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
     - size 0.37 vs 0.23 (t 2.57 vs 1.41).
   - Size's significant alpha, together with the overall small alpha differences, drives the
     GRS rejection.
-  - Most likely cause: our PMO differs a little from the paper's (correlation 0.98 with
-    the website series). That leaves residual turnover and volatility exposure in these
-    spreads.
+  - Most likely cause (after round 1): the anomaly spreads themselves differ. The CSMAR
+    and WIND daily and statement data feed into size, BM, ROE, vol and abnormal turnover.
+    Not the factors.
   - Panel B (computed, no printed number): average |alpha| 0.49, p 0.18.
-- Table 9: the CH-3 GRS10 p is 0.019 vs printed 0.15. The rejection comes from the
+- Section 6 counts (consequences of the per-anomaly differences above):
+  - CAPM-significant anomalies: 7 of 14 vs 10. Explained by CH-3: 8 vs 8. Explained by
+    FF-3: 5 vs 3.
+  - Categories where FF-3 leaves a significant alpha: 4 vs 5.
+  - Smallest universe / 10: 52 vs "at least 60" (our universe dips to 521 stocks in early
+    2000).
+- Section 6.2 Panel B "eight anomalies": the size-neutral panel has no size anomaly, so
+  the average covers the 7 remaining explained anomalies. Ours is 0.19 vs printed 0.26
+  (within tolerance).
+- Table 9: the CH-3 GRS10 p is 0.018 vs printed 0.15. The rejection comes from the
   reversal and abnormal-turnover alphas. CH-3 still has by far the smallest average
-  |alpha|: ours 0.42 vs CAPM 0.95 and FF-3 0.82; printed 0.45 / 1.02 / 0.90.
+  |alpha|: ours 0.43 vs CAPM 0.94 and FF-3 0.85; printed 0.45 / 1.02 / 0.90.
 
-## LSY-8 Table 4 text: industry portfolios (deviation)
+## LSY-8 Table 4 text: industry portfolios (resolved)
 
 - The paper uses 37 Shenyin-Wanguo industries; that classification is not in our data.
-- Substitute: CSRC 2012 divisions (two-digit codes; divisions with fewer than 10 stocks are
-  merged into their section), 65 industries, current classification only (D-001).
-- Result:
-  - Industries: average R² 67.1% (MKT) and 77.7% (CH-3) vs printed 72% and 82%. Misses the
-    3-point rule by 1–2 points; the 10-point CH-3 gain over MKT matches.
-  - Anomaly deciles: 87.8% and 92.2% vs printed 85% and 90%, both within tolerance.
-- Most likely cause: finer and different industries (65 CSRC divisions vs 37 SW
-  industries), so the average industry portfolio is less diversified.
+  CSRC 2012 codes are used instead, current classification only (D-001).
+- Round 1:
+  - Hypothesis: the gap comes from industry granularity.
+  - Change: 65 CSRC divisions (67.1% / 77.7% vs printed 72% / 82%) replaced by CSRC
+    sections with manufacturing split into its divisions: 41 industries, close to SW's 37.
+  - Result: 71.7% / 82.7%, within tolerance. Adopted (`industry_groups(level="section_c_split")`).
+- Anomaly deciles: 87.8% / 92.2% vs printed 85% / 90%, within tolerance.
 
-## LSY-9 Section 5.3 text: FF-5 comparison (deviation)
+## LSY-9 Section 5.3 text: FF-5 comparison (resolved)
 
-- The paper reports (details in its Appendix A.7, following Guo et al. 2017):
+- Printed (details in the paper's Appendix A.7, following Guo et al. 2017):
   - CH-3 prices FF-5's non-market factors: GRS p 0.88.
   - FF-5 does not price SMB and VMG: p 0.0003.
-- Ours, with profitability = quarterly ROE and investment = annual asset growth: p 0.31
-  (same conclusion) and **p 0.71 (opposite conclusion)**.
-- Our ROE-based RMW is built from the same single-quarter earnings as VMG. RMW therefore
-  absorbs VMG, and FF-5 prices it.
-- Not investigated further in milestone 1.2: the FF-5 construction is in LSY's appendix,
-  which is out of scope (lighthouse 5: main text only). Only the two text p-values are in
-  scope.
-- Most likely cause: a different profitability measure (Guo et al. use operating
-  profitability). Marked as a deviation.
+- Round 1:
+  - Setup: profitability = quarterly ROE (the same single-quarter earnings as VMG).
+  - Result: p 0.31 (same conclusion) and p 0.71 (opposite conclusion). RMW absorbs VMG.
+- Round 2:
+  - Hypothesis: the paper's FF-5 uses operating profitability, as in Fama and French
+    (2015) and Guo et al.
+  - Change: RMW from annual operating profitability = (revenue - COGS - selling -
+    administrative - financial expenses) / book equity.
+  - Result: p 0.96 and p 7.6e-7. Both printed conclusions are reproduced; corr(RMW, VMG) is
+    0.77. Adopted in `factors.ff5`.

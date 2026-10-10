@@ -11,18 +11,18 @@ T1,extended,2017-01,2026-09,A:b,Largest,0.5151788734303804
 T1,extended,2017-01,2026-09,A:t(b),Largest,35.552405971907746
 T1,extended,2017-01,2026-09,A:R2_pct,Largest,3.2381474845120883
 T1,extended,2017-01,2026-09,A:n,Largest,42293.0
-T1,extended,2017-01,2026-09,B:b,Smallest,0.8995174399350155
-T1,extended,2017-01,2026-09,B:t(b),Smallest,20.263394784807346
-T1,extended,2017-01,2026-09,B:R2_pct,Smallest,1.2020170417388676
-T1,extended,2017-01,2026-09,B:n,Smallest,36730.0
-T1,extended,2017-01,2026-09,B:b,Middle,1.1087703450436504
-T1,extended,2017-01,2026-09,B:t(b),Middle,34.23821668170769
-T1,extended,2017-01,2026-09,B:R2_pct,Middle,2.404715918275968
-T1,extended,2017-01,2026-09,B:n,Middle,52634.0
-T1,extended,2017-01,2026-09,B:b,Largest,1.0269073141702711
-T1,extended,2017-01,2026-09,B:t(b),Largest,35.44047958012857
-T1,extended,2017-01,2026-09,B:R2_pct,Largest,3.2438988041198713
-T1,extended,2017-01,2026-09,B:n,Largest,42270.0
+T1,extended,2017-01,2026-09,B:b,Smallest,0.8982297388418748
+T1,extended,2017-01,2026-09,B:t(b),Smallest,20.2414702105198
+T1,extended,2017-01,2026-09,B:R2_pct,Smallest,1.1997830801885656
+T1,extended,2017-01,2026-09,B:n,Smallest,36727.0
+T1,extended,2017-01,2026-09,B:b,Middle,1.1085374217862047
+T1,extended,2017-01,2026-09,B:t(b),Middle,34.23116695399051
+T1,extended,2017-01,2026-09,B:R2_pct,Middle,2.404181054050347
+T1,extended,2017-01,2026-09,B:n,Middle,52630.0
+T1,extended,2017-01,2026-09,B:b,Largest,1.0271322849526234
+T1,extended,2017-01,2026-09,B:t(b),Largest,35.44825861905302
+T1,extended,2017-01,2026-09,B:R2_pct,Largest,3.245603696393462
+T1,extended,2017-01,2026-09,B:n,Largest,42268.0
 T2,extended,2017-01,2026-09,Intercept,(1),0.005861509198479642
 T2,extended,2017-01,2026-09,t(Intercept),(1),1.255343877441038
 T2,extended,2017-01,2026-09,beta,(1),-0.0004694705808498079
@@ -825,8 +825,8 @@ TXT,extended,2017-01,2026-09,S5.1:negEP_slope_on_positive_VMG,b,-0.2720194229535
 TXT,extended,2017-01,2026-09,S5.1:negEP_slope_on_positive_VMG,t,-5.879852605410628
 TXT,extended,2017-01,2026-09,S5.1:negEP_share_of_universe,pct,17.55297712185368
 TXT,extended,2017-01,2026-09,S5.2:bottom30_share_of_market_cap,pct,4.616707749695531
-TXT,extended,2017-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,1.6423455913709995e-05
-TXT,extended,2017-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,8.590604586034378e-05
+TXT,extended,2017-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.0007728500632360351
+TXT,extended,2017-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,0.00015537385927045431
 TXT,extended,2017-01,2026-09,S6.1:universe_stocks_first_month,n,1812.0
 TXT,extended,2017-01,2026-09,S6.1:universe_stocks_last_month,n,3195.0
 TXT,extended,2017-01,2026-09,S6.1:size_premium_annual,pct,0.40361808720218195
@@ -835,6 +835,7 @@ TXT,extended,2017-01,2026-09,S6.1:size_neutral_alpha_increase_ep,pct,-0.15482794
 TXT,extended,2017-01,2026-09,S6.1:size_neutral_alpha_increase_turn12,pct,-0.3101601628135301
 TXT,extended,2017-01,2026-09,S6.1:rev_1m_capm_alpha_annual,pct,7.074527004616453
 TXT,extended,2017-01,2026-09,S6.1:rev_1m_capm_alpha_annual,t,0.8808708213802275
+TXT,extended,2017-01,2026-09,S6.1:rev_close_2012_2016_mean,pct,
 TXT,extended,2017-01,2026-09,S6.1:rev_12m_capm_alpha_annual,pct,-13.503966606378949
 TXT,extended,2017-01,2026-09,S6.1:rev_12m_capm_alpha_annual,t,-1.3246040935370262
 TXT,extended,2017-01,2026-09,S6.1:investment_max_abs_capm_alpha,pct,0.46110743859215414
@@ -858,11 +859,55 @@ TXT,extended,2017-01,2026-09,T10:B:avg_abs_alpha,CH-4,0.7520000586427079
 TXT,extended,2017-01,2026-09,T10:B:avg_abs_t,CH-4,1.7789664925505981
 TXT,extended,2017-01,2026-09,T10:B:GRS,CH-4,0.9736603864825183
 TXT,extended,2017-01,2026-09,T10:B:p,CH-4,0.46616863682390386
-TXT,extended,2017-01,2026-09,T4text:industries_avg_R2,MKT,43.48472345185178
-TXT,extended,2017-01,2026-09,T4text:industries_avg_R2,CH-3,55.30097661590374
-TXT,extended,2017-01,2026-09,T4text:industries,n,73.0
+TXT,extended,2017-01,2026-09,T4text:industries_avg_R2,MKT,49.52389056709201
+TXT,extended,2017-01,2026-09,T4text:industries_avg_R2,CH-3,59.550225286679705
+TXT,extended,2017-01,2026-09,T4text:industries,n,47.0
 TXT,extended,2017-01,2026-09,T4text:anomaly_deciles_avg_R2,MKT,75.97024085541995
 TXT,extended,2017-01,2026-09,T4text:anomaly_deciles_avg_R2,CH-3,87.32842851703502
+TXT,extended,2017-01,2026-09,S6.1:anomalies_surveyed,n,14.0
+TXT,extended,2017-01,2026-09,S6.1:anomalies_significant_capm,n,2.0
+TXT,extended,2017-01,2026-09,S6.2:anomalies_explained_by_CH3,n,6.0
+TXT,extended,2017-01,2026-09,S6.2:anomalies_explained_by_FF3,n,7.0
+TXT,extended,2017-01,2026-09,S6.2:categories_with_significant_FF3_alpha,n,3.0
+TXT,extended,2017-01,2026-09,S6.1:min_universe_over_10,n,179.8
+TXT,extended,2017-01,2026-09,S6.1:min_stocks_in_any_decile,n,73.0
+TXT,extended,2017-01,2026-09,S5.1:R2_gain_CH3_over_MKT_panelA,pct,15.513096662624786
+factor_check,extended,2017-01,2021-12,CH-4 rf,corr,0.8009936184784648
+factor_check,extended,2017-01,2021-12,CH-4 rf,mean_ours_pct,0.12421689715064542
+factor_check,extended,2017-01,2021-12,CH-4 rf,mean_web_pct,0.12616666666666665
+factor_check,extended,2017-01,2021-12,CH-4 rf,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-4 mkt,corr,0.9994642033827896
+factor_check,extended,2017-01,2021-12,CH-4 mkt,mean_ours_pct,0.53182141676928
+factor_check,extended,2017-01,2021-12,CH-4 mkt,mean_web_pct,0.5265000000000002
+factor_check,extended,2017-01,2021-12,CH-4 mkt,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-4 smb,corr,0.9994659148990599
+factor_check,extended,2017-01,2021-12,CH-4 smb,mean_ours_pct,-0.5409906733940767
+factor_check,extended,2017-01,2021-12,CH-4 smb,mean_web_pct,-0.5391666666666667
+factor_check,extended,2017-01,2021-12,CH-4 smb,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-4 vmg,corr,0.9937250767579322
+factor_check,extended,2017-01,2021-12,CH-4 vmg,mean_ours_pct,1.1480286484080866
+factor_check,extended,2017-01,2021-12,CH-4 vmg,mean_web_pct,1.0539999999999998
+factor_check,extended,2017-01,2021-12,CH-4 vmg,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-4 pmo,corr,0.9917032412447396
+factor_check,extended,2017-01,2021-12,CH-4 pmo,mean_ours_pct,0.3459909489388349
+factor_check,extended,2017-01,2021-12,CH-4 pmo,mean_web_pct,0.4088333333333334
+factor_check,extended,2017-01,2021-12,CH-4 pmo,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-3 rf,corr,0.8598468208405508
+factor_check,extended,2017-01,2021-12,CH-3 rf,mean_ours_pct,0.12421689715064542
+factor_check,extended,2017-01,2021-12,CH-3 rf,mean_web_pct,0.12524283285336374
+factor_check,extended,2017-01,2021-12,CH-3 rf,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-3 mkt,corr,0.9994570204952127
+factor_check,extended,2017-01,2021-12,CH-3 mkt,mean_ours_pct,0.53182141676928
+factor_check,extended,2017-01,2021-12,CH-3 mkt,mean_web_pct,0.5271685000046122
+factor_check,extended,2017-01,2021-12,CH-3 mkt,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-3 smb,corr,0.9982194594885869
+factor_check,extended,2017-01,2021-12,CH-3 smb,mean_ours_pct,-0.4310953553430087
+factor_check,extended,2017-01,2021-12,CH-3 smb,mean_web_pct,-0.44896064448103734
+factor_check,extended,2017-01,2021-12,CH-3 smb,n_months,60.0
+factor_check,extended,2017-01,2021-12,CH-3 vmg,corr,0.9927722039703457
+factor_check,extended,2017-01,2021-12,CH-3 vmg,mean_ours_pct,1.1480286484080866
+factor_check,extended,2017-01,2021-12,CH-3 vmg,mean_web_pct,1.0670090885659587
+factor_check,extended,2017-01,2021-12,CH-3 vmg,n_months,60.0
 F1,extended,2017-01,2026-09,deals,n,37.0
 F1,extended,2017-01,2026-09,shells,share_bottom30_pct,37.83783783783784
 F1,extended,2017-01,2026-09,shells,share_bottom10_pct,21.62162162162162
