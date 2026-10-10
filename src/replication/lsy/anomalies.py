@@ -36,15 +36,28 @@ from replication.common.portfolios import assign_groups, weighted_returns
 ANOMALIES = ["size", "ep", "bm", "cp", "roe", "vol", "max", "rev", "turn12", "abnturn"]
 MEASURE = {"size": "me", "ep": "ep", "bm": "bm", "cp": "cp", "roe": "roe", "vol": "vol20", "max": "max20",
            "turn12": "turn250", "abnturn": "abn_turn"}
-LONG_HIGH = {"ep", "bm", "cp", "roe"}  # long the top decile; all others long the bottom
+# The four anomalies LSY test but drop because their CAPM alphas are insignificant in China
+# (section 6.1), plus the one-year reversal quoted in the same section. Used for the
+# section-6.1 text numbers, never in Tables 6-10.
+EXTRA_ANOMALIES = ["inv", "accrual", "noa", "illiq", "rev12"]
+MEASURE.update({"inv": "asset_growth", "accrual": "accruals", "noa": "noa", "illiq": "illiq20", "rev12": "ret_12m"})
+LONG_HIGH = {"ep", "bm", "cp", "roe", "illiq"}  # long the top decile; all others long the bottom
 POSITIVE_ONLY = {"ep", "cp"}  # A.2 / section 6.1: "For EP and CP, we sort only the positive values"
 DECILES = [i / 10 for i in range(1, 10)]
 
 
 def _with_roe(panel: pd.DataFrame) -> pd.DataFrame:
+    """Add derived sorting variables: ROE (single-quarter earnings / book equity, positive book
+    equity only) and the past 12-month return (months t-12..t-1, at least 10 observed)."""
     p = panel
     if "roe" not in p:
         p = p.assign(roe=p["earnings"] / p["book_equity"].where(p["book_equity"] > 0))
+    if "ret_12m" not in p:
+        q = p[["stkcd", "month", "ret"]].sort_values(["stkcd", "month"])
+        lr = np.log1p(q["ret"])
+        # holding-month rows are consecutive calendar months per stock (build_panel's grid)
+        roll = lr.groupby(q["stkcd"]).transform(lambda x: x.shift(1).rolling(12, min_periods=10).sum())
+        p = p.assign(ret_12m=np.expm1(roll).reindex(p.index))
     return p
 
 
@@ -55,6 +68,11 @@ def _spread_from_deciles(dec_returns: pd.DataFrame, key: str) -> pd.Series:
 
 def monthly_sort_spread(panel: pd.DataFrame, key: str, *, size_neutral: bool) -> pd.Series:
     """Long-short decile spread (decimal monthly) for a month-end-sorted anomaly."""
+    return _spread_from_deciles(monthly_sort_deciles(panel, key, size_neutral=size_neutral), key)
+
+
+def monthly_sort_deciles(panel: pd.DataFrame, key: str, *, size_neutral: bool) -> pd.DataFrame:
+    """The ten value-weighted decile portfolio returns (columns 1..10) of a month-end sort."""
     var = MEASURE[key]
     u = _with_roe(panel)
     u = u[u["in_universe"] & u["ret"].notna()].copy()
@@ -70,8 +88,7 @@ def monthly_sort_spread(panel: pd.DataFrame, key: str, *, size_neutral: bool) ->
         u["dec"] = assign_groups(u, var, DECILES, by="key", labels=labels)
     else:
         u["dec"] = assign_groups(u, var, DECILES, labels=labels)
-    dr = weighted_returns(u, ["dec"], ret="ret", weight="me")
-    return _spread_from_deciles(dr, key)
+    return weighted_returns(u, ["dec"], ret="ret", weight="me")
 
 
 def reversal_spread(panel: pd.DataFrame, *, size_neutral: bool, hold_days: int = 5, window: int = 20,

@@ -120,3 +120,23 @@ def with_shells(panel: pd.DataFrame) -> pd.DataFrame:
     """The panel with the shell cut switched off: every eligible stock is in the universe
     (section 5.2, 'Including shell stocks')."""
     return panel.assign(in_universe=panel["eligible"])
+
+
+def ff5(panel: pd.DataFrame) -> pd.DataFrame:
+    """FF-5 on the same universe, for the section 5.3 text comparison (details in LSY's
+    Appendix A.7, following Guo et al. 2017): 2x3 sorts of size with BM, profitability and
+    investment. Profitability = ROE (single-quarter earnings / book equity, as in LSY's ROE
+    anomaly); investment = annual asset growth. SMB averages the three size spreads;
+    RMW = robust - weak; CMA = conservative (low growth) - aggressive. Firms with
+    non-positive book equity are left out of the BM and ROE sorts."""
+    q = panel.assign(bm_pos=panel["bm"].where(panel["bm"] > 0),
+                     roe=(panel["earnings"] / panel["book_equity"].where(panel["book_equity"] > 0)))
+    out, smbs = {}, []
+    for name, var in (("hml", "bm_pos"), ("rmw", "roe"), ("cma", "asset_growth")):
+        p = _two_by_three(q, var, negative_as_low=False, breakpoints="all")
+        smbs.append(p[[("S", g) for g in "LMH"]].mean(axis=1) - p[[("B", g) for g in "LMH"]].mean(axis=1))
+        hi = p[[("S", "H"), ("B", "H")]].mean(axis=1)
+        lo = p[[("S", "L"), ("B", "L")]].mean(axis=1)
+        out[name] = (lo - hi) if name == "cma" else (hi - lo)
+    f3 = ch3(panel)
+    return pd.DataFrame({"mkt": f3["mkt"], "smb": sum(smbs) / 3, **out, "rf": f3["rf"]})

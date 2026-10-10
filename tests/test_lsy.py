@@ -17,8 +17,8 @@ COMPARISON = PROJECT_ROOT / "results" / "lsy_comparison.csv"
 
 def test_targets_file_is_well_formed():
     t = load_targets("lsy")
-    assert {"T1", "T2", "T3", "T4", "T5", "S5.2", "T6", "T7", "T8", "T9", "T10", "F1", "F2"} <= set(t["table"])
-    assert t["kind"].isin(["pct_return", "pct_std", "t", "coef", "share_pct", "pvalue", "series_corr", "info"]).all()
+    assert {"T1", "T2", "T3", "T4", "T5", "S5.2", "T6", "T7", "T8", "T9", "T10", "F1", "F2", "TXT"} <= set(t["table"])
+    assert t["kind"].isin(["pct_return", "pct_std", "t", "coef", "share_pct", "pvalue", "series_corr", "info", "count", "pct_annual", "upper_bound"]).all()
 
 
 @needs_panel
@@ -49,6 +49,7 @@ def test_single_quarter_earnings_moutai_2025():
 def test_comparison_covers_every_target_and_links_misses():
     c = pd.read_csv(COMPARISON)
     assert len(c) == len(load_targets("lsy"))
-    assert c["ours"].notna().all()
+    # Only 'info' rows may lack our number (e.g. items listed as not producible)
+    assert c.loc[c["kind"] != "info", "ours"].notna().all()
     misses = c[c["pass"].astype(str) == "False"]
     assert misses["deviation"].fillna("").str.startswith("LSY-").all()

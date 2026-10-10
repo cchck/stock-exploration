@@ -46,19 +46,12 @@ def test_ols_newey_west_matches_statsmodels_hac(ts):
     assert np.allclose(ours.tstats.to_numpy(), ref.tvalues.to_numpy())
 
 
-def test_grs_single_asset_equals_squared_alpha_t_ratio(ts):
-    # With N = 1 the GRS statistic is a scaled squared alpha t-ratio; check against the
-    # textbook formula computed directly.
+def test_grs_single_asset_equals_squared_classical_alpha_t(ts):
+    # With N = 1 the exact GRS F statistic equals the squared homoskedastic t-statistic of
+    # the alpha (an independent check: computed by the OLS routine, not by the GRS formula).
     y, f = ts
-    T, K = len(y), f.shape[1]
-    X = np.column_stack([np.ones(T), f])
-    b = np.linalg.lstsq(X, y, rcond=None)[0]
-    e = y - X @ b
-    s2 = e @ e / T
-    mu = f.mean().to_numpy()
-    om = np.cov(f.to_numpy(), rowvar=False, bias=True)
-    expected = T * (T - 1 - K) / (T - K - 1) * b[0] ** 2 / s2 / (1 + mu @ np.linalg.solve(om, mu))
-    assert grs(pd.DataFrame({"a": y}), f).stat == pytest.approx(expected)
+    t_alpha = ols(y, f, se="classic").tstats["alpha"]
+    assert grs(pd.DataFrame({"a": y}), f).stat == pytest.approx(t_alpha ** 2, rel=1e-10)
 
 
 def test_grs_rejects_large_alphas_and_not_zero_alphas():
@@ -113,3 +106,7 @@ def test_tolerance_rules():
     assert judge("pvalue", 0.41, 0.2) and not judge("pvalue", 0.41, 0.01)
     assert judge("coef", -0.62, -0.1) and not judge("coef", -0.62, 0.1)
     assert judge("pct_return", 1.0, float("nan")) is False
+    assert judge("coef", 0.0, -0.01) is None  # printed 0.00 has no sign
+    assert judge("pvalue", 0.05, 0.049) and judge("pvalue", 0.05, 0.051)
+    assert judge("count", 133, 130) and not judge("count", 133, 108)
+    assert judge("info", 1.0, float("nan")) is None

@@ -118,8 +118,9 @@ def grs(test_assets: pd.DataFrame, factors: pd.DataFrame) -> GRSResult:
     """Gibbons, Ross and Shanken (1989) test that all alphas are zero.
 
     test_assets: T x N excess returns; factors: T x K factor returns (excess where needed).
-    Uses the finite-sample F form: (T/N)(T-N-K)/(T-K-1) * a' S^-1 a / (1 + mu' O^-1 mu),
-    with S and O the MLE (divide by T) covariance matrices of residuals and factors.
+    F = (T - N - K) / N * a' S^-1 a / (1 + mu' O^-1 mu), with S and O the MLE (divide by T)
+    covariance matrices of residuals and factors; F ~ F(N, T - N - K) under the null.
+    Check: with N = 1 this equals the squared classical t-statistic of the alpha.
     """
     data = pd.concat([test_assets, factors], axis=1, keys=["a", "f"]).dropna()
     R, F = data["a"].to_numpy(float), data["f"].to_numpy(float)
@@ -134,8 +135,7 @@ def grs(test_assets: pd.DataFrame, factors: pd.DataFrame) -> GRSResult:
     sigma = E.T @ E / T
     mu = F.mean(axis=0)
     omega = np.cov(F, rowvar=False, bias=True).reshape(K, K)
-    stat = (T / N) * ((T - N - K) / (T - K - 1)) * (alpha @ np.linalg.solve(sigma, alpha)) / (
-        1 + mu @ np.linalg.solve(omega, mu))
+    stat = (T - N - K) / N * (alpha @ np.linalg.solve(sigma, alpha)) / (1 + mu @ np.linalg.solve(omega, mu))
     return GRSResult(stat=float(stat), pvalue=float(sps.f.sf(stat, N, T - N - K)),
                      n_assets=N, n_periods=T, n_factors=K)
 

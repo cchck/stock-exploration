@@ -92,16 +92,22 @@ def earnings_announcements(*, fallback_to_net_profit: bool = True) -> pd.DataFra
 
 def latest_by_month_end(events: pd.DataFrame, months: pd.PeriodIndex, value_cols: list[str],
                         date_col: str = "announce_date") -> pd.DataFrame:
-    """For each stock and month end, the most recent event released strictly before the
-    month's last calendar day ends (date <= month end). If two reports were released on the
-    same day, the one with the later period end wins (it is the more recent report)."""
+    """For each stock and month end, the values of the most recent report released on or
+    before the month end. If two reports were released on the same day, the one with the
+    later period end is the more recent report.
+
+    The whole row of that report is carried forward, missing values included: a NaN in the
+    latest report (e.g. a quarterly flow whose preceding report is missing) stays NaN and is
+    never back-filled from an older report column by column."""
     ev = events.sort_values([date_col, "period_end"]).copy()
     ev["month"] = ev[date_col].dt.to_period("M")
-    # last event per (stock, release month), then forward-fill across months
-    last = ev.groupby(["stkcd", "month"])[[*value_cols, "period_end"]].last()
-    grid = pd.MultiIndex.from_product([last.index.levels[0], months], names=["stkcd", "month"])
-    full = last.reindex(last.index.union(grid)).groupby(level=0).ffill()
-    return full.reindex(grid).reset_index()
+    last = ev.groupby(["stkcd", "month"]).tail(1).set_index(["stkcd", "month"])[[*value_cols, "period_end"]]
+    last["__row"] = np.arange(len(last), dtype=float)
+    grid = pd.MultiIndex.from_product([last.index.get_level_values(0).unique(), months], names=["stkcd", "month"])
+    row = last["__row"].reindex(last.index.union(grid)).groupby(level=0).ffill().reindex(grid)
+    vals = last.drop(columns="__row").reset_index(drop=True)
+    out = vals.reindex(row.to_numpy()).set_index(grid)  # NaN row id -> all-NaN row
+    return out.reset_index()
 
 
 def total_shares_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
@@ -154,6 +160,44 @@ def statement_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     return latest_by_month_end(st, months, ["book_equity", "total_assets", "cash_flow"])
 
 
+def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
+    """Annual-report characteristics for the anomalies LSY test but do not keep (section 6.1,
+    A.2, Online Appendix B.1(e)-(f)), from the latest annual report released on or before
+    each month end (original values, period-end rows only):
+    - asset_growth: total assets / previous year's total assets - 1 (investment);
+    - accruals: Sloan (1996), 2 x [(dCA - dCash) - (dCL - dSTD - dTP) - Dep] / (TA_t-1 + TA_t),
+      with Cash = ending cash and equivalents (C006000000, else 货币资金 A001101000),
+      STD = current portion of non-current liabilities (A002125000) + notes payable
+      (A002107000), TP = taxes payable (A002113000), Dep = depreciation (D000103000) +
+      amortization of intangibles (D000104000);
+    - noa: [(TA - cash - short-term investments) - (TA - short-term borrowing - long-term
+      borrowing - minority interest - book equity)] / TA_t-1 (Hirshleifer et al. 2004).
+    Components missing from a report (an item the firm does not have) count as zero;
+    total assets, current assets and current liabilities must be present.
+    """
+    cols = {"A001000000": "ta", "A001100000": "ca", "A001101000": "cash_bs", "C006000000": "cash_cf",
+            "A002100000": "cl", "A002125000": "cur_ncl", "A002107000": "notes_pay", "A002113000": "tax_pay",
+            "D000103000": "dep", "D000104000": "amort", "A001107000": "st_inv", "A002101000": "st_borrow",
+            "A002201000": "lt_borrow", "A003200000": "minority", "A003100000": "be"}
+    st = load("statements")
+    st = st[st["report_type"] == 4][["stkcd", "period_end", "announce_date", *cols]].rename(columns=cols)
+    st = st.dropna(subset=["announce_date"]).sort_values(["stkcd", "period_end"])
+    st["fy"] = st["period_end"].dt.year
+    for c in ("notes_pay", "tax_pay", "cur_ncl", "dep", "amort", "st_inv", "st_borrow", "lt_borrow", "minority"):
+        st[c] = st[c].fillna(0.0)
+    st["cash"] = st["cash_cf"].fillna(st["cash_bs"])
+    prev = st.groupby("stkcd").shift(1)
+    consecutive = (st["fy"] - prev["fy"]).eq(1)
+    d = lambda c: (st[c] - prev[c]).where(consecutive)
+    acc = (d("ca") - d("cash")) - (d("cl") - (d("cur_ncl") + d("notes_pay")) - d("tax_pay")) - (st["dep"] + st["amort"])
+    st["asset_growth"] = (st["ta"] / prev["ta"] - 1).where(consecutive & (prev["ta"] > 0))
+    st["accruals"] = 2 * acc / (prev["ta"] + st["ta"]).where(consecutive)
+    oa = st["ta"] - st["cash"] - st["st_inv"]
+    ol = st["ta"] - st["st_borrow"] - st["lt_borrow"] - st["minority"] - st["be"]
+    st["noa"] = ((oa - ol) / prev["ta"]).where(consecutive & (prev["ta"] > 0))
+    return latest_by_month_end(st, months, ["asset_growth", "accruals", "noa"])
+
+
 # ---------------------------------------------------------------------------------------------
 # Daily characteristics at month end
 # ---------------------------------------------------------------------------------------------
@@ -194,10 +238,15 @@ def daily_characteristics_month_end() -> pd.DataFrame:
     d = d.sort_values(["stkcd", "date"]).reset_index(drop=True)
     starts = d.groupby("stkcd").cumcount().to_numpy()
     starts = np.arange(len(d)) - starts
-    r = d["Dretwd"].astype(float).to_numpy()
+    # The listing day's return runs from the IPO offer price and its turnover is an IPO
+    # event, so the listing day is left out of every window (same rule as
+    # csmar.panels.daily_to_month).
+    listing = d["stkcd"].map(company_info().set_index("stkcd")["list_date"])
+    not_listing_day = ~d["date"].eq(listing).to_numpy()
+    r = d["Dretwd"].astype(float).where(not_listing_day).to_numpy()
     shares = (d["Dsmvtll"] / d["Clsprc"].astype(float)).to_numpy()
     with np.errstate(invalid="ignore", divide="ignore"):
-        turn = d["Dnshrtrd"].astype(float).to_numpy() / np.where(shares > 0, shares, np.nan)
+        turn = np.where(not_listing_day, d["Dnshrtrd"].astype(float).to_numpy() / np.where(shares > 0, shares, np.nan), np.nan)
         illiq = np.abs(r) / np.where(d["Dnvaltrd"].astype(float).to_numpy() > 0, d["Dnvaltrd"].astype(float).to_numpy(), np.nan)
     out = pd.DataFrame({"stkcd": d["stkcd"], "month": d["date"].dt.to_period("M")})
     out["turn20"] = _rolling_mean(turn, starts, 20, 15)
@@ -220,12 +269,17 @@ def daily_characteristics_month_end() -> pd.DataFrame:
 # The LSY stock-month panel
 # ---------------------------------------------------------------------------------------------
 
-def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered") -> pd.DataFrame:
+def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered", min_listed_months: int = 6,
+                min_records_12m: int = 120, min_records_month: int = 15) -> pd.DataFrame:
     """Holding-month panel: one row per (stock, month t) with ret_t and end-of-(t-1) characteristics.
 
     Columns: stkcd, month (holding month t), ret (Mretwd over t), me (A-share total value at
     end of t-1, yuan), ep, abn_turn and the other daily characteristics, eligible (passes
     the listing/trading filters), in_universe (eligible and not in the bottom shell_cut).
+
+    Filter parameters, all from LSY Appendix A.1: min_listed_months (6, "public within the
+    past six months" excluded), min_records_12m (120 trading records in the past 12 months),
+    min_records_month (15 in the most recent month), shell_cut (bottom 30% by market cap).
     """
     if shell_cut_base not in ("filtered", "all"):
         raise ValueError("shell_cut_base must be 'filtered' or 'all'")
@@ -245,7 +299,7 @@ def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered") ->
 
     info = company_info().set_index("stkcd")["list_date"]
     month_end = s["month"].dt.to_timestamp(how="end").dt.normalize()
-    s["listed_6m"] = s["stkcd"].map(info) <= (month_end - pd.DateOffset(months=6))
+    s["listed_6m"] = s["stkcd"].map(info) <= (month_end - pd.DateOffset(months=min_listed_months))
 
     # EP at month end s: earnings / (close x total shares)
     earn = latest_by_month_end(earnings_announcements(), all_months, ["earnings"])
@@ -261,6 +315,9 @@ def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered") ->
     s["am"] = s["total_assets"] / mv_all
     s["cp"] = s["cash_flow"] / mv_all
 
+    ann = annual_items_month_end(all_months)
+    s = s.merge(ann[["stkcd", "month", "asset_growth", "accruals", "noa"]], on=["stkcd", "month"], how="left")
+
     dch = daily_characteristics_month_end()
     s = s.merge(dch, on=["stkcd", "month"], how="left")
     from replication.lsy.beta import dimson_beta_month_end
@@ -272,8 +329,8 @@ def build_panel(*, shell_cut: float = 0.30, shell_cut_base: str = "filtered") ->
     # has no factor return, yet the paper reports all 204 months. In those months the
     # threshold becomes the market's own trading-day count (deviation_log LSY-2).
     market_days = s.groupby("month")["trading_days"].transform("max")
-    min_days = np.minimum(15, market_days)
-    s["eligible"] = (s["listed_6m"].fillna(False) & (s["days_12m"] >= 120) & (s["trading_days"] >= min_days)
+    min_days = np.minimum(min_records_month, market_days)
+    s["eligible"] = (s["listed_6m"].fillna(False) & (s["days_12m"] >= min_records_12m) & (s["trading_days"] >= min_days)
                      & s["mv_total"].notna())
 
     # Shift: characteristics at the end of s become the sorting variables for holding month s+1.

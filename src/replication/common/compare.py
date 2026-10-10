@@ -10,11 +10,19 @@ per printed number: table, row, col, paper, kind). `kind` selects the tolerance 
 |             | 3.3 lists no separate rule for dispersion, so the return rule is used)  |
 | t           | same significance band: |t| < 1.96 / 1.96-2.78 / > 2.78               |
 | coef        | non-return coefficient (incl. correlations, R-squared slopes): same     |
-|             | sign (the t-band half of the rule is checked on the paired t row)       |
+|             | sign (the t-band half of the rule is checked on the paired t row).      |
+|             | A coefficient printed as 0.00 has no sign: not scored here (None); its  |
+|             | paired t row carries the verdict.                                       |
+| count       | count (deals, stocks): |ours / paper - 1| <= 3% (3.3: counts are       |
+|             | compared as proportions within 3 points)                               |
 | share_pct   | proportion in %: |ours - paper| <= 3 points                            |
-| pvalue      | same reject / not-reject conclusion at 5%                               |
+| pvalue      | same reject / not-reject conclusion at 5%. A p-value printed as 0.05   |
+|             | (rounded, so on the boundary) passes when ours also rounds to 0.05.    |
 | series_corr | month-by-month correlation with a published series >= the threshold    |
 |             | stored in the paper column (0.95 or 0.90)                               |
+| pct_annual  | an annualized return in % per year: |ours - paper| <= 1.2 (the monthly  |
+|             | 0.10-point rule times 12)                                               |
+| upper_bound | the paper states "x or less": ours <= paper + 0.10                     |
 | info        | reported, not scored (e.g. number of months)                            |
 """
 
@@ -43,10 +51,20 @@ def judge(kind: str, paper: float, ours: float) -> bool | None:
     if kind == "t":
         return t_band(ours) == t_band(paper)
     if kind == "coef":
+        if paper == 0:
+            return None
         return np.sign(ours) == np.sign(paper)
+    if kind == "count":
+        return abs(ours / paper - 1) * 100 <= 3.0 + 1e-9
+    if kind == "pct_annual":
+        return abs(ours - paper) <= 1.2 + 1e-9
+    if kind == "upper_bound":
+        return ours <= paper + 0.10 + 1e-9
     if kind == "share_pct":
         return abs(ours - paper) <= 3.0 + 1e-9
     if kind == "pvalue":
+        if round(paper, 2) == 0.05:
+            return round(ours, 2) == 0.05 or ((ours < 0.05) == (paper < 0.05))
         return (ours < 0.05) == (paper < 0.05)
     if kind == "series_corr":
         return ours >= paper

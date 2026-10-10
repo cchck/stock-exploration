@@ -39,33 +39,51 @@ DEVIATION_LINKS = {
     "T6": "LSY-7", "T7": "LSY-7", "T8": "LSY-7", "T9": "LSY-7", "T10": "LSY-7", "factor_check": "LSY-1",
     "F1": "LSY-6", "F2": "LSY-6",
 }
+# Text numbers (table TXT) link by the section prefix of their row label.
+TEXT_LINKS = {"S4": "LSY-3", "S5.1": "LSY-1", "S5.2": "LSY-1", "S5.3": "LSY-9", "S6.1": "LSY-7", "S6.2": "LSY-7",
+              "S7.1": "LSY-1", "S7.2": "LSY-7", "T10": "LSY-7", "T4text": "LSY-8", "S3.3": "LSY-6"}
 
 
-def figures(seg_end: str) -> pd.DataFrame:
-    """Figures 1-2 for deals announced 2007-01..seg_end; returns the scored summary numbers."""
+def deviation_link(table: str, row: str) -> str:
+    if table == "TXT":
+        return TEXT_LINKS.get(row.split(":")[0], "")
+    return DEVIATION_LINKS.get(table, "")
+
+
+FIGURE_SPANS = {"original": ("2007-01-01", "2016-12-31", "2009-01-01"),
+                "extended": ("2017-01-01", None, "2017-01-01"),
+                "full": ("2007-01-01", None, "2009-01-01")}
+
+
+def figures(segment: str = "original") -> pd.DataFrame:
+    """Figures 1-2 for one segment: reverse mergers first announced in the segment's window
+    (from 2007, when WIND's and CSRC's identification starts) and shell values over it.
+    Returns the scored summary numbers (and the section 3.3 text numbers)."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from replication.lsy import shells
+    from replication.lsy import shells, text_numbers
 
+    seg_full = T.lsy_segments()[segment]
+    deal_start, deal_end, f2_start = FIGURE_SPANS[segment]
+    deal_end = deal_end or str(seg_full.end.to_timestamp(how="end").date())
     figdir = OUT / "figures"
     figdir.mkdir(parents=True, exist_ok=True)
-    tag = "original" if seg_end == "2016-12-31" else "full"
-    deals = shells.reverse_mergers(end=seg_end)
+    deals = shells.reverse_mergers(start=deal_start, end=deal_end)
     f1 = shells.figure1(deals)
-    f1.to_csv(figdir / f"fig1_shell_size_deciles_{tag}.csv")
+    f1.to_csv(figdir / f"fig1_shell_size_deciles_{segment}.csv")
     fig, ax = plt.subplots(figsize=(6, 3.5))
     ax.bar(f1.index, f1.values, color="0.3")
     ax.set_xlabel("Size decile (month-end market value three months before the deal)")
     ax.set_ylabel("Fraction")
     ax.set_xticks(range(1, 11))
-    ax.set_title(f"Fig. 1. Size distribution of reverse-merger shells, 2007-{seg_end[:4]} (n = {len(deals)})")
+    ax.set_title(f"Fig. 1. Reverse-merger shells by size decile, {deal_start[:4]}-{deal_end[:4]} (n = {len(deals)})", fontsize=9)
     fig.tight_layout()
-    fig.savefig(figdir / f"fig1_shell_size_deciles_{tag}.png", dpi=150)
+    fig.savefig(figdir / f"fig1_shell_size_deciles_{segment}.png", dpi=150)
     plt.close(fig)
 
-    f2 = shells.figure2(deals, end=seg_end)
-    f2.to_csv(figdir / f"fig2_shell_value_{tag}.csv")
+    f2 = shells.figure2(deals, start=f2_start, end=deal_end)
+    f2.to_csv(figdir / f"fig2_shell_value_{segment}.csv")
     fig, axes = plt.subplots(2, 1, figsize=(7, 5.5), sharex=True)
     axes[0].plot(f2.index, f2["S_over_V"], color="0.2")
     axes[0].set_ylabel("S / V")
@@ -74,15 +92,15 @@ def figures(seg_end: str) -> pd.DataFrame:
     axes[1].set_ylabel("RMB million")
     axes[1].set_title("Panel B. Estimated shell value")
     fig.tight_layout()
-    fig.savefig(figdir / f"fig2_shell_value_{tag}.png", dpi=150)
+    fig.savefig(figdir / f"fig2_shell_value_{segment}.png", dpi=150)
     plt.close(fig)
 
-    seg = T.Segment(tag, pd.Period("2007-01", "M"), pd.Period(seg_end[:7], "M"))
+    seg = T.Segment(segment, pd.Period(deal_start[:7], "M"), pd.Period(deal_end[:7], "M"))
     items = [("deals", "n", float(len(deals))),
              ("shells", "share_bottom30_pct", float(f1.loc[1:3].sum() * 100)),
              ("shells", "share_bottom10_pct", float(f1.loc[1] * 100))]
     f2_items = [("S_over_V", "mean_pct", float(f2["S_over_V"].mean() * 100))]
-    return pd.concat([T._rows("F1", seg, items), T._rows("F2", seg, f2_items)])
+    return pd.concat([T._rows("F1", seg, items), T._rows("F2", seg, f2_items), text_numbers.figure_text(f2, seg)])
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -101,6 +119,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.rebuild:
         T.panel(rebuild=True)
         T.anomaly_spreads(rebuild=True)
+    from replication.lsy import text_numbers
     segs = T.lsy_segments()
     names = list(segs) if args.period == "all" else [args.period]
     OUT.mkdir(parents=True, exist_ok=True)
@@ -108,26 +127,29 @@ def main(argv: list[str] | None = None) -> int:
     for name in names:
         seg = segs[name]
         parts = [TABLE_FUNCS[t](seg) for t in args.tables]
+        parts.append(text_numbers.all_text(seg))
         if name == "original":
             parts.append(T.factor_series_check())
+        if not args.no_figures:
+            parts.append(figures(name))
         out = pd.concat(parts, ignore_index=True)
         out.to_csv(OUT / f"{name}_tables.csv", index=False)
         print(f"{seg}: {len(out)} numbers -> {OUT / f'{name}_tables.csv'}")
         if name == "original":
             original_rows.append(out)
-    if not args.no_figures and args.period in ("all", "original"):
-        fig_orig = figures("2016-12-31")
-        original_rows.append(fig_orig)
-        if args.period == "all":
-            figures(str(T.lsy_segments()["full"].end.to_timestamp(how="end").date()))
-    if original_rows and set(args.tables) == set(TABLE_FUNCS):
+    complete = set(args.tables) == set(TABLE_FUNCS) and not args.no_figures
+    if original_rows and complete:
         ours = pd.concat(original_rows, ignore_index=True)
         c = compare("lsy", ours)
         # pass holds True, False (numpy bool) or None; compare by value, not identity
-        c["deviation"] = [DEVIATION_LINKS.get(t, "") if (p is not None and not p) else "" for t, p in zip(c["table"], c["pass"])]
+        c["deviation"] = [deviation_link(t, r) if (p is not None and not p) else ""
+                          for t, r, p in zip(c["table"], c["row"], c["pass"])]
         c.to_csv(COMPARISON, index=False)
         scored = c[c["pass"].notna()]
         print(f"comparison: {int((scored['pass'] == True).sum())}/{len(scored)} within tolerance -> {COMPARISON}")
+    elif original_rows:
+        # A partial run (subset of tables, or no figures) must not overwrite the full comparison.
+        print(f"partial run: {COMPARISON} left unchanged (needs all tables and figures)")
     print(f"done in {time.time() - t0:.0f}s")
     return 0
 

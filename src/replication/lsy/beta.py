@@ -8,6 +8,7 @@ and its first five lags over the past 12 months, beta = sum of the six slopes.
   daily market series; this is the daily analogue of their MKT (before the shell cut).
 - Window: the stock's trading records in the past 12 calendar months (ending at the month
   end), at least 120 records, matching the 120-record eligibility filter.
+- The listing day is excluded (its return runs from the IPO offer price).
 - Lags are market trading days, so a stock's first day back from suspension is regressed on
   the market's returns of the preceding market days, which is what Dimson's correction is for.
 
@@ -45,7 +46,10 @@ def dimson_beta_month_end() -> pd.DataFrame:
     lags = pd.DataFrame({f"m{k}": mkt.shift(k) for k in range(N_LAGS + 1)})
     d = d.sort_values(["stkcd", "date"]).reset_index(drop=True)
     X = lags.reindex(d["date"]).to_numpy()  # n x 6, market and its lags by market day
-    y = d["Dretwd"].to_numpy()
+    # The listing-day return is measured from the IPO offer price: not a market-model return.
+    from csmar.panels import company_info
+    listing = d["stkcd"].map(company_info().set_index("stkcd")["list_date"])
+    y = d["Dretwd"].where(~d["date"].eq(listing)).to_numpy()
     valid = ~np.isnan(y) & ~np.isnan(X).any(axis=1)
     Xc = np.column_stack([np.ones(len(d)), X])  # n x 7 with intercept
     Xc[~valid] = 0.0

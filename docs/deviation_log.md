@@ -22,9 +22,11 @@ caveats that may cause future deviations are listed too, marked **caveat**.
 | LSY-2 | resolved | 15-trading-day filter in months the market traded fewer than 15 days |
 | LSY-3 | deviation | Table 2: printed numbers use the sample incl. the smallest 30% |
 | LSY-4 | resolved | Table 4: definition of Panel B's stock set |
-| LSY-5 | resolved | Table 1: announcement windows spanning suspensions |
+| LSY-5 | deviation | Table 1: announcement windows spanning suspensions (filter not in the paper) |
 | LSY-6 | deviation | Figures 1–2: reverse mergers identified by rule from CSMAR |
-| LSY-7 | deviation | Tables 6–10: reversal, BM and CP anomalies |
+| LSY-7 | deviation | Tables 6–10 and section 6–7 text: anomalies, reversal, CH-4 summary |
+| LSY-8 | deviation | Table 4 text: industry portfolios (Shenyin-Wanguo not available) |
+| LSY-9 | deviation | Section 5.3 text: FF-5 comparison |
 
 LSY numbers are scored in `results/lsy_comparison.csv` (regenerate with
 `python -m replication.lsy`). The `deviation` column there points to the entries below.
@@ -207,15 +209,27 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
 - Change: count a window only if the stock is in the universe in all 36 months.
 - Result: B 55.6% vs A 55.3%. All 8 numbers are within 3 points.
 
-## LSY-5 Table 1 suspended announcement windows (resolved)
+## LSY-5 Table 1 suspended announcement windows (deviation)
 
 - Without exclusion, an announcement made during a suspension is credited with the whole
-  price move at resumption. The middle group's t then collapses to 2.8 (printed 12.4).
+  price move at resumption. The middle group's t then collapses to 2.8 (printed 12.4), and
+  the smallest group's to 0.3 (printed 6.3).
 - SUE winsorization did not help: SUE has no outliers, max 11.8.
-- Change: exclude windows containing a trading gap of more than 15 calendar days. Holiday
-  closures are at most about 10 days, so they are not excluded.
-- Result: all 18 numbers pass, and the printed monotone pattern in b and R² across size
-  groups is reproduced.
+- Change: exclude windows that contain a trading gap of more than 15 calendar days
+  (`table1(max_gap_days=15)`). Holiday closures are at most about 10 days.
+  - **This filter is not stated in the paper.** It is our choice, motivated by the paper's
+    own exclusion of returns after long suspensions in its sample filters (A.1).
+  - The 15-day threshold was chosen after seeing the results, so it is a tuning choice and
+    is labelled as such here.
+- Result: all 18 numbers are within the lighthouse tolerances. Two caveats:
+  - Those tolerances are loose for this table. The R² values (0.3–2.1%) are scored with
+    the 3-point proportion rule, which they cannot fail. The b values are scored by sign
+    plus the t band, and every printed t is above 2.78.
+  - The printed pattern holds for Panel A b and t and for R² in both panels (increasing
+    with size). It does **not** hold for Panel B b: ours is 0.58 / 0.72 / 0.67 (Smallest /
+    Middle / Largest) vs printed 0.43 / 0.58 / 0.59. Our b values are 20–40% higher than
+    printed.
+- Marked as a deviation, not resolved.
 
 ## LSY-6 Figures 1–2: reverse mergers by rule (deviation)
 
@@ -241,24 +255,83 @@ Target: Table 3 and the month-by-month correlation with Stambaugh's series (ligh
      30%). Not adopted.
 - Expected deviation (lighthouse 5.1: "口径与原文 WIND 不同，预期有偏差").
 
-## LSY-7 Tables 6–10 anomalies (deviation)
+## LSY-7 Tables 6–10 and section 6–7 text: anomalies (deviation)
 
-- 506 of 608 anomaly numbers pass.
+- Tables 6, 7, 8 and 10: 506 of 608 numbers pass. Table 9: 27 of 32.
 - Misses by anomaly: reversal 24, BM 15, abnormal turnover 12, ROE 11, CP 10, MAX 9,
   EP 7, size 7, vol 5, 12-month turnover 2.
-- Reversal: the daily one-fifth-slice construction gives a CAPM alpha of 1.16 (t 2.41) vs
-  printed 1.49 (t 3.06).
-  - Round 1 (min 20 records): no change.
-  - Round 2 (holding one day instead of five): 0.22.
-  - Round 3 (month-end sort as a check): 0.87.
+- Rounds shared by all anomalies:
+  - the construction rounds of LSY-1;
+  - single-quarter earnings and cash flow (CP 1.38 → 0.63, printed 0.73);
+  - listing day excluded from the daily characteristics (review fix, 2026-10-09).
+- Reversal (CAPM alpha 1.16, t 2.41 vs printed 1.49, 3.06):
+  - Round 1, minimum of 20 records: no change.
+  - Round 2, one-day holding: 0.22.
+  - Round 3, month-end sort as a check: 0.87.
   - Not resolved. Most likely cause: the daily return series differs (WIND vs CSMAR) on
     limit-hit and resumption days.
-- CP:
-  - Round 1: single-quarter cash flow, as A.2 defines it: 1.38 → 0.63 (printed 0.73).
-- BM, ROE and the rest: the misses are mostly loadings and t-bands near the 1.96 boundary,
-  with alphas within 0.10–0.15 points. No separate investigation beyond the shared
-  construction rounds of LSY-1.
-- Table 9 (27 of 32 pass):
-  - The CH-3 GRS10 p-value is 0.019 vs printed 0.15. The rejection comes from the reversal
-    and abnormal-turnover alphas, the same direction as in the paper. CH-3 still has by far
-    the smallest average |alpha| (ours 0.42 vs CAPM 0.95 and FF-3 0.82; printed 0.45 / 1.02 / 0.90).
+  - Section 6.1 text: one-month reversal 13.9% a year (t 2.41) vs printed 18% (2.96). The
+    close-price 2012–2016 mean matches (2.11 vs 2.15). The mid-price version needs bid/ask
+    quotes we do not have; it is listed as not producible.
+- One round per remaining anomaly. Score = passes among that anomaly's Table 6/7/8/10
+  numbers.
+  - BM: sort on positive BM only, 47 → 50 of 63. **Not adopted**: the paper restricts only
+    EP and CP to positive values (section 6.1), so BM keeps negative values.
+  - ROE: book equity lagged one quarter, 53 → 53 of 64. No effect.
+  - Abnormal turnover: 20-day turnover alone as a check, 53 → 20 of 63, so the ratio
+    definition is right. Remaining misses: CAPM alpha 1.21 (t 2.77) vs 1.27 (2.92), t
+    bands just below 2.78.
+  - MAX and vol: affected only through the listing-day fix. Remaining misses are mostly
+    t-bands near 1.96 (MAX CAPM t 1.93 vs printed 2.02).
+- Section 6.1 text:
+  - Universe size 607 (2000-01) vs 610 printed; 1,795 (2016-12) vs 1,872 printed (-4.1%,
+    just outside the 3% count rule).
+  - Size-neutral alpha increases: ROE +0.70 vs +0.57, EP +0.39 vs +0.52, 12-month
+    turnover +0.22 vs +0.21.
+  - One-year reversal: 4.3% a year vs 6%; the insignificant t (0.69 vs 0.90) matches.
+- CH-4 summary (section 7.2):
+  - Average |alpha| 0.44 vs printed 0.30. Average |t| 1.17 vs 0.69 (same band).
+  - GRS10 p 0.014 vs 0.41.
+  - The gap is spread across several anomalies. Reversal and MAX match: 0.52 vs 0.49 and
+    -0.57 vs -0.59. The larger CH-4 alphas are:
+    - abnormal turnover -0.35 vs -0.00;
+    - ROE -0.52 vs -0.29;
+    - vol -0.49 vs -0.27;
+    - BM 0.94 vs 0.75;
+    - size 0.37 vs 0.23 (t 2.57 vs 1.41).
+  - Size's significant alpha, together with the overall small alpha differences, drives the
+    GRS rejection.
+  - Most likely cause: our PMO differs a little from the paper's (correlation 0.98 with
+    the website series). That leaves residual turnover and volatility exposure in these
+    spreads.
+  - Panel B (computed, no printed number): average |alpha| 0.49, p 0.18.
+- Table 9: the CH-3 GRS10 p is 0.019 vs printed 0.15. The rejection comes from the
+  reversal and abnormal-turnover alphas. CH-3 still has by far the smallest average
+  |alpha|: ours 0.42 vs CAPM 0.95 and FF-3 0.82; printed 0.45 / 1.02 / 0.90.
+
+## LSY-8 Table 4 text: industry portfolios (deviation)
+
+- The paper uses 37 Shenyin-Wanguo industries; that classification is not in our data.
+- Substitute: CSRC 2012 divisions (two-digit codes; divisions with fewer than 10 stocks are
+  merged into their section), 65 industries, current classification only (D-001).
+- Result:
+  - Industries: average R² 67.1% (MKT) and 77.7% (CH-3) vs printed 72% and 82%. Misses the
+    3-point rule by 1–2 points; the 10-point CH-3 gain over MKT matches.
+  - Anomaly deciles: 87.8% and 92.2% vs printed 85% and 90%, both within tolerance.
+- Most likely cause: finer and different industries (65 CSRC divisions vs 37 SW
+  industries), so the average industry portfolio is less diversified.
+
+## LSY-9 Section 5.3 text: FF-5 comparison (deviation)
+
+- The paper reports (details in its Appendix A.7, following Guo et al. 2017):
+  - CH-3 prices FF-5's non-market factors: GRS p 0.88.
+  - FF-5 does not price SMB and VMG: p 0.0003.
+- Ours, with profitability = quarterly ROE and investment = annual asset growth: p 0.31
+  (same conclusion) and **p 0.71 (opposite conclusion)**.
+- Our ROE-based RMW is built from the same single-quarter earnings as VMG. RMW therefore
+  absorbs VMG, and FF-5 prices it.
+- Not investigated further in milestone 1.2: the FF-5 construction is in LSY's appendix,
+  which is out of scope (lighthouse 5: main text only). Only the two text p-values are in
+  scope.
+- Most likely cause: a different profitability measure (Guo et al. use operating
+  profitability). Marked as a deviation.
