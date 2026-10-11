@@ -29,6 +29,21 @@
 
 W5 是批 B 的前提：表 5–10 都要用到 CH-3/CH-4。W4 和 W5 放在同一批，是因为 W5 只调用 W4 的接口，可以先约定接口再并行写。
 
+### 里程碑 1.4 Li（2026-10-10 拆分）
+
+| 批 | 工作项 | 文件 | lighthouse 条目 |
+|---|---|---|---|
+| A | W10 目标数字改为发表版：表 1–7 和正文数字从录用稿 PDF 抄录；表 3–6 与作者复现包的 Table3.xlsx / Table4.xls / Table6.xls / abs_sig196_*.xls 交叉核对；记录与 SSRN 版的差异 | `targets/li_targets.csv`、`docs/replication_targets.md` | 2、10（1.4 第一步） |
+| A | W11 Li 样本与数据：非金融、剔除 ST/PT 与异常交易状态、负账面权益；板块（沪/深主板、中小板、创业板）；流通市值；三个月存款利率（2000-07 至 2019-06 与作者 `monthlyrf` 对照）；年度、季度财报及披露时点规则 | `src/replication/li/data.py` | 3.1、3.2 |
+| B | W12 组合引擎：主板断点五分位、流通市值加权与等权、全 A 股断点、持有期 N（1/3/6/9/12）重叠组合、分组后剔除股价 < 5 元 | `src/replication/li/portfolios.py` | 5.3 |
+| B | W13 11 个自建因子（MKT、ME、I/A、ROE、FF5 四个、FF3、MOM），与 `allfactors.sas7bdat` 逐月对照（相关 ≥ 0.95）；CH3/CH4 用官网序列，2022 年后用 LSY 模块自建 | `src/replication/li/factors.py` | 3.3、5.3 表 5 |
+| C | W14 异象变量：动量、价值、投资三类 | `src/replication/li/anomalies/{mom,vvg,inv}.py` | 5.3 |
+| C | W15 异象变量：盈利、无形资产两类 | `src/replication/li/anomalies/{prof,intan}.py` | 5.3 |
+| C | W16 异象变量：交易摩擦类（日度数据：特质波动率、偏度、贝塔、换手、价差等） | `src/replication/li/anomalies/fric.py` | 5.3 |
+| D | W17 表 1–7、第 4.2 节（HXZ 对比）、显著异象 g5−g1 与作者序列逐月对照（相关 ≥ 0.90）、对照表、notebook 03、命令行入口、三段延长 | `src/replication/li/tables.py`、`__main__.py`、`notebooks/03_li.ipynb`、`results/li_*` | 5.3、6、7 |
+
+需要用户批准下载的新数据（CSMAR 会话过期，订阅权限待用户登录后核对）：研发投入（RDSpendSum）、分析师关注度与预测乐观度、专利、已实现指标库（有效价差、报价价差、VPIN）、治理主成分所需的机构持股比例等。拿不到的变量按 lighthouse 5.3 用 HXZ 定义或可得替代，逐个注明。
+
 ### 里程碑 1.3 Allen / 1.4 Li / 1.5 报告
 
 每个里程碑开始时再按同样方式拆分写入本文件。届时已有 1.2 的经验，拆分会更准确。已知前提：
