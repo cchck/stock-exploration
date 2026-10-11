@@ -655,3 +655,61 @@ lagged market cap.
   - Large - SOE in returns: t -3.19 vs -1.60 (our SOE coefficient is smaller).
   - N is 9% (returns) and 5–8% (operating) below the printed values: our Table X N shows
     the same gap (ALN-4).
+
+## LI-1 Li factors vs the authors' allfactors (partly resolved)
+
+Standard: month-by-month correlation >= 0.95 with `allfactors.sas7bdat`, 2000-07..2019-06
+(lighthouse 3.3). Current (tests/test_li.py checks the passing ones):
+
+| Factor | Corr | Median abs. monthly gap (pp) |
+|---|---|---|
+| MKT | 1.000 | 0.02 |
+| SMB-FF3 / SMB-FF5 | 0.997 / 0.997 | 0.08 / 0.07 |
+| HML-FF3 / HML-FF5 | 0.958 / 0.961 | 0.11 / 0.10 |
+| RMW | **0.906** (0.997 without 2006-10) | 0.11 |
+| CMA | 0.992 | 0.11 |
+| ME / I/A / ROE | 0.996 / 0.965 / 0.980 | 0.09 / 0.09 / 0.11 |
+| MOM | **0.70** | — |
+
+Rounds that set the kept choices:
+1. Weights: previous month-end circulating cap (fixed June weights lower every
+   correlation). Market cap base: circulating for size, B/M and weights (total-cap variants
+   are lower, HML-FF3 down to 0.77).
+2. Sample filters: the holding-month filter of LI-2 lifts every factor (SMB 0.961 -> 0.997,
+   ME 0.940 -> 0.996, CMA 0.888 -> 0.992). A formation price filter lowers them, so the
+   factors use none.
+3. FF5 sorts use the stocks with B/M, OP and INV all available (the authors' HML-FF5 differs
+   from their HML-FF3): HML-FF5 0.948 -> 0.961, SMB-FF5 0.992 -> 0.997. OP = CSMAR operating
+   profit / book equity (the Fama-French revenue-minus-costs version gives RMW 0.874).
+
+Remaining:
+- **RMW, HML in 2006-10:** one month carries most of the gap (authors' HML-FF3 23.6% vs our
+  5.8%, RMW gap 22.7 pp). No stock in today's CSMAR data has a return large enough; most
+  likely a record in the authors' (2019-2021) CSMAR vintage around the split-share reform.
+- **MOM (0.70):** good in 2000-2005 and 2010-2019 (0.94-1.00 by year), poor in 2006-2007
+  (0.3-0.6) and 2015 (0.66), the years with mass suspensions and share bonuses. Rounds: (a)
+  prior return on a full calendar grid with 11 / 9 / 6 / 1 required months: 0.66-0.71;
+  (b) unadjusted price ratios (a guess at the authors' compounding): 2006-07 improves to
+  0.6-0.8 but 2015 falls to 0.0-0.45, overall 0.69-0.72; (c) non-ST reform statuses (G, S,
+  U, N) allowed at formation: 0.69. Not resolved; MOM enters only the Carhart model.
+
+## LI-2 Li penny-stock and status filter: a look-ahead in the authors' procedure
+
+DM p.2: penny stocks (price < 5) are excluded "after forming quintiles but before calculating
+quintile returns". Calibrated on the authors' quintile series for the price sort
+(`g5_g1_2000_2019/pps_1_2`), whose lowest quintile is the most sensitive:
+- filter at formation only (literal reading): our lowest quintile is empty in 78 months and
+  earns 0.4% vs the authors' 1.1% a month;
+- formation filter before the breakpoints: all months filled, but 1.1% vs 2.3%;
+- formation filter before the breakpoints **and** dropping stocks whose return-month record
+  has price < 5 or an abnormal trading status: every quintile within 0.05 pp of the
+  authors' in 210-228 of 228 months (median gap 0.000-0.002 pp; correlation 0.997-1.000).
+
+The second filter uses the month-end price and status of the return month, which are not
+known when the portfolio is formed. It removes stocks that fall below 5 yuan or become ST
+during the month, which raises low-price and distressed portfolios' returns (here the price
+sort's lowest quintile: 2.3% a month with it, 1.1% without). The comparison with the printed
+numbers uses the authors' procedure (lighthouse 3.1: each paper's own conventions);
+`portfolios.HOLDING_MONTH_FILTER=False` gives the look-ahead-free version, reported next to
+it. Which version the extension segments should headline is a user decision (benchmark
+1.4.0).
