@@ -711,5 +711,6 @@ during the month, which raises low-price and distressed portfolios' returns (her
 sort's lowest quintile: 2.3% a month with it, 1.1% without). The comparison with the printed
 numbers uses the authors' procedure (lighthouse 3.1: each paper's own conventions);
 `portfolios.HOLDING_MONTH_FILTER=False` gives the look-ahead-free version, reported next to
-it. Which version the extension segments should headline is a user decision (benchmark
-1.4.0).
+it. User decision (2026-10-11): the extended and full segments headline the look-ahead-free
+version, with the authors' procedure shown alongside; the original segment's comparison with
+the printed numbers uses the authors' procedure.
