@@ -3,13 +3,13 @@
 # Continuous descriptive statistics and small financial ratios (averages, index/turnover moments, BHR, investment, OCF, dividend yield) use rel10 (lighthouse 3.3 revision 2026-10-10); proportion variables use share_frac / share_pct (3 points); counts use count (relative 3%).
 table,row,col,paper,kind,source
 TI,2000,listed_firms,1062,count,Table I Panel A col (1)
-TI,2000,soe_firms,744,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2000,soe_firms,744,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)"
 TI,2000,avg_assets_usd_bn,0.24,rel10,Table I Panel A col (3) ($ bn)
 TI,2001,listed_firms,1143,count,Table I Panel A col (1)
-TI,2001,soe_firms,751,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2001,soe_firms,751,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)"
 TI,2001,avg_assets_usd_bn,0.32,rel10,Table I Panel A col (3) ($ bn)
 TI,2002,listed_firms,1205,count,Table I Panel A col (1)
-TI,2002,soe_firms,816,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2002,soe_firms,816,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)"
 TI,2002,avg_assets_usd_bn,0.42,rel10,Table I Panel A col (3) ($ bn)
 TI,2003,listed_firms,1267,count,Table I Panel A col (1)
 TI,2003,soe_firms,820,count,Table I Panel A col (2)
@@ -241,7 +241,7 @@ S3A2,delistings,avg_per_year,5,count,Section III.A.2 text: on average only five 
 S3A2,delistings,avg_pct_of_listed,2.7,info,"Section III.A.2 text: '(or 2.7%)' - cannot be a share of listed firms (5 of ~2,000 is 0.25%); reported, not scored"
 S3A2,delistings,share_poor_performance_pct,50,upper_bound,Section III.A.2 text: less than half of delistings due to poor performance
 TXT,soe_share_last_year,pct,30,share_pct,Section I.A text: SOEs were 30% of listed firms by 2018
-TXT,soe_share_2000,pct,70,info,Section I.A text: 70% in 2000; NOT PRODUCIBLE: CSMAR's controller file starts in 2003
+TXT,soe_share_first_year,pct,70,share_pct,"Section I.A text: 70% in 2000 (2000-2002 status carried back from 2003, ALN-9)"
 TXT,listed_firms_1991,n,13,count,Section I.B text: 13 listed firms in 1991
 TXT,dividend_yield_last_year,pct,0.8,rel10,Footnote 11: average dividend yield of A-share firms 0.8% in 2018
 TXT,vw_mean_ocf,pct,6.5,rel10,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%

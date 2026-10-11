@@ -1,12 +1,12 @@
 table,row,col,paper,kind,source,ours,diff,pass,deviation
 TI,2000,listed_firms,1062.0,count,Table I Panel A col (1),1061.0,-1.0,True,
-TI,2000,soe_firms,744.0,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\""",,,,
+TI,2000,soe_firms,744.0,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)",765.0,21.0,True,
 TI,2000,avg_assets_usd_bn,0.24,rel10,Table I Panel A col (3) ($ bn),0.24234923823977028,0.0023492382397702904,True,
 TI,2001,listed_firms,1143.0,count,Table I Panel A col (1),1140.0,-3.0,True,
-TI,2001,soe_firms,751.0,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\""",,,,
+TI,2001,soe_firms,751.0,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)",826.0,75.0,False,ALN-1
 TI,2001,avg_assets_usd_bn,0.32,rel10,Table I Panel A col (3) ($ bn),0.3205636163559526,0.0005636163559525897,True,
 TI,2002,listed_firms,1205.0,count,Table I Panel A col (1),1208.0,3.0,True,
-TI,2002,soe_firms,816.0,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\""",,,,
+TI,2002,soe_firms,816.0,count,"Table I Panel A col (2) (2000-2002: controller status carried back from 2003, ALN-9)",883.0,67.0,False,ALN-1
 TI,2002,avg_assets_usd_bn,0.42,rel10,Table I Panel A col (3) ($ bn),0.4150462397515175,-0.004953760248482486,True,
 TI,2003,listed_firms,1267.0,count,Table I Panel A col (1),1267.0,0.0,True,
 TI,2003,soe_firms,820.0,count,Table I Panel A col (2),927.0,107.0,False,ALN-1
@@ -238,7 +238,7 @@ S3A2,delistings,avg_per_year,5.0,count,Section III.A.2 text: on average only fiv
 S3A2,delistings,avg_pct_of_listed,2.7,info,"Section III.A.2 text: '(or 2.7%)' - cannot be a share of listed firms (5 of ~2,000 is 0.25%); reported, not scored",0.3127712768334586,-2.3872287231665417,,
 S3A2,delistings,share_poor_performance_pct,50.0,upper_bound,Section III.A.2 text: less than half of delistings due to poor performance,57.42574257425742,7.42574257425742,False,ALN-7
 TXT,soe_share_last_year,pct,30.0,share_pct,Section I.A text: SOEs were 30% of listed firms by 2018,30.350631136044882,0.35063113604488194,True,
-TXT,soe_share_2000,pct,70.0,info,Section I.A text: 70% in 2000; NOT PRODUCIBLE: CSMAR's controller file starts in 2003,,,,
+TXT,soe_share_first_year,pct,70.0,share_pct,"Section I.A text: 70% in 2000 (2000-2002 status carried back from 2003, ALN-9)",73.20574162679426,3.205741626794264,False,ALN-8
 TXT,listed_firms_1991,n,13.0,count,Section I.B text: 13 listed firms in 1991,13.0,0.0,True,
 TXT,dividend_yield_last_year,pct,0.8,rel10,Footnote 11: average dividend yield of A-share firms 0.8% in 2018,1.3310740571977577,0.5310740571977577,False,ALN-8
 TXT,vw_mean_ocf,pct,6.5,rel10,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%,7.538471106944736,1.038471106944736,False,ALN-8

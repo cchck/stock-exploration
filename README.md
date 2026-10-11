@@ -18,7 +18,7 @@ asset pricing) to the Chinese market.
 
 ## Status (2026-10-10)
 
-Milestones 1.1 (data layer) and 1.2 (LSY) done; 1.3 (Allen) in review; 1.4 (Li) and 1.5 (report) next.
+Milestones 1.1 (data layer) and 1.2 (LSY) done; 1.3 (Allen) done (guard warn, gaps in docs/deviation_log.md); 1.4 (Li) in progress; 1.5 (report) next.
 Progress log: `benchmark.md`; deviations: `docs/deviation_log.md`.
 
 ## Layout

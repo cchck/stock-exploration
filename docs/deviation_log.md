@@ -412,7 +412,9 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
 
 - **Listed firms:** all 19 years are within 3%; the unique-firm count is 3,668 vs 3,695.
 - **SOE counts:**
-  - 2000–2002 are not producible: the controller file starts in 2003.
+  - 2000–2002: the controller file starts in 2003, so each firm's earliest observed status
+    is carried back (ALN-9 round 3). 2000: 765 vs 744 (+2.8%); 2001: 826 vs 751 (+10%);
+    2002: 883 vs 816 (+8%), in line with the +10–19% of 2003–2014.
   - 2003–2014 are 10–19% above the printed counts (2005: 933 vs 784, +19%).
   - 2015–2017 are 6–8% below; 2018 is 1,082 vs 1,078.
   - The printed series jumps by 23% in 2015 (879 to 1,081) while ours moves by 0.5%.
@@ -599,8 +601,13 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
     printed 13% and 6%; the pre-IPO year is in CSMAR for 1,033 firms. The direction of the
     drop is reproduced.
   - Capex one year after the IPO: 8.1% vs 7% (+16%).
-  - Dividend yield 2018: 1.33% vs 0.8% (+66%). Not investigated further: footnote 11
-    gives no definition (cash dividend over year-end price, equal-weighted is ours).
+  - Dividend yield 2018: 1.33% vs 0.8% (+66%). Footnote 11 gives no definition; ours is
+    cash dividends per share with 2018 ex-dates over the year-end close, equal-weighted
+    over A shares (non-payers count as zero). Rounds:
+    1. Value-weighted by total market cap: 2.28%.
+    2. Dividend payers only: 1.70%.
+    3. Cross-sectional median: 0.83%, which matches the printed 0.8%. The footnote says
+       "average", so the mean is kept and scored; the median is reported here only.
   - Value-weighted OCF / assets: 7.5% vs 6.5% (+16%).
 - **Other misses:**
   - Capex the year before the IPO: 7.4% vs 3%. CSMAR's prospectus-year cash-flow
@@ -609,8 +616,9 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
   - Footnote 32 (small minus large G-Index-A, Internet Appendix): 2004 0.333 vs 0.058 and
     2007 0.392 vs 0.375 (passes). The 2004 gap is driven by the state-holdings component (SOEs held
     state shares before the reform).
+- **SOE share in 2000:** 73.2% vs 70% (3.2 points, just outside the 3-point rule), with
+  2000–2002 statuses carried back from 2003 (ALN-9).
 - **Not producible:**
-  - the 2000 SOE share (70%; no controller data before 2003);
   - the Figure 4 t-statistics against US firms (need US data).
 
 ## ALN-9 Allen Table XII Panel A (deviation)

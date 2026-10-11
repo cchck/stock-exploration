@@ -52,8 +52,7 @@ blocker (missing variable definitions) is resolved.
 ## 3. Allen, Qian, Shan & Zhu (2024, JF 79(2):993-1054), "Dissecting the long-term performance of the Chinese stock market"
 
 **Superseded (2026-10-10):** every in-scope printed number is in `targets/allen_targets.csv` and scored in
-`results/allen_comparison.csv`. The rows below are kept for history. Table XII Panel A is in scope since the lighthouse revision of 2026-10-10 (Panels B–C out of scope)
-(pending the user's decision on Panel A, benchmark 1.3.2).
+`results/allen_comparison.csv`. The rows below are kept for history. Table XII Panel A is in scope since the lighthouse revision of 2026-10-10 (Panels B–C out of scope).
 
 Only the within-A-share parts are in scope; cross-country tests need Worldscope, BoardEx,
 RiskMetrics and the NBS industrial firm database, which we do not have.
@@ -62,7 +61,7 @@ RiskMetrics and the NBS industrial firm database, which we do not have.
 |---|---|---|
 | Figure 1: real value of RMB 1 in VW A-share portfolio, 2000 -> 2018 | 1.01 | todo |
 | Figure 2: BHR of large / medium / small A-shares (30/70 pct of lagged market cap) | plot | todo |
-| Table XII Panel A: Large / SOE coefficients in annual return regression | -6.353 (t -3.95) / -2.793 (t -1.84) | todo |
+| Table XII Panel A: Large / SOE coefficients in annual return regression | -6.353 (t -3.95) / -2.793 (t -1.84) | done (ALN-9) |
 | Table VIII Panel B: G-Index-A mean, small vs large, SOE vs non-SOE | 2.722 vs 2.235; 2.211 vs 2.845 | todo |
 | Section III.A.2: delistings per year 2000-2018 | about 5 (2.7%) | todo |
 

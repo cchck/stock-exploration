@@ -58,6 +58,16 @@ def _in(seg: Segment) -> pd.DataFrame:
     return D.winsorize(x, [c for c in D.WINSORIZED_5_95 if c in x], 0.05, 0.95)
 
 
+def soe_carried_back(x: pd.DataFrame) -> pd.Series:
+    """SOE flag with 2000-2002 filled from each firm's earliest observed status. CSMAR's
+    controller file starts in 2003, but the paper classifies every firm-year from 2000
+    (Table XII's N equals Table X's; Table I prints SOE counts for 2000-2002). Carrying back
+    puts the 2000 SOE share at 73% against the 70% printed in section I.A (deviation_log
+    ALN-9). Years from 2003 keep the observed flag."""
+    first = x.dropna(subset=["soe"]).sort_values("fy").groupby("stkcd")["soe"].first()
+    return x["soe"].where(x["fy"] >= SOE_FIRST_YEAR, x["soe"].fillna(x["stkcd"].map(first)))
+
+
 # ---------------------------------------------------------------------------------------------
 # Table I (A-share columns)
 # ---------------------------------------------------------------------------------------------
@@ -65,11 +75,11 @@ def _in(seg: Segment) -> pd.DataFrame:
 def table1(seg: Segment) -> pd.DataFrame:
     """Table I Panel A, A-share columns: listed firms, SOEs, average total assets ($ billion,
     winsorized), by year, plus the unique-firm row."""
-    x = _in(seg)
+    x = _in(seg).copy()
+    x["soe"] = soe_carried_back(x)  # 2000-2002 carried back (ALN-1, ALN-9)
     items = []
     for y, g in x.groupby("fy"):
-        # SOE flags exist from 2003 (controller file); the few earlier rows are not a count.
-        soe = float(g["soe"].sum()) if y >= SOE_FIRST_YEAR else np.nan
+        soe = float(g["soe"].sum())
         items += [(str(y), "listed_firms", float(len(g))), (str(y), "soe_firms", soe),
                   (str(y), "avg_assets_usd_bn", float(g["at_usd_bn"].mean()))]
     items += [("unique", "listed_firms", float(x["stkcd"].nunique())),
@@ -364,8 +374,7 @@ def table12(seg: Segment) -> pd.DataFrame:
     x = _in(seg).copy()
     cut = x.groupby("fy")["mcap_lag"].transform(lambda s: s.quantile(0.70))
     x["Large"] = np.where(x["mcap_lag"].notna(), (x["mcap_lag"] > cut).astype(float), np.nan)
-    first = x.dropna(subset=["soe"]).sort_values("fy").groupby("stkcd")["soe"].first()
-    x["SOE"] = x["soe"].where(x["fy"] >= SOE_FIRST_YEAR, x["soe"].fillna(x["stkcd"].map(first)))
+    x["SOE"] = soe_carried_back(x)
     items = []
     for col, dep, w, ctrl in (("(1)", "ret_real", "mcap_lag_usd", CONTROLS + ["std_ret_lag"]),
                               ("(2)", "capx", None, CONTROLS), ("(3)", "ocf", None, CONTROLS),
@@ -437,8 +446,8 @@ def table13(seg: Segment) -> pd.DataFrame:
 
 def text_numbers(seg: Segment) -> pd.DataFrame:
     """Numbers Allen et al. print in the text about the A-share sample (lighthouse 7.3):
-    - SOE share of listed firms at the end (printed 30% in 2018; the 2000 value, 70%, is not
-      producible because CSMAR's controller file starts in 2003);
+    - SOE share of listed firms at the end (printed 30% in 2018) and in the first year
+      (printed 70% in 2000; 2000-2002 status carried back from 2003, ALN-9);
     - listed A-share firms in 1991 (printed 13);
     - average dividend yield in the last year (printed 0.8% in 2018; footnote 11): cash
       dividends per share with ex-dates in the year over the year-end close;
@@ -450,6 +459,8 @@ def text_numbers(seg: Segment) -> pd.DataFrame:
     items = []
     g = x[x["fy"] == last]
     items.append(("soe_share_last_year", "pct", float(g["soe"].mean() * 100) if g["soe"].notna().any() else np.nan))
+    g0 = x[x["fy"] == seg.start.year]
+    items.append(("soe_share_first_year", "pct", float(soe_carried_back(x)[g0.index].mean() * 100)))
     m = load("stock_month")
     a = m[m["is_a_share"]]
     items.append(("listed_firms_1991", "n", float((a.groupby("stkcd")["month"].min().dt.year <= 1991).sum())))

@@ -241,6 +241,7 @@ S3A2,extended,2019-01,2025-12,delistings,avg_per_year,31.428571428571427
 S3A2,extended,2019-01,2025-12,delistings,avg_pct_of_listed,0.6196871631675512
 S3A2,extended,2019-01,2025-12,delistings,share_poor_performance_pct,91.36363636363637
 TXT,extended,2019-01,2025-12,soe_share_last_year,pct,27.480776272427683
+TXT,extended,2019-01,2025-12,soe_share_first_year,pct,30.53780617678381
 TXT,extended,2019-01,2025-12,listed_firms_1991,n,13.0
 TXT,extended,2019-01,2025-12,dividend_yield_last_year,pct,1.0356725523548902
 TXT,extended,2019-01,2025-12,vw_mean_ocf,pct,5.985498461672685

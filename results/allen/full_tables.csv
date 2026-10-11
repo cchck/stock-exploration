@@ -1,12 +1,12 @@
 table,segment,start,end,row,col,value
 TI,full,2000-01,2025-12,2000,listed_firms,1061.0
-TI,full,2000-01,2025-12,2000,soe_firms,
+TI,full,2000-01,2025-12,2000,soe_firms,765.0
 TI,full,2000-01,2025-12,2000,avg_assets_usd_bn,0.2425199939534699
 TI,full,2000-01,2025-12,2001,listed_firms,1140.0
-TI,full,2000-01,2025-12,2001,soe_firms,
+TI,full,2000-01,2025-12,2001,soe_firms,826.0
 TI,full,2000-01,2025-12,2001,avg_assets_usd_bn,0.3207847924442035
 TI,full,2000-01,2025-12,2002,listed_firms,1208.0
-TI,full,2000-01,2025-12,2002,soe_firms,
+TI,full,2000-01,2025-12,2002,soe_firms,883.0
 TI,full,2000-01,2025-12,2002,avg_assets_usd_bn,0.41528586658064237
 TI,full,2000-01,2025-12,2003,listed_firms,1267.0
 TI,full,2000-01,2025-12,2003,soe_firms,927.0
@@ -336,6 +336,7 @@ S3A2,full,2000-01,2025-12,delistings,avg_per_year,12.346153846153847
 S3A2,full,2000-01,2025-12,delistings,avg_pct_of_listed,0.39540247700032977
 S3A2,full,2000-01,2025-12,delistings,share_poor_performance_pct,80.68535825545172
 TXT,full,2000-01,2025-12,soe_share_last_year,pct,27.480776272427683
+TXT,full,2000-01,2025-12,soe_share_first_year,pct,73.20574162679426
 TXT,full,2000-01,2025-12,listed_firms_1991,n,13.0
 TXT,full,2000-01,2025-12,dividend_yield_last_year,pct,1.0356725523548902
 TXT,full,2000-01,2025-12,vw_mean_ocf,pct,7.177741797493894
