@@ -1,67 +1,67 @@
 # Allen, Qian, Shan & Zhu (2024, JF 79(2)). Transcribed from references/Allen_2024_JF.pdf (A-share parts in scope, lighthouse 5.2).
-# kind -> tolerance rule, see src/replication/common/compare.py. Descriptive statistics: proportion variables use share_frac
-# (3 points, values stored as fractions); indices, board size, turnover and buy-and-hold values use count (relative 3%).
+# kind -> tolerance rule, see src/replication/common/compare.py.
+# Continuous descriptive statistics and small financial ratios (averages, index/turnover moments, BHR, investment, OCF, dividend yield) use rel10 (lighthouse 3.3 revision 2026-10-10); proportion variables use share_frac / share_pct (3 points); counts use count (relative 3%).
 table,row,col,paper,kind,source
 TI,2000,listed_firms,1062,count,Table I Panel A col (1)
-TI,2000,soe_firms,744,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
-TI,2000,avg_assets_usd_bn,0.24,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2000,soe_firms,744,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2000,avg_assets_usd_bn,0.24,rel10,Table I Panel A col (3) ($ bn)
 TI,2001,listed_firms,1143,count,Table I Panel A col (1)
-TI,2001,soe_firms,751,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
-TI,2001,avg_assets_usd_bn,0.32,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2001,soe_firms,751,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2001,avg_assets_usd_bn,0.32,rel10,Table I Panel A col (3) ($ bn)
 TI,2002,listed_firms,1205,count,Table I Panel A col (1)
-TI,2002,soe_firms,816,info,\"Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"
-TI,2002,avg_assets_usd_bn,0.42,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2002,soe_firms,816,info,"\""Table I Panel A col (2); NOT PRODUCIBLE: CSMAR's actual-controller file starts in 2003\"""
+TI,2002,avg_assets_usd_bn,0.42,rel10,Table I Panel A col (3) ($ bn)
 TI,2003,listed_firms,1267,count,Table I Panel A col (1)
 TI,2003,soe_firms,820,count,Table I Panel A col (2)
-TI,2003,avg_assets_usd_bn,0.5,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2003,avg_assets_usd_bn,0.5,rel10,Table I Panel A col (3) ($ bn)
 TI,2004,listed_firms,1356,count,Table I Panel A col (1)
 TI,2004,soe_firms,821,count,Table I Panel A col (2)
-TI,2004,avg_assets_usd_bn,0.52,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2004,avg_assets_usd_bn,0.52,rel10,Table I Panel A col (3) ($ bn)
 TI,2005,listed_firms,1352,count,Table I Panel A col (1)
 TI,2005,soe_firms,784,count,Table I Panel A col (2)
-TI,2005,avg_assets_usd_bn,0.57,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2005,avg_assets_usd_bn,0.57,rel10,Table I Panel A col (3) ($ bn)
 TI,2006,listed_firms,1435,count,Table I Panel A col (1)
 TI,2006,soe_firms,813,count,Table I Panel A col (2)
-TI,2006,avg_assets_usd_bn,0.72,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2006,avg_assets_usd_bn,0.72,rel10,Table I Panel A col (3) ($ bn)
 TI,2007,listed_firms,1548,count,Table I Panel A col (1)
 TI,2007,soe_firms,834,count,Table I Panel A col (2)
-TI,2007,avg_assets_usd_bn,1.19,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2007,avg_assets_usd_bn,1.19,rel10,Table I Panel A col (3) ($ bn)
 TI,2008,listed_firms,1603,count,Table I Panel A col (1)
 TI,2008,soe_firms,843,count,Table I Panel A col (2)
-TI,2008,avg_assets_usd_bn,1.37,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2008,avg_assets_usd_bn,1.37,rel10,Table I Panel A col (3) ($ bn)
 TI,2009,listed_firms,1751,count,Table I Panel A col (1)
 TI,2009,soe_firms,865,count,Table I Panel A col (2)
-TI,2009,avg_assets_usd_bn,1.58,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2009,avg_assets_usd_bn,1.58,rel10,Table I Panel A col (3) ($ bn)
 TI,2010,listed_firms,2106,count,Table I Panel A col (1)
 TI,2010,soe_firms,903,count,Table I Panel A col (2)
-TI,2010,avg_assets_usd_bn,1.62,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2010,avg_assets_usd_bn,1.62,rel10,Table I Panel A col (3) ($ bn)
 TI,2011,listed_firms,2341,count,Table I Panel A col (1)
 TI,2011,soe_firms,901,count,Table I Panel A col (2)
-TI,2011,avg_assets_usd_bn,1.72,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2011,avg_assets_usd_bn,1.72,rel10,Table I Panel A col (3) ($ bn)
 TI,2012,listed_firms,2470,count,Table I Panel A col (1)
 TI,2012,soe_firms,927,count,Table I Panel A col (2)
-TI,2012,avg_assets_usd_bn,1.82,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2012,avg_assets_usd_bn,1.82,rel10,Table I Panel A col (3) ($ bn)
 TI,2013,listed_firms,2515,count,Table I Panel A col (1)
 TI,2013,soe_firms,926,count,Table I Panel A col (2)
-TI,2013,avg_assets_usd_bn,2.02,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2013,avg_assets_usd_bn,2.02,rel10,Table I Panel A col (3) ($ bn)
 TI,2014,listed_firms,2632,count,Table I Panel A col (1)
 TI,2014,soe_firms,879,count,Table I Panel A col (2)
-TI,2014,avg_assets_usd_bn,2.21,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2014,avg_assets_usd_bn,2.21,rel10,Table I Panel A col (3) ($ bn)
 TI,2015,listed_firms,2823,count,Table I Panel A col (1)
 TI,2015,soe_firms,1081,count,Table I Panel A col (2)
-TI,2015,avg_assets_usd_bn,2.38,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2015,avg_assets_usd_bn,2.38,rel10,Table I Panel A col (3) ($ bn)
 TI,2016,listed_firms,3118,count,Table I Panel A col (1)
 TI,2016,soe_firms,1103,count,Table I Panel A col (2)
-TI,2016,avg_assets_usd_bn,2.5,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2016,avg_assets_usd_bn,2.5,rel10,Table I Panel A col (3) ($ bn)
 TI,2017,listed_firms,3495,count,Table I Panel A col (1)
 TI,2017,soe_firms,1150,count,Table I Panel A col (2)
-TI,2017,avg_assets_usd_bn,2.46,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2017,avg_assets_usd_bn,2.46,rel10,Table I Panel A col (3) ($ bn)
 TI,2018,listed_firms,3591,count,Table I Panel A col (1)
 TI,2018,soe_firms,1078,count,Table I Panel A col (2)
-TI,2018,avg_assets_usd_bn,2.78,count,Table I Panel A col (3) ($ bn; relative 3% rule)
+TI,2018,avg_assets_usd_bn,2.78,rel10,Table I Panel A col (3) ($ bn)
 TI,unique,listed_firms,3695,count,Table I unique firms
 TI,unique,soe_firms,1372,count,Table I unique SOEs
-TI,unique,avg_assets_usd_bn,1.59,count,Table I average assets
+TI,unique,avg_assets_usd_bn,1.59,rel10,Table I average assets
 TVIII,A:CEO Duality,mean,0.208,share_frac,"Table VIII Panel A, Chinese A-share row"
 TVIII,A:CEO Duality,median,0,share_frac,"Table VIII Panel A, Chinese A-share row"
 TVIII,A:CEO Duality,std,0.406,share_frac,"Table VIII Panel A, Chinese A-share row"
@@ -77,21 +77,21 @@ TVIII,A:Executive Holdings,median,0.001,share_frac,"Table VIII Panel A, Chinese 
 TVIII,A:Executive Holdings,std,0.186,share_frac,"Table VIII Panel A, Chinese A-share row"
 TVIII,A:Executive Holdings,max,0.681,share_frac,"Table VIII Panel A, Chinese A-share row"
 TVIII,A:Executive Holdings,min,0,share_frac,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:Board Size,mean,16.8,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:Board Size,median,16,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:Board Size,std,4.029,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:Board Size,max,54,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:Board Size,min,1,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:G-Index-I,mean,2.271,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:G-Index-I,median,2,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:G-Index-I,std,1.527,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:G-Index-I,max,7,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,A:G-Index-I,min,0,count,"Table VIII Panel A, Chinese A-share row"
-TVIII,B:G-Index-A,mean,2.482,count,Table VIII Panel B
-TVIII,B:G-Index-A,median,2,count,Table VIII Panel B
-TVIII,B:G-Index-A,std,1.181,count,Table VIII Panel B
-TVIII,B:G-Index-A,max,6,count,Table VIII Panel B
-TVIII,B:G-Index-A,min,0,count,Table VIII Panel B
+TVIII,A:Board Size,mean,16.8,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:Board Size,median,16,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:Board Size,std,4.029,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:Board Size,max,54,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:Board Size,min,1,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:G-Index-I,mean,2.271,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:G-Index-I,median,2,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:G-Index-I,std,1.527,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:G-Index-I,max,7,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,A:G-Index-I,min,0,rel10,"Table VIII Panel A, Chinese A-share row"
+TVIII,B:G-Index-A,mean,2.482,rel10,Table VIII Panel B
+TVIII,B:G-Index-A,median,2,rel10,Table VIII Panel B
+TVIII,B:G-Index-A,std,1.181,rel10,Table VIII Panel B
+TVIII,B:G-Index-A,max,6,rel10,Table VIII Panel B
+TVIII,B:G-Index-A,min,0,rel10,Table VIII Panel B
 TVIII,B:State Ownership,mean,0.116,share_frac,Table VIII Panel B
 TVIII,B:State Ownership,median,0,share_frac,Table VIII Panel B
 TVIII,B:State Ownership,std,0.211,share_frac,Table VIII Panel B
@@ -102,19 +102,19 @@ TVIII,B:RPT Net Out Amt,median,0,share_frac,Table VIII Panel B
 TVIII,B:RPT Net Out Amt,std,0.117,share_frac,Table VIII Panel B
 TVIII,B:RPT Net Out Amt,max,0.524,share_frac,Table VIII Panel B
 TVIII,B:RPT Net Out Amt,min,-0.475,share_frac,Table VIII Panel B
-TVIII,B:Small-Large,first,2.722,count,Table VIII Panel B: Small
-TVIII,B:Small-Large,second,2.235,count,Table VIII Panel B: Large
-TVIII,B:Small-Large,difference,0.487,count,Table VIII Panel B
+TVIII,B:Small-Large,first,2.722,rel10,Table VIII Panel B: Small
+TVIII,B:Small-Large,second,2.235,rel10,Table VIII Panel B: Large
+TVIII,B:Small-Large,difference,0.487,rel10,Table VIII Panel B
 TVIII,B:Small-Large,t,7.76,t,Table VIII Panel B
-TVIII,B:Non-SOE minus SOE,first,2.845,count,Table VIII Panel B: Non-SOE
-TVIII,B:Non-SOE minus SOE,second,2.211,count,Table VIII Panel B: SOE
-TVIII,B:Non-SOE minus SOE,difference,0.699,count,Table VIII Panel B (printed as SOE vs Non-SOE difference 0.699)
+TVIII,B:Non-SOE minus SOE,first,2.845,rel10,Table VIII Panel B: Non-SOE
+TVIII,B:Non-SOE minus SOE,second,2.211,rel10,Table VIII Panel B: SOE
+TVIII,B:Non-SOE minus SOE,difference,0.699,rel10,Table VIII Panel B (printed as SOE vs Non-SOE difference 0.699)
 TVIII,B:Non-SOE minus SOE,t,62.56,t,Table VIII Panel B
-TIX,B:Stock-Level Turnover,mean,3.148,count,Table IX Panel B
-TIX,B:Stock-Level Turnover,median,2.487,count,Table IX Panel B
-TIX,B:Stock-Level Turnover,std,2.383,count,Table IX Panel B
-TIX,B:Stock-Level Turnover,min,0.271,count,Table IX Panel B
-TIX,B:Stock-Level Turnover,max,12.178,count,Table IX Panel B
+TIX,B:Stock-Level Turnover,mean,3.148,rel10,Table IX Panel B
+TIX,B:Stock-Level Turnover,median,2.487,rel10,Table IX Panel B
+TIX,B:Stock-Level Turnover,std,2.383,rel10,Table IX Panel B
+TIX,B:Stock-Level Turnover,min,0.271,rel10,Table IX Panel B
+TIX,B:Stock-Level Turnover,max,12.178,rel10,Table IX Panel B
 TIX,B:Market-Level AH Premium,mean,1.328,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
 TIX,B:Market-Level AH Premium,median,0.843,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
 TIX,B:Market-Level AH Premium,std,1.33,info,Table IX Panel B; NOT PRODUCIBLE: needs H-share prices (CSMAR HK databases not subscribed)
@@ -223,7 +223,7 @@ TXIII,B:Net Cash Flows,(6) t,-1.637,t,Table XIII
 TXIII,B:Net Cash Flows,(6) R2 (%),9.48,share_pct,Table XIII
 TXIII,B:Net Cash Flows,(6) N,2162,count,Table XIII
 TXIII,matched,cross_listed_firms,99,count,Table XIII note / section III.D.2 text (99 A+H firms)
-F1-2,BHR_end,all,1.01,count,Figure 1 / section I.B text: RMB 1 -> 1.01 real by 2018
+F1-2,BHR_end,all,1.01,rel10,Figure 1 / section I.B text: RMB 1 -> 1.01 real by 2018
 F1-2,BHR_end,small,,info,"Figure 2 (plot only, no printed value; user visual check)"
 F1-2,BHR_end,medium,,info,"Figure 2 (plot only, no printed value; user visual check)"
 F1-2,BHR_end,large,,info,"Figure 2 (plot only, no printed value; user visual check)"
@@ -235,21 +235,53 @@ F4,year-3,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3]
 F4,year-2,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
 F4,year-1,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
 F4,year0,roa_weighted,,info,"Figure 4 (plot only; text: ROA positive in [-5,-3], below zero from -2)"
-F5,average,investment_pct,4.4,share_pct,Section III.A.3 text: A-share value-weighted investment around 4.4% per year (scored with the 1.2-point annual rule)
-F5,average,ncf_pct,1.5,share_pct,Section III.A.3 text: A-share value-weighted net cash flows 1.5%
+F5,average,investment_pct,4.4,rel10,Section III.A.3 text: A-share value-weighted investment around 4.4% per year
+F5,average,ncf_pct,1.5,rel10,Section III.A.3 text: A-share value-weighted net cash flows 1.5%
 S3A2,delistings,avg_per_year,5,count,Section III.A.2 text: on average only five stocks delisted per year
 S3A2,delistings,avg_pct_of_listed,2.7,info,"Section III.A.2 text: '(or 2.7%)' - cannot be a share of listed firms (5 of ~2,000 is 0.25%); reported, not scored"
 S3A2,delistings,share_poor_performance_pct,50,upper_bound,Section III.A.2 text: less than half of delistings due to poor performance
 TXT,soe_share_last_year,pct,30,share_pct,Section I.A text: SOEs were 30% of listed firms by 2018
 TXT,soe_share_2000,pct,70,info,Section I.A text: 70% in 2000; NOT PRODUCIBLE: CSMAR's controller file starts in 2003
 TXT,listed_firms_1991,n,13,count,Section I.B text: 13 listed firms in 1991
-TXT,dividend_yield_last_year,pct,0.8,share_pct,Footnote 11: average dividend yield of A-share firms 0.8% in 2018
-TXT,vw_mean_ocf,pct,6.5,share_pct,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%
-TXT,g_index_a_small_minus_large_2004,value,0.058,count,Footnote 32 (from Internet Appendix Table IA.XVIII): small-large G-Index-A gap 2004
-TXT,g_index_a_small_minus_large_2007,value,0.375,count,Footnote 32: gap 0.375 by 2007
+TXT,dividend_yield_last_year,pct,0.8,rel10,Footnote 11: average dividend yield of A-share firms 0.8% in 2018
+TXT,vw_mean_ocf,pct,6.5,rel10,Section III.A.3 text: value-weighted mean OCF-to-assets 6.5%
+TXT,g_index_a_small_minus_large_2004,value,0.058,rel10,Footnote 32 (from Internet Appendix Table IA.XVIII): small-large G-Index-A gap 2004
+TXT,g_index_a_small_minus_large_2007,value,0.375,rel10,Footnote 32: gap 0.375 by 2007
 TXT,figure4_yearly_t_vs_US,t,,info,Figure 4 caption t-statistics of the A-share vs US difference; NOT PRODUCIBLE: needs US delisted-firm data (out of scope)
-TXT,ipo_roa_year_minus1,pct,13,share_pct,Section III.A.1 text: average ROA 13% in the year before the IPO (pre-IPO statements for a subset of firms in CSMAR)
-TXT,ipo_roa_year_plus1,pct,6,share_pct,Section III.A.1 text: 6% in the year after
-TXT,ipo_capex_year_minus1,pct,3,share_pct,Section III.A.3 text: capex / assets 3% before the IPO
-TXT,ipo_capex_year_plus1,pct,7,share_pct,Section III.A.3 text: 7% one year post-IPO
+TXT,ipo_roa_year_minus1,pct,13,rel10,Section III.A.1 text: average ROA 13% in the year before the IPO (pre-IPO statements for a subset of firms in CSMAR)
+TXT,ipo_roa_year_plus1,pct,6,rel10,Section III.A.1 text: 6% in the year after
+TXT,ipo_capex_year_minus1,pct,3,rel10,Section III.A.3 text: capex / assets 3% before the IPO
+TXT,ipo_capex_year_plus1,pct,7,rel10,Section III.A.3 text: 7% one year post-IPO
 TXT,figure5_unique_firms,n,3695,count,"Figure 5 caption: unique A-share firms with non-missing investment, NCF and assets"
+TXII,Large,(1),-6.353,coef,Table XII Panel A (stock returns; WLS)
+TXII,t(Large),(1),-3.952,t,Table XII Panel A
+TXII,SOE,(1),-2.793,coef,Table XII Panel A
+TXII,t(SOE),(1),-1.842,t,Table XII Panel A
+TXII,R2 (%),(1),52.48,share_pct,Table XII Panel A
+TXII,Observations,(1),36044,count,Table XII Panel A
+TXII,Large-SOE,(1),-3.560,coef,Table XII Panel A: difference in coefficients
+TXII,t(Large-SOE),(1),-1.601,t,Table XII Panel A
+TXII,Large,(2),0.459,coef,Table XII Panel A (investment; OLS)
+TXII,t(Large),(2),6.032,t,Table XII Panel A
+TXII,SOE,(2),0.074,coef,Table XII Panel A
+TXII,t(SOE),(2),1.053,t,Table XII Panel A
+TXII,R2 (%),(2),16.01,share_pct,Table XII Panel A
+TXII,Observations,(2),35879,count,Table XII Panel A
+TXII,Large-SOE,(2),0.385,coef,Table XII Panel A: difference in coefficients
+TXII,t(Large-SOE),(2),3.717,t,Table XII Panel A
+TXII,Large,(3),-0.276,coef,Table XII Panel A (OCF; OLS)
+TXII,t(Large),(3),-1.342,t,Table XII Panel A
+TXII,SOE,(3),0.138,coef,Table XII Panel A
+TXII,t(SOE),(3),0.935,t,Table XII Panel A
+TXII,R2 (%),(3),10.23,share_pct,Table XII Panel A
+TXII,Observations,(3),34459,count,Table XII Panel A
+TXII,Large-SOE,(3),-0.414,coef,Table XII Panel A: difference in coefficients
+TXII,t(Large-SOE),(3),-0.405,t,Table XII Panel A
+TXII,Large,(4),-0.766,coef,Table XII Panel A (net cash flows; OLS)
+TXII,t(Large),(4),-3.752,t,Table XII Panel A
+TXII,SOE,(4),0.132,coef,Table XII Panel A
+TXII,t(SOE),(4),0.915,t,Table XII Panel A
+TXII,R2 (%),(4),4.55,share_pct,Table XII Panel A
+TXII,Observations,(4),34459,count,Table XII Panel A
+TXII,Large-SOE,(4),-0.898,coef,Table XII Panel A: difference in coefficients
+TXII,t(Large-SOE),(4),-3.592,t,Table XII Panel A

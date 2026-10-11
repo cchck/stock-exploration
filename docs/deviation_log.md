@@ -401,11 +401,12 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
       within it.
   12. Scoring:
       - coefficients in return units: annualized return rule (1.2 points);
-      - group differences and footnote 32's gaps: relative 3%;
-      - investment / NCF / OCF / dividend-yield levels: 3-point proportion rule.
-      The proportion rule and the relative rule for non-count statistics are extensions of
-      lighthouse 3.3, which has no rule for continuous descriptive statistics. Their use is
-      up to the user (benchmark 1.3.2).
+      - continuous descriptive statistics and small ratios (average assets, index and
+        turnover moments, group levels and differences, footnote 32's gaps, Figure 1's
+        end value, investment / NCF / OCF / dividend-yield levels, IPO ROA and capex):
+        relative 10% (`rel10`, lighthouse 3.3 revision of 2026-10-10, user decision);
+      - proportion variables (G-Index components stored as fractions, SOE share,
+        R-squared): 3 points; counts: relative 3%.
 
 ## ALN-1 Allen Table I (deviation)
 
@@ -425,9 +426,9 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
     note) reclassifies firms differently, e.g. the break in 2015, which is not in CSMAR's
     controller file.
 - **Average assets ($ bn):**
-  - 2000–2003 match.
-  - 2004–2018 are 3–8% above the printed values (2018: 2.87 vs 2.78); the unique-firm
-    average is 1.82 vs 1.59.
+  - All 19 years are within the relative 10% rule: 2000–2003 match, 2004–2018 are 3–8%
+    above the printed values (2018: 2.87 vs 2.78).
+  - Miss: the unique-firm average is 1.82 vs 1.59 (+14%).
   - Rounds:
     1. Per-year winsorization: worse.
     2. Non-financial firms only: about 30% too low.
@@ -461,17 +462,21 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
      - Its known property: it falls towards zero after the split-share reform even for
        SOEs. This drives the SOE vs non-SOE gap (ours 1.79 vs 3.08, printed 2.211 vs 2.845,
        difference 1.28 vs 0.699).
+- **Within the relative 10% rule (lighthouse 3.3 revision 2026-10-10):**
+  - G-Index-A: mean 2.39 vs 2.482, sd 1.28 vs 1.181, median 2 = 2, range 0–6.
+  - Small / large levels: 2.56 / 2.08 vs 2.722 / 2.235 (both 6% low).
+  - Turnover: mean, median 2.35 vs 2.487, sd 2.47 vs 2.383, max.
+  - Non-SOE level 3.08 vs 2.845.
 - **Remaining misses:**
-  - G-Index-A: mean 2.39 vs 2.482 (-3.5%), sd 1.28 vs 1.181; median 2 = 2.
-  - Small / large levels: 2.56 / 2.08 vs 2.722 / 2.235 (both 6% low; the difference
-    matches).
-  - G-Index-I (value-weighted): 2.79 vs 2.271, median 3 vs 2.
+  - G-Index-I (value-weighted): mean 2.79 vs 2.271, median 3 vs 2.
+  - SOE level 1.79 vs 2.211 and the non-SOE minus SOE difference 1.28 vs 0.699 (state
+    holdings measure, round 5).
   - Extremes:
     - state-ownership max 0.922 vs 1 (no top-10 list in CSMAR sums to 100% state
       shares);
     - RPT net out max / min 0.590 / -0.573 vs 0.524 / -0.475 (the winsorization tail is
       set by our own RPT distribution, ALN-3).
-  - Turnover: median 2.35 vs 2.487, sd 2.47 vs 2.383, min 0.20 vs 0.271.
+  - Turnover min 0.20 vs 0.271 (-26%).
     - Round 1: circulating shares as denominator gives a mean of 5.3, which is worse.
     - Round 2: the SAS winsorization list: the max now matches, the median does not.
     - Most likely cause: CSMAR vs WIND trading volume in the reform years.
@@ -558,7 +563,8 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
   - Round 2, still ST at the end of 2018 without the financial-history requirement: 86.
   - Round 3, the literal rule plus footnote 21's five prior years: 78, kept.
 - **Figure 4:** the ROA path is reproduced: positive in -5..-3, negative from -2.
-- **Figure 5:** investment 4.9% vs 4.4%, NCF 1.1% vs 1.5%. The unique firms with non-missing
+- **Figure 5:** investment 4.9% vs 4.4% (+12%), NCF 1.1% vs 1.5% (-24%): both miss the
+  relative 10% rule. The unique firms with non-missing
   investment / NCF / assets are 3,569 vs 3,695 (-3.4%).
 - **Delistings:**
   - 5.3 per year vs "about five".
@@ -577,19 +583,49 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
 - **Within tolerance:**
   - SOE share 2018: 30.4% vs 30%.
   - Listed firms in 1991: 13 vs 13.
-  - IPO ROA: 14.3% the year before vs 7.2% the year after (printed 13% and 6%; the pre-IPO
-    year is in CSMAR for 1,033 firms).
-  - Capex one year after the IPO: 8.1% vs 7%.
-  - Dividend yield 2018: 1.33% vs 0.8%, and value-weighted OCF / assets 7.5% vs 6.5%. Both
-    are within the 3-point rule, but the relative gaps are 66% and 16%, so the rule is loose
-    here (see ALN-0 item 12).
-- **Misses:**
+  - Footnote 32's 2007 gap: 0.392 vs 0.375.
+- **Misses under the relative 10% rule** (all passed the earlier 3-point rule, ALN-0 item
+  12):
+  - IPO ROA 14.3% the year before (+10.02%, just outside) and 7.2% the year after (+20%),
+    printed 13% and 6%; the pre-IPO year is in CSMAR for 1,033 firms. The direction of the
+    drop is reproduced.
+  - Capex one year after the IPO: 8.1% vs 7% (+16%).
+  - Dividend yield 2018: 1.33% vs 0.8% (+66%). Not investigated further: footnote 11
+    gives no definition (cash dividend over year-end price, equal-weighted is ours).
+  - Value-weighted OCF / assets: 7.5% vs 6.5% (+16%).
+- **Other misses:**
   - Capex the year before the IPO: 7.4% vs 3%. CSMAR's prospectus-year cash-flow
     statements already show high capex; most likely a definition difference in the
     pre-IPO year.
   - Footnote 32 (small minus large G-Index-A, Internet Appendix): 2004 0.333 vs 0.058 and
-    2007 0.392 vs 0.375. The 2004 gap is driven by the state-holdings component (SOEs held
+    2007 0.392 vs 0.375 (passes). The 2004 gap is driven by the state-holdings component (SOEs held
     state shares before the reform).
 - **Not producible:**
   - the 2000 SOE share (70%; no controller data before 2003);
   - the Figure 4 t-statistics against US firms (need US data).
+
+## ALN-9 Allen Table XII Panel A (deviation)
+
+In scope since the lighthouse revision of 2026-10-10. Specification from Table12.sas: Large
+= lagged market cap above the year's 70th percentile; SOE2 = actual controller; lagged
+size, leverage, ROA, sales growth, log firm age (plus return volatility in column 1); year,
+CSRC industry and province dummies; clusters = industry letter x year cells; column 1 WLS on
+lagged market cap.
+
+- **SOE before 2003:** the printed N equals Table X's (36,044), so every firm-year from 2000
+  is classified, but CSMAR's controller file starts in 2003.
+  - Round 1, drop 2000–2002: N 30,144; SOE in column 2 negative and significant.
+  - Round 2, missing = non-SOE (a SAS dummy default): SOE share 0% in 2000.
+  - Round 3, each firm's earliest observed status carried back: SOE share 73% in 2000 vs
+    the 70% printed in section I.A. Kept.
+- **Reproduced:** Large in all four columns (sign and t band: returns -8.0 (t -3.4) vs
+  -6.4 (-4.0); investment 0.58 (6.8) vs 0.46 (6.0); OCF -0.22 (-1.0) vs -0.28 (-1.3); NCF
+  -0.51 (-3.0) vs -0.77 (-3.8)); SOE in columns 1 and 3; all four R-squared within 3
+  points; the Large - SOE difference in columns 2–4.
+- **Misses:**
+  - SOE in investment: -0.38 (t -4.3) vs 0.074 (1.05). SOE in NCF: t 2.44 vs 0.92 (same
+    sign). Most likely cause: the CSMAR controller classification differs from the
+    authors' WIND-based SOE2 (ALN-1: our SOE counts are 10–19% higher in 2003–2014).
+  - Large - SOE in returns: t -3.19 vs -1.60 (our SOE coefficient is smaller).
+  - N is 9% (returns) and 5–8% (operating) below the printed values: our Table X N shows
+    the same gap (ALN-4).

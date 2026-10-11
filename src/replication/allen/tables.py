@@ -349,6 +349,38 @@ def table11(seg: Segment) -> pd.DataFrame:
     return _rows("TXI", seg, items)
 
 
+def table12(seg: Segment) -> pd.DataFrame:
+    """Table XII Panel A (A-share sample): annual real returns (WLS, lagged market cap in USD;
+    controls include lagged return volatility) and investment, OCF, net cash flows (OLS; all
+    percent of assets) on Large and SOE. Large = lagged market cap above the year's 70th
+    percentile among A-share firms; SOE = state-owned per the actual controller (SAS SOE2).
+    Lagged size, leverage, ROA, sales growth, log firm age; year, CSRC industry and province
+    fixed effects; SEs clustered by industry letter and year (Table12.sas). The last row is
+    the Large - SOE coefficient difference with its t-statistic from the same covariance.
+    The paper's sample starts in 2000 with every firm-year classified (N equals Table X), but
+    CSMAR's controller file starts in 2003: a firm's earliest observed status is carried back
+    to 2000-2002. This puts the SOE share of 2000 at 73%, against the 70% printed in
+    section I.A (deviation_log ALN-9)."""
+    x = _in(seg).copy()
+    cut = x.groupby("fy")["mcap_lag"].transform(lambda s: s.quantile(0.70))
+    x["Large"] = np.where(x["mcap_lag"].notna(), (x["mcap_lag"] > cut).astype(float), np.nan)
+    first = x.dropna(subset=["soe"]).sort_values("fy").groupby("stkcd")["soe"].first()
+    x["SOE"] = x["soe"].where(x["fy"] >= SOE_FIRST_YEAR, x["soe"].fillna(x["stkcd"].map(first)))
+    items = []
+    for col, dep, w, ctrl in (("(1)", "ret_real", "mcap_lag_usd", CONTROLS + ["std_ret_lag"]),
+                              ("(2)", "capx", None, CONTROLS), ("(3)", "ocf", None, CONTROLS),
+                              ("(4)", "ncf", None, CONTROLS)):
+        d = x.assign(y=x[dep] * 100)
+        r = panel_regression(d, "y", ["Large", "SOE"] + ctrl, fe=["fy", "industry", "province"], cluster=CLUSTER,
+                             weight=w, cluster_mode=CLUSTER_MODE)
+        diff, tdiff = r.contrast_t("Large", "SOE")
+        items += [("Large", col, r.params["Large"]), ("t(Large)", col, r.tstats["Large"]),
+                  ("SOE", col, r.params["SOE"]), ("t(SOE)", col, r.tstats["SOE"]),
+                  ("R2 (%)", col, r.r2 * 100), ("Observations", col, float(r.n)),
+                  ("Large-SOE", col, diff), ("t(Large-SOE)", col, tdiff)]
+    return _rows("TXII", seg, items)
+
+
 def matched_cross_listed(x: pd.DataFrame) -> pd.Series:
     """Each A+H cross-listed firm matched with the non-cross-listed A-share firm in the same
     CSRC industry letter (SAS Industry1) with the closest total assets in the cross-listed

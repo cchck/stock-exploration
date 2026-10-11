@@ -25,6 +25,9 @@ per printed number: table, row, col, paper, kind). `kind` selects the tolerance 
 |             | 0.10-point rule times 12)                                               |
 | upper_bound | the paper states "x or less": ours <= paper (the bound as printed)     |
 | lower_bound | the paper states "at least x" / "more than x": ours >= paper           |
+| rel10       | continuous descriptive statistic or small financial ratio (averages,    |
+|             | index mean/sd, turnover, dividend yield, investment, OCF, buy-and-hold  |
+|             | value): |ours / paper - 1| <= 10% (lighthouse 3.3, revision 2026-10-10)|
 | info        | reported, not scored (e.g. number of months)                            |
 """
 
@@ -60,6 +63,10 @@ def judge(kind: str, paper: float, ours: float) -> bool | None:
         if paper == 0:
             return abs(ours) <= 1e-9
         return abs(ours / paper - 1) * 100 <= 3.0 + 1e-9
+    if kind == "rel10":
+        if paper == 0:
+            return abs(ours) <= 1e-9
+        return abs(ours / paper - 1) <= 0.10 + 1e-9
     if kind == "pct_annual":
         return abs(ours - paper) <= 1.2 + 1e-9
     if kind == "upper_bound":

@@ -187,6 +187,14 @@ class PanelResult:
     tstats: pd.Series
     r2: float
     n: int
+    cov: pd.DataFrame | None = None  # covariance of const and xs (for contrasts such as b1 - b2)
+
+    def contrast_t(self, a: str, b: str) -> tuple[float, float]:
+        """Difference params[a] - params[b] and its t-statistic, using the same clustered
+        covariance as the coefficients."""
+        diff = float(self.params[a] - self.params[b])
+        var = float(self.cov.loc[a, a] + self.cov.loc[b, b] - 2 * self.cov.loc[a, b])
+        return diff, diff / np.sqrt(var) if var > 0 else float("nan")
 
 
 def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] = (), cluster: list[str] = (),
@@ -260,4 +268,6 @@ def panel_regression(df: pd.DataFrame, y: str, xs: list[str], *, fe: list[str] =
     keep = ["const", *xs]
     params = pd.Series(beta, index=names)[keep]
     tstats = pd.Series(beta / np.where(se > 0, se, np.nan), index=names)[keep]
-    return PanelResult(params=params, tstats=tstats, r2=float(1 - e @ e / (yc @ yc)), n=n)
+    idx = [list(names).index(c) for c in keep]
+    cov = pd.DataFrame(V[np.ix_(idx, idx)], index=keep, columns=keep)
+    return PanelResult(params=params, tstats=tstats, r2=float(1 - e @ e / (yc @ yc)), n=n, cov=cov)

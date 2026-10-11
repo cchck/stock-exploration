@@ -27,9 +27,9 @@ OUT = PROJECT_ROOT / "results" / "allen"
 COMPARISON = PROJECT_ROOT / "results" / "allen_comparison.csv"
 
 TABLE_FUNCS = {"TI": T.table1, "TVIII": T.table8, "TIX": T.table9, "TX": T.table10, "TXI": T.table11,
-               "TXIII": T.table13, "F1-2": T.figures12, "F4": T.figure4, "F5": T.figure5, "S3A2": T.section3a2,
+               "TXII": T.table12, "TXIII": T.table13, "F1-2": T.figures12, "F4": T.figure4, "F5": T.figure5, "S3A2": T.section3a2,
                "TXT": T.text_numbers}
-DEVIATION_LINKS = {"TI": "ALN-1", "TVIII": "ALN-2", "TIX": "ALN-2", "TX": "ALN-4", "TXI": "ALN-4", "TXIII": "ALN-5",
+DEVIATION_LINKS = {"TI": "ALN-1", "TVIII": "ALN-2", "TIX": "ALN-2", "TX": "ALN-4", "TXI": "ALN-4", "TXII": "ALN-9", "TXIII": "ALN-5",
                    "F1-2": "ALN-6", "F4": "ALN-7", "F5": "ALN-7", "S3A2": "ALN-7", "TXT": "ALN-8"}
 
 

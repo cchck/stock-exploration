@@ -117,6 +117,22 @@ def test_bound_and_annual_rules():
     assert judge("lower_bound", 50, 51) and not judge("lower_bound", 50, 38)
     assert judge("pct_annual", 12.36, 11.2) and not judge("pct_annual", 18, 13.9)
     assert judge("share_pct", 15, 17.9) and not judge("share_pct", 82, 77.7)
+    assert judge("rel10", 2.78, 2.87) and not judge("rel10", 0.8, 1.33)
+    assert judge("rel10", 0, 0) and not judge("rel10", 0, 0.1)
+
+
+def test_contrast_t_matches_statsmodels_t_test():
+    import statsmodels.api as sm
+    from replication.common.stats import panel_regression
+    rng = np.random.default_rng(5)
+    n = 500
+    d = pd.DataFrame({"a": rng.normal(size=n), "b": rng.normal(size=n), "g": rng.integers(0, 25, n)})
+    d["y"] = 0.5 * d["a"] + 0.2 * d["b"] + rng.normal(size=n)
+    r = panel_regression(d, "y", ["a", "b"], cluster=["g"])
+    m = sm.OLS(d["y"], sm.add_constant(d[["a", "b"]])).fit(cov_type="cluster", cov_kwds={"groups": d["g"]})
+    diff, t = r.contrast_t("a", "b")
+    assert diff == pytest.approx(m.params["a"] - m.params["b"])
+    assert t == pytest.approx(float(np.squeeze(m.t_test("a - b = 0").tvalue)), rel=1e-6)
 
 
 def test_panel_regression_matches_statsmodels_one_way_cluster():

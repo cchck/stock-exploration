@@ -16,9 +16,9 @@ COMPARISON = PROJECT_ROOT / "results" / "allen_comparison.csv"
 
 def test_targets_file_is_well_formed():
     t = load_targets("allen")
-    assert {"TI", "TVIII", "TIX", "TX", "TXI", "TXIII", "F1-2", "F4", "F5", "S3A2"} <= set(t["table"])
+    assert {"TI", "TVIII", "TIX", "TX", "TXI", "TXII", "TXIII", "F1-2", "F4", "F5", "S3A2"} <= set(t["table"])
     allowed = {"pct_return", "pct_std", "t", "coef", "share_pct", "share_frac", "pvalue", "series_corr", "info",
-               "count", "pct_annual", "upper_bound", "lower_bound"}
+               "count", "rel10", "pct_annual", "upper_bound", "lower_bound"}
     assert set(t["kind"]) <= allowed
 
 
