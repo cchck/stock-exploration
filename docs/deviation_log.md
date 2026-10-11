@@ -444,7 +444,8 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
   - Executive holdings: 0.079 vs 0.104.
   - Board size: 16.9 / 16 / 4.04, range 1–54, vs 16.8 / 16 / 4.029, range 1–54.
   - State ownership: 0.126 / 0 / 0.218 vs 0.116 / 0 / 0.211.
-  - RPT net out: -0.007 / 0 / 0.127 vs 0.007 / 0 / 0.117.
+  - RPT net out: median 0 = 0, sd 0.127 vs 0.117 (scored with rel10 since the 2026-10-10
+    revision: it is a small signed ratio, not a share).
   - Turnover: mean 3.05 vs 3.148; max 11.95 vs 12.18.
   - G-Index-A small-large difference: 0.480 vs 0.487.
 - **Rounds:**
@@ -474,7 +475,15 @@ numbers in ALN-1..8 are those of the committed `results/allen_comparison.csv`.
   - Extremes:
     - state-ownership max 0.922 vs 1 (no top-10 list in CSMAR sums to 100% state
       shares);
-    - RPT net out max / min 0.590 / -0.573 vs 0.524 / -0.475 (the winsorization tail is
+    - RPT net out mean -0.0068 vs 0.007 (opposite sign). Rounds (all winsorized at
+      1%/99% within the segment):
+      1. Funds-only measure (ALN-3): mean -0.0085, sd 0.054.
+      2. Cash by category (kept): mean -0.0062 before the panel's winsorization list.
+      3. Goods sold to related parties counted as outflows (credit sales as tunneling):
+         mean -0.0106, sd 0.129, max 0.520.
+      No CSMAR reading gives a positive mean; the printed mean (0.007) is small relative to
+      its sd (0.117), so a different coverage of RPT rows can flip it.
+    - RPT net out max / min 0.590 / -0.573 vs 0.524 / -0.475 (+13% / +21%; the winsorization tail is
       set by our own RPT distribution, ALN-3).
   - Turnover min 0.20 vs 0.271 (-26%).
     - Round 1: circulating shares as denominator gives a mean of 5.3, which is worse.
@@ -618,11 +627,20 @@ lagged market cap.
   - Round 2, missing = non-SOE (a SAS dummy default): SOE share 0% in 2000.
   - Round 3, each firm's earliest observed status carried back: SOE share 73% in 2000 vs
     the 70% printed in section I.A. Kept.
-- **Reproduced:** Large in all four columns (sign and t band: returns -8.0 (t -3.4) vs
-  -6.4 (-4.0); investment 0.58 (6.8) vs 0.46 (6.0); OCF -0.22 (-1.0) vs -0.28 (-1.3); NCF
-  -0.51 (-3.0) vs -0.77 (-3.8)); SOE in columns 1 and 3; all four R-squared within 3
-  points; the Large - SOE difference in columns 2–4.
+- **Reproduced:** Large in columns 2–4 (sign and t band: investment 0.58 (6.8) vs 0.46
+  (6.0); OCF -0.22 (-1.0) vs -0.28 (-1.3); NCF -0.51 (-3.0) vs -0.77 (-3.8)); the t bands of
+  Large and SOE in column 1; SOE in column 3; all four R-squared within 3 points; the
+  Large - SOE difference in columns 2–4.
 - **Misses:**
+  - Column 1 (returns, coefficients in percent per year, 1.2-point rule): Large -8.03 vs
+    -6.353, SOE -1.02 vs -2.793, Large - SOE -7.01 vs -3.560. Rounds:
+    1. Weights in RMB instead of USD (SAS `lag_mkt_cap` is not labelled): -7.62 / -0.83 /
+       -6.79.
+    2. The 70th-percentile cut computed on the regression sample only: -7.64 / -0.99 /
+       -6.65.
+    3. OLS (to see whether weighting drives it): -7.53 / -2.28 / -5.25.
+    Large stays 1.3–1.7 points too negative and SOE too small in every variant. Most likely
+    cause: the SOE classification (below) and the sample gap (N), not the specification.
   - SOE in investment: -0.38 (t -4.3) vs 0.074 (1.05). SOE in NCF: t 2.44 vs 0.92 (same
     sign). Most likely cause: the CSMAR controller classification differs from the
     authors' WIND-based SOE2 (ALN-1: our SOE counts are 10–19% higher in 2003–2014).

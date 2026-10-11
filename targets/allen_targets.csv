@@ -97,11 +97,11 @@ TVIII,B:State Ownership,median,0,share_frac,Table VIII Panel B
 TVIII,B:State Ownership,std,0.211,share_frac,Table VIII Panel B
 TVIII,B:State Ownership,max,1,share_frac,Table VIII Panel B
 TVIII,B:State Ownership,min,0,share_frac,Table VIII Panel B
-TVIII,B:RPT Net Out Amt,mean,0.007,share_frac,Table VIII Panel B
-TVIII,B:RPT Net Out Amt,median,0,share_frac,Table VIII Panel B
-TVIII,B:RPT Net Out Amt,std,0.117,share_frac,Table VIII Panel B
-TVIII,B:RPT Net Out Amt,max,0.524,share_frac,Table VIII Panel B
-TVIII,B:RPT Net Out Amt,min,-0.475,share_frac,Table VIII Panel B
+TVIII,B:RPT Net Out Amt,mean,0.007,rel10,Table VIII Panel B
+TVIII,B:RPT Net Out Amt,median,0,rel10,Table VIII Panel B
+TVIII,B:RPT Net Out Amt,std,0.117,rel10,Table VIII Panel B
+TVIII,B:RPT Net Out Amt,max,0.524,rel10,Table VIII Panel B
+TVIII,B:RPT Net Out Amt,min,-0.475,rel10,Table VIII Panel B
 TVIII,B:Small-Large,first,2.722,rel10,Table VIII Panel B: Small
 TVIII,B:Small-Large,second,2.235,rel10,Table VIII Panel B: Large
 TVIII,B:Small-Large,difference,0.487,rel10,Table VIII Panel B
@@ -253,13 +253,13 @@ TXT,ipo_roa_year_plus1,pct,6,rel10,Section III.A.1 text: 6% in the year after
 TXT,ipo_capex_year_minus1,pct,3,rel10,Section III.A.3 text: capex / assets 3% before the IPO
 TXT,ipo_capex_year_plus1,pct,7,rel10,Section III.A.3 text: 7% one year post-IPO
 TXT,figure5_unique_firms,n,3695,count,"Figure 5 caption: unique A-share firms with non-missing investment, NCF and assets"
-TXII,Large,(1),-6.353,coef,Table XII Panel A (stock returns; WLS)
+TXII,Large,(1),-6.353,pct_annual,Table XII Panel A (stock returns; WLS)
 TXII,t(Large),(1),-3.952,t,Table XII Panel A
-TXII,SOE,(1),-2.793,coef,Table XII Panel A
+TXII,SOE,(1),-2.793,pct_annual,Table XII Panel A
 TXII,t(SOE),(1),-1.842,t,Table XII Panel A
 TXII,R2 (%),(1),52.48,share_pct,Table XII Panel A
 TXII,Observations,(1),36044,count,Table XII Panel A
-TXII,Large-SOE,(1),-3.560,coef,Table XII Panel A: difference in coefficients
+TXII,Large-SOE,(1),-3.560,pct_annual,Table XII Panel A: difference in coefficients
 TXII,t(Large-SOE),(1),-1.601,t,Table XII Panel A
 TXII,Large,(2),0.459,coef,Table XII Panel A (investment; OLS)
 TXII,t(Large),(2),6.032,t,Table XII Panel A
