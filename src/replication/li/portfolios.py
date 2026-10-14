@@ -38,6 +38,7 @@ from replication.li import data as D
 PENNY_PRICE = 5.0
 PENNY_AT_FORMATION = True  # rule 1: price >= 5 at formation, before the breakpoints
 HOLDING_MONTH_FILTER = True  # rule 2: month-t price >= 5 and normal status (look-ahead)
+WEIGHTS_AT_FORMATION = False  # calibration switch: hold cohorts at formation-date weights
 
 
 @dataclass(frozen=True)
@@ -90,7 +91,9 @@ def assign_quintiles(sig: pd.DataFrame, proc: Procedure) -> pd.DataFrame:
     q = 1 + (v > br).sum(axis=1)
     x = x.assign(q=np.where(np.isnan(br).any(axis=1), np.nan, q))
     x = x[x["q"].notna()]
-    return x[x["close"] >= PENNY_PRICE][["stkcd", "form", "q"]]
+    x = x[x["close"] >= PENNY_PRICE]
+    mv = panel()[["stkcd", "month", "mv_float"]].rename(columns={"month": "form", "mv_float": "w_form"})
+    return x.merge(mv, on=["stkcd", "form"], how="left")[["stkcd", "form", "q", "w_form"]]
 
 
 def holding_returns() -> pd.DataFrame:
@@ -116,6 +119,8 @@ def quintile_returns(sig: pd.DataFrame, proc: Procedure, kind: str, hold: int = 
     for k in lags:
         h = g.assign(month=g["form"] + k)
         d = h.merge(p, on=["stkcd", "month"], how="inner")
+        if WEIGHTS_AT_FORMATION:
+            d["w"] = d["w_form"]
         if proc.weights == "vw":
             d = d[d["w"] > 0]
             num = (d["ret"] * d["w"]).groupby([d["month"], d["form"], d["q"]]).sum()
