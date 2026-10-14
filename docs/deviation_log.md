@@ -764,14 +764,17 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
 - **Dac (and Pda):** CSMAR's DisAcc is not in our tables; rebuilt with the modified Jones
   model (Dechow, Sloan and Sweeney 1995) by CSRC industry letter and fiscal year (>= 10
   firms), the method the data manual attributes to CSMAR.
-- **Not producible (26 of 469 anomalies):**
+- **Not producible (16 of 469 anomalies):**
   - Parc (1): patents (上市公司研发创新) not subscribed;
   - Esba, Qsba, Vpin (15): 已实现指标 (intraday-based spreads and VPIN) not subscribed. In the
     paper 12 of the 78 significant anomalies are among them (Esba1-12, Qsba1-12, Vpin3, Vpin6),
     so our significance counts cannot reach the printed totals.
-  - Svr (5): needs the daily CBOE VXO index (external; not yet requested);
+  - (Svr is built: FRED VXOCLS, approved 2026-10-13; VXO ends 2021-09, so Svr stops there.
+    g5-g1 correlation with the authors' Svr1: 0.911.)
   - βPS (5): CSMAR's innovations in aggregate liquidity (因子研究系列 -> 股票流动性) are not
     subscribed (checked 2026-10-13). To be rebuilt from daily data with the Pástor and
-    Stambaugh (2003) method (lighthouse 5.3: construct an A-share version).
+    Stambaugh (2003) method (lighthouse 5.3: construct an A-share version); g5-g1 correlation
+    with the authors' βPS3 / βPS6: 0.67 / 0.66, i.e. the rebuilt liquidity series differs from
+    CSMAR's.
   Significance rates use the anomalies we can build as the denominator (Table 3 reports the
   counts as 'n_available').

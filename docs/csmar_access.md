@@ -297,3 +297,8 @@ Access checks (2026-10-13, no download), relevant to Li et al.:
   已实现指标 (个股买卖价差表(日) = effective / quoted spreads, 个股知情交易概率指标表(日) = VPIN),
   机构投资者 (机构持股明细 / 分类统计), 经营困境.
 - 有权限: 分析师预测 (all tables), 财务报表附注, 治理结构, 股东 (incl. 基金持股文件).
+
+External (2026-10-13, approved by the user): FRED `VXOCLS` (CBOE S&P 100 volatility index,
+daily, 1986-01-02..2021-09-23, 9,322 lines, SHA-256
+`3ab3e522630a6b404fda6cd2d7ef33834139218bf00f5a290aa089361dd334e8`), in
+`data/raw/external/fred/`, downloaded with curl from fredgraph.csv. Used for Li et al.'s Svr.

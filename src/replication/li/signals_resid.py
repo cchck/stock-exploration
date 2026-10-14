@@ -356,3 +356,29 @@ def beta_ps() -> pd.DataFrame:
     b, _ = _rolling_ols_wide(Y, X, 60, 24)
     v = b["liq"].stack().rename("value").reset_index().rename(columns={"level_0": "form"})
     return v.dropna()
+
+
+@lru_cache(maxsize=1)
+def _dvxo() -> pd.Series:
+    """Daily change in the CBOE VXO (FRED VXOCLS, 1986-01..2021-09-23), in index points."""
+    from csmar.registry import RAW_EXTERNAL
+    v = pd.read_csv(RAW_EXTERNAL / "fred" / "VXOCLS.csv", parse_dates=["observation_date"], na_values=".")
+    v = v.set_index("observation_date")["VXOCLS"].astype(float).dropna()
+    return v.diff().rename("dvxo")
+
+
+def svr() -> pd.DataFrame:
+    """Svr (A.6.10, Ang, Hodrick, Xing and Zhang 2006): slope on the daily VXO change in a
+    regression of daily excess returns on MKT and dVXO within month t-1 (>= 10 days). Chinese
+    trading days are matched to the U.S. VXO change of the same calendar date; days without
+    a U.S. observation drop out. VXO ends 2021-09 (lighthouse 6: truncated and noted)."""
+    d = _daily()[["stkcd", "date", "month", "y", "mkt"]].copy()
+    d["dvxo"] = d["date"].map(_dvxo())
+    d = d.dropna(subset=["dvxo", "mkt"])
+    key = d["stkcd"].astype(str) + "|" + d["month"].astype(str)
+    g, uniq = pd.factorize(key)
+    beta, _, cnt = batch_ols(d["y"].to_numpy(), d[["mkt", "dvxo"]].to_numpy(), g, len(uniq))
+    out = d.groupby(g)[["stkcd", "month"]].first()
+    out["v"] = beta[:, 2]
+    out = out[cnt >= MIN_DAYS].rename(columns={"month": "form"})
+    return _out(out)

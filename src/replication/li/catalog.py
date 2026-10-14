@@ -199,7 +199,7 @@ VARS: list[Var] = [
     Var("Ivch3", F, "monthly", "resid.ivch3", "ivch3"),
     Var("Ivch4", F, "monthly", "resid.ivch4", "ivch4"),
     Var("Tv", F, "monthly", "market.tv"),
-    Var("Svr", F, "monthly", None, "svr", note="needs the daily CBOE VXO index (external, FRED VXOCLS; not yet approved for download)"),
+    Var("Svr", F, "monthly", "resid.svr", "svr", note="CBOE VXO from FRED (VXOCLS), ends 2021-09"),
     Var("β", F, "monthly", "resid.beta"),
     Var("βD", F, "monthly", "resid.beta_d", "beta_d"),
     Var("Tur", F, "monthly", "market.tur"),
