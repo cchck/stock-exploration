@@ -4260,10 +4260,10 @@ TXT,S1:sig_full_sht,n,78.0,count,"Introduction: 78 of 469 significant (16.63%), 
 TXT,S1:sig_full_mht,n,29.0,count,Introduction: 29 (6.18%) under MHT,19.0,-10.0,False,LI-6
 TXT,S1:sig_post2007_sht,n,61.0,count,"Introduction: 61 of 469 (13.01%) post-2007, SHT",58.0,-3.0,False,LI-6
 TXT,S1:sig_post2007_mht,n,22.0,count,"Introduction: 22 (4.69%) post-2007, MHT (the conclusion says 21; 22/469 = 4.69%)",18.0,-4.0,False,LI-6
-TXT,S1:explained_full_CH3,pct,53.85,share_pct,Introduction: CH3 explains 53.85% of significant anomalies,73.41772151898735,19.567721518987348,False,LI-6
-TXT,S1:explained_full_CH4,pct,47.44,share_pct,Introduction: CH4 47.44%,73.41772151898735,25.97772151898735,False,LI-6
-TXT,S1:explained_full_q,pct,25.64,share_pct,Introduction: q 25.64%,54.43037974683544,28.79037974683544,False,LI-6
-TXT,S1:explained_post2007_q,pct,73.77,share_pct,Introduction: q explains 73.77% post-2007,89.65517241379311,15.885172413793114,False,LI-6
+TXT,S1:explained_full_CH3,pct,53.85,share_pct,Introduction: CH3 explains 53.85% of significant anomalies,73.41772151898735,19.567721518987348,False,LI-7
+TXT,S1:explained_full_CH4,pct,47.44,share_pct,Introduction: CH4 47.44%,73.41772151898735,25.97772151898735,False,LI-7
+TXT,S1:explained_full_q,pct,25.64,share_pct,Introduction: q 25.64%,54.43037974683544,28.79037974683544,False,LI-7
+TXT,S1:explained_post2007_q,pct,73.77,share_pct,Introduction: q explains 73.77% post-2007,89.65517241379311,15.885172413793114,False,LI-7
 TXT,S2.1:soe_share_2003,pct,74.57,share_pct,Section 2.1: SOEs 74.57% of listed firms at the end of 2003,75.1361161524501,0.5661161524501068,True,
 TXT,S3.3:Roeq1_m,pct,0.48,pct_return,"Section 3.3: Roeq1 earns 0.48% per month, insignificant",0.8064553683660781,0.32645536836607814,False,LI-6
 TXT,S3.3:Roeq1_insignificant,abs_t_below_1.96,1.96,upper_bound,Section 3.3: Roeq1 insignificant (|t| < 1.96),2.2903043011042743,0.33030430110427433,False,LI-6

@@ -60,7 +60,15 @@ def main(argv=None) -> int:
             original = out
     if complete and original is not None and AN.VARIANT == "authors":
         c = compare("li", original)
-        c["deviation"] = [DEVIATION_LINKS.get(t, "") if (p is not None and not p) else "" for t, p in zip(c["table"], c["pass"])]
+        def link(t, r):
+            if t == "TXT" and "explained" in r:
+                return "LI-7"
+            if t == "TXT" and r.startswith("S4.2"):
+                return "LI-9"
+            if t == "TXT" and r.startswith("S2.1"):
+                return "LI-8"
+            return DEVIATION_LINKS.get(t, "")
+        c["deviation"] = [link(t, r) if (p is not None and not p) else "" for t, r, p in zip(c["table"], c["row"], c["pass"])]
         c.to_csv(COMPARISON, index=False)
         scored = c[c["pass"].notna()]
         print(f"comparison: {int((scored['pass'] == True).sum())}/{len(scored)} within tolerance -> {COMPARISON}")

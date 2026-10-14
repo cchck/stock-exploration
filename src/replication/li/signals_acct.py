@@ -1521,6 +1521,15 @@ def tes() -> pd.DataFrame:
     return _ann("v", x)
 
 
+def day_after(days: pd.DatetimeIndex, p0: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Trading day following position p0 in `days` (the date an Abr window ending on day +1
+    becomes known) and a mask of events that have such a day."""
+    ok = p0 + 1 < len(days)
+    out = np.full(len(p0), np.datetime64("NaT"), dtype="datetime64[ns]")
+    out[ok] = days.values[p0[ok] + 1]
+    return out, ok
+
+
 def abr() -> pd.DataFrame:
     """Abr (A.1.2): sum of daily (stock - value-weighted market) returns over trading days
     -2..+1 around the latest quarterly earnings announcement (announced)."""
@@ -1546,14 +1555,14 @@ def abr() -> pd.DataFrame:
     for k in (-2, -1, 0, 1):
         key = pd.MultiIndex.from_arrays([ev["stkcd"], ev["p0"] + k])
         car.append(ar.reindex(key).to_numpy())
-    ev["v"] = np.nansum(np.vstack(car), axis=0)
+    car = np.vstack(car)
+    ev["v"] = np.where(np.isnan(car).all(axis=0), np.nan, np.nansum(car, axis=0))
     # The window ends on trading day +1: the CAR is known only at that day's close, so the
     # event becomes usable from that date (an announcement on a month's last trading day
     # enters the sort one month later). Events without a day +1 in the data drop out.
-    has_next = ev["p0"] + 1 < len(days)
-    ev = ev[has_next.to_numpy()].copy()
-    ev["announce_date"] = days.values[ev["p0"].to_numpy() + 1]
-    ev.loc[np.isnan(np.vstack(car)).all(axis=0), "v"] = np.nan
+    avail, ok = day_after(days, ev["p0"].to_numpy())
+    ev = ev[ok].copy()
+    ev["announce_date"] = avail[ok]
     return _ann("v", ev)
 
 

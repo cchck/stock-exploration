@@ -263,6 +263,13 @@ def table5(seg: Segment) -> pd.DataFrame:
 # Table 2: microcaps and investment capacity
 # ---------------------------------------------------------------------------------------------
 
+def lag_consecutive(p: pd.DataFrame, col: str) -> pd.Series:
+    """Previous month's value of `col` per stock, missing when the previous row is not the
+    previous calendar month (p sorted by stkcd, month)."""
+    consec = p.groupby("stkcd")["month"].shift(1) == p["month"] - 1
+    return p.groupby("stkcd")[col].shift(1).where(consec)
+
+
 def table2(seg: Segment) -> pd.DataFrame:
     """Panel A: size groups by the Mainboard 20th / 50th percentiles of circulating ME at the
     end of t-1 (Fama and French 2008; HXZ 2020), over eligible stocks with a month-t return:
@@ -275,15 +282,14 @@ def table2(seg: Segment) -> pd.DataFrame:
     p = D.stock_panel().sort_values(["stkcd", "month"]).copy()
     # Lagged values only when the previous row is the previous calendar month (a stock
     # resuming after a suspension has no end-of-(t-1) record).
-    consec = p.groupby("stkcd")["month"].shift(1) == p["month"] - 1
-    lag = lambda c: p.groupby("stkcd")[c].shift(1).where(consec)
+    lag = lambda c: lag_consecutive(p, c)
     p["mv_prev"] = lag("mv_float")
     p["tmv_prev"] = lag("mv_total")
     p["elig_prev"] = lag("eligible").astype("boolean").fillna(False).astype(bool)
     p["mb_prev"] = lag("mainboard").astype("boolean").fillna(False).astype(bool)
     p["close_prev"] = lag("close")
     # Sample: eligible at t-1 with price >= 5 (the portfolios' formation filter). Calibrated:
-    # 1,544 stocks and 464 microcaps a month, EW market 1.29%, against the printed 1,563,
+    # 1,530 stocks and 459 microcaps a month, EW market 1.25%, against the printed 1,563,
     # 449 and 1.28% (without the price filter: 1,755, 515, 1.35%).
     x = p[p["elig_prev"] & (p["close_prev"] >= 5) & p["ret"].notna() & (p["mv_prev"] > 0)
           & (p["month"] >= seg.start) & (p["month"] <= seg.end)].copy()

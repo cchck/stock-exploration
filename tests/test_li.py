@@ -3,6 +3,7 @@ files and the authors' replication package; they are skipped otherwise."""
 
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -138,3 +139,34 @@ def test_segments_share_table_structure():
             t = pd.read_csv(PROJECT_ROOT / f"results/li/{seg}_tables{v}.csv")
             tabs[(seg, v)] = set(t["table"])
     assert len({frozenset(s) for s in tabs.values()}) == 1
+
+
+def test_abr_event_available_only_after_day_plus_one():
+    from replication.li.signals_acct import day_after
+    days = pd.DatetimeIndex(["2010-01-28", "2010-01-29", "2010-02-01", "2010-02-02"])
+    avail, ok = day_after(days, np.array([1, 3]))
+    # an announcement on the last trading day of January becomes usable on 1 February,
+    # i.e. it enters the sort at the end of February, not January
+    assert ok.tolist() == [True, False]
+    assert pd.Timestamp(avail[0]) == pd.Timestamp("2010-02-01")
+
+
+def test_negative_book_equity_screen_and_duplicate_guard(monkeypatch):
+    from replication.li import portfolios as PF
+    p = _synthetic_panel()
+    monkeypatch.setattr(PF, "_PANEL", p)
+    form = pd.Period("2010-01", "M")
+    sig = pd.DataFrame({"stkcd": [f"{i:06d}" for i in range(15)], "form": form, "value": range(15)})
+    monkeypatch.setattr(PF, "_BE", pd.DataFrame({"stkcd": pd.array(["000003"], dtype="string"), "form": [form], "be": [-1.0]}))
+    monkeypatch.setattr(PF, "NEGATIVE_BE_SCREEN", True)
+    g = PF.assign_quintiles(sig, PF.PROCEDURES["Mainboard-VW"])
+    assert "000003" not in set(g["stkcd"]) and len(g) == 14
+    with pytest.raises(ValueError):
+        PF.assign_quintiles(pd.concat([sig, sig.head(1)]), PF.PROCEDURES["Mainboard-VW"])
+
+
+def test_lag_requires_consecutive_month():
+    from replication.li.tables import lag_consecutive
+    p = pd.DataFrame({"stkcd": ["a", "a", "a"], "month": pd.PeriodIndex(["2010-01", "2010-02", "2010-05"], freq="M"),
+                      "x": [1.0, 2.0, 3.0]})
+    assert lag_consecutive(p, "x").tolist()[1] == 1.0 and np.isnan(lag_consecutive(p, "x").tolist()[2])
