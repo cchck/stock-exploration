@@ -90,7 +90,7 @@ VARS: list[Var] = [
     Var("Ivg", I, "annual", "acct.ivg"),
     Var("Ivc", I, "annual", "acct.ivchg"),
     Var("Oa", I, "annual", "acct.oa"),
-    Var("Ta", I, "annual", "acct.ta"),
+    Var("Ta", I, "annual", "acct.ta_accr"),
     Var("dWc", I, "annual", "acct.dwc"),
     Var("dCoa", I, "annual", "acct.dcoa"),
     Var("dCol", I, "annual", "acct.dcol"),
@@ -199,7 +199,7 @@ VARS: list[Var] = [
     Var("Ivch3", F, "monthly", "resid.ivch3", "ivch3"),
     Var("Ivch4", F, "monthly", "resid.ivch4", "ivch4"),
     Var("Tv", F, "monthly", "market.tv"),
-    Var("Svr", F, "monthly", "resid.svr", "svr"),
+    Var("Svr", F, "monthly", None, "svr", note="needs the daily CBOE VXO index (external, FRED VXOCLS; not yet approved for download)"),
     Var("β", F, "monthly", "resid.beta"),
     Var("βD", F, "monthly", "resid.beta_d", "beta_d"),
     Var("Tur", F, "monthly", "market.tur"),
@@ -216,10 +216,10 @@ VARS: list[Var] = [
     Var("Isq", F, "monthly", "resid.isq", "isq"),
     Var("Isch3", F, "monthly", "resid.isch3", "isch3"),
     Var("Isch4", F, "monthly", "resid.isch4", "isch4"),
-    Var("Srev", F, "monthly1", "market.srev", "shorttermrev"),
+    Var("Srev", F, "monthly1", "market.srev", "shorttermrev_1"),
     Var("Esba", F, "monthly", None, "esba", note="已实现指标 (effective spread) not subscribed"),
     Var("Qsba", F, "monthly", None, "qsba", note="已实现指标 (quoted spread) not subscribed"),
-    Var("βPS", F, "monthly", "resid.beta_ps", "psbeta"),
+    Var("βPS", F, "monthly", None, "psbeta", note="needs CSMAR innovations in aggregate liquidity; subscription not yet checked"),
     Var("Vpin", F, "monthly", None, "vpin", note="已实现指标 (VPIN) not subscribed"),
 ]
 
@@ -238,3 +238,18 @@ def check() -> None:
     single = sum(v.kind != "monthly" for v in VARS)
     if (single, len(VARS) - single) != (104, 73):
         raise AssertionError(f"{single} single / {len(VARS) - single} monthly, paper 104 / 73")
+
+
+def author_names() -> dict[str, str]:
+    """Map the authors' variable names (lower case, as in Table4.xls / Table6.xls and the
+    g5_g1 files) to our anomaly names (e.g. 'sue_q_1' -> 'Sue1', 'i_a' -> 'I/A')."""
+    m = {}
+    for v in VARS:
+        if not v.author:
+            continue
+        if v.kind == "monthly":
+            for h in HOLDS:
+                m[f"{v.author}_{h}".lower()] = f"{v.name}{h}"
+        else:
+            m[v.author.lower()] = v.name
+    return m

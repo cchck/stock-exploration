@@ -139,3 +139,33 @@ def quintile_returns(sig: pd.DataFrame, proc: Procedure, kind: str, hold: int = 
     out.columns = [f"g{int(c)}" for c in out.columns]
     out["g5_g1"] = out["g5"] - out["g1"]
     return out
+
+
+def quintile_returns_multi(sig: pd.DataFrame, proc: Procedure, kind: str, holds=(1, 3, 6, 9, 12)) -> dict[int, pd.DataFrame]:
+    """quintile_returns for several holding periods at once: cohort returns are computed for
+    lags 1..max(holds) a single time and averaged per holding period (identical to calling
+    quintile_returns for each N)."""
+    if kind == "annual":
+        return {1: quintile_returns(sig, proc, kind)}
+    g = assign_quintiles(sig, proc)
+    p = holding_returns()
+    by_lag = {}
+    for k in range(1, max(holds) + 1):
+        h = g.assign(month=g["form"] + k)
+        d = h.merge(p, on=["stkcd", "month"], how="inner")
+        if WEIGHTS_AT_FORMATION:
+            d["w"] = d["w_form"]
+        if proc.weights == "vw":
+            d = d[d["w"] > 0]
+            num = (d["ret"] * d["w"]).groupby([d["month"], d["q"]]).sum()
+            r = num / d["w"].groupby([d["month"], d["q"]]).sum()
+        else:
+            r = d.groupby(["month", "q"])["ret"].mean()
+        by_lag[k] = r
+    out = {}
+    for n in holds:
+        r = pd.concat([by_lag[k] for k in range(1, n + 1)]).groupby(level=["month", "q"]).mean().unstack("q")
+        r.columns = [f"g{int(c)}" for c in r.columns]
+        r["g5_g1"] = r["g5"] - r["g1"]
+        out[n] = r
+    return out
