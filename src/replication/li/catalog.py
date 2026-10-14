@@ -88,7 +88,7 @@ VARS: list[Var] = [
     Var("Cei", I, "annual", "acct.cei", "cei"),
     Var("Cdi", I, "annual", "acct.cdi"),
     Var("Ivg", I, "annual", "acct.ivg"),
-    Var("Ivc", I, "annual", "acct.ivchg"),
+    Var("Ivchg", I, "annual", "acct.ivchg", note="paper name Ivc (inventory changes); renamed: the paper also uses Ivc1-Ivc12 for idiosyncratic volatility"),
     Var("Oa", I, "annual", "acct.oa"),
     Var("Ta", I, "annual", "acct.ta_accr"),
     Var("dWc", I, "annual", "acct.dwc"),
@@ -224,6 +224,8 @@ VARS: list[Var] = [
 ]
 
 BY_NAME = {v.name: v for v in VARS}
+if len(BY_NAME) != len(VARS):
+    raise AssertionError("duplicate variable names in the catalog")
 
 
 def check() -> None:

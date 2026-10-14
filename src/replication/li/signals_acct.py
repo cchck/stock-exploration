@@ -63,8 +63,13 @@ def _lti(x: pd.DataFrame) -> pd.Series:
 # Annual panel: fiscal year values with lags, formation at June of fy + 1
 # ---------------------------------------------------------------------------------------------
 
-@lru_cache(maxsize=1)
 def annual() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _annual_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _annual_cached() -> pd.DataFrame:
     a = D.annual(ITEMS).sort_values(["stkcd", "fy"]).reset_index(drop=True)
     a["sti"] = _sti(a, a["fy"])
     a["debt"] = _debt(a)
@@ -144,8 +149,13 @@ def quarterly_announced(events: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
     return out.rename(columns={"month": "form"})
 
 
-@lru_cache(maxsize=1)
 def q_stock() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _q_stock_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _q_stock_cached() -> pd.DataFrame:
     """Balance-sheet values at each fiscal period end with derived items."""
     q = D.quarterly_stocks([TA, BE, CASH, STI_OLD, STI_NEW, STD1, STD2, LTD, PREF, INV, CA, CL, TL, "A001111000",
                             "A001101000", "A001212000"])
@@ -154,8 +164,13 @@ def q_stock() -> pd.DataFrame:
     return q
 
 
-@lru_cache(maxsize=1)
 def q_flow() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _q_flow_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _q_flow_cached() -> pd.DataFrame:
     """Single-quarter flows (YTD differences) with announcement dates."""
     return D.quarterly_flows([NI, REV, SALES, OPINC, DEP, OCF, "B001201000", "B001209000", "B001210000",
                               "B001211000", "B002100000", "B001000000"])
@@ -684,8 +699,13 @@ def pta() -> pd.DataFrame:
     return _out(_june(a))
 
 
-@lru_cache(maxsize=1)
 def _dac_panel() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _dac_panel_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _dac_panel_cached() -> pd.DataFrame:
     """Discretionary accruals, modified Jones model (Dechow, Sloan and Sweeney 1995), the
     method CSMAR's DisAcc follows (DM A.3.21; CSMAR's own DisAcc table is not in our
     subscription, so it is rebuilt): total accruals / lagged TA regressed by CSRC industry
@@ -929,8 +949,13 @@ def _q_lag_stock(cols: list[str], quarters: int = 1) -> pd.DataFrame:
     return out.rename(columns={c: f"{c}_lq" for c in cols})
 
 
-@lru_cache(maxsize=1)
 def q_all() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _q_all_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _q_all_cached() -> pd.DataFrame:
     """Quarterly flows + stocks + one-quarter-lagged stocks + four-quarter-lagged flows."""
     f = q_flow()
     s = q_stock()
@@ -1068,8 +1093,13 @@ SELL, ADMIN, COGS, TAX, GOODWILL, RECV = "B001209000", "B001210000", "B001201000
 RD_PROXY = ADMIN
 
 
-@lru_cache(maxsize=1)
 def annual_x() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _annual_x_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _annual_x_cached() -> pd.DataFrame:
     """Annual panel with the extra intangibles items and one-year lags."""
     extra = [SELL, ADMIN, COGS, TAX, GOODWILL, RECV, "A001212000"]
     a = annual().merge(D.annual([c for c in extra if c not in annual().columns]), on=["stkcd", "fy"], how="left")
@@ -1404,8 +1434,13 @@ def alm() -> pd.DataFrame:
     return _june_ratio(_al(a), a["mva_l1"], a)
 
 
-@lru_cache(maxsize=1)
 def _q_al() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _q_al_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _q_al_cached() -> pd.DataFrame:
     s = q_stock().merge(D.quarterly_stocks([GOODWILL, INTANG])[["stkcd", "period_end", GOODWILL, INTANG]],
                         on=["stkcd", "period_end"], how="left")
     s["al"] = _al(s)
@@ -1433,8 +1468,13 @@ def almq() -> pd.DataFrame:
 # A.1 Momentum (accounting surprises)
 # ---------------------------------------------------------------------------------------------
 
-@lru_cache(maxsize=1)
 def _per_share() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _per_share_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _per_share_cached() -> pd.DataFrame:
     """Quarterly flows per share (total shares at the fiscal period end) and assets per share."""
     from replication.lsy.data import total_shares_month_end
     x = q_all()[["stkcd", "period_end", "announce_date", NI, REV, "B002100000", TA]].copy()
@@ -1562,8 +1602,13 @@ def gov() -> pd.DataFrame:
     return _out(_june(pd.concat(out, ignore_index=True)))
 
 
-@lru_cache(maxsize=1)
 def _earn_panel() -> pd.DataFrame:
+    # Callers may add columns: hand out a copy so the memoized frame stays intact.
+    return _earn_panel_cached().copy()
+
+
+@lru_cache(maxsize=1)
+def _earn_panel_cached() -> pd.DataFrame:
     """Annual earnings attributes inputs: EPS, earnings / ME, change in earnings / ME, the
     15-month return ending three months after the fiscal year end, OCF and income over
     lagged assets."""
