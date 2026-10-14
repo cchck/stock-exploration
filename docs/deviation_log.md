@@ -810,7 +810,8 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
   from the previous calendar month only. Now 1,530 stocks / 459 microcaps / EW market 1.25%
   vs the printed 1,563 / 449 / 1.28%.
 - **Within tolerance:** all eight market cells, the micro and small counts, every market-cap
-  share, VW means and standard deviations, and all 56 Panel B microcap weights.
+  share, VW means and standard deviations, and 53 of the 56 Panel B microcap weights (misses:
+  Mainboard-EW High-Mom, All-EW High-Mom, All-EW High-VvG).
 - **Also missing:** the counts of big stocks (621 vs 657) and all-but-micro (1,071 vs 1,114),
   and the EW means of small, big and all-but-micro stocks (lower than printed).
 - **Misses:** microcap returns are higher (VW 1.60% vs 1.40%, EW 1.95% vs 1.69%) and the

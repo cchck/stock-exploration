@@ -29,9 +29,10 @@ AI-discovered signal uninterpretable.
 |---|---|---|
 | 0 | CSMAR access, SignalLab code reading, project skeleton | done 2026-10-07 |
 | 1 | CSMAR download + cleaning layer (monthly/daily trading, statements, disclosure dates, ST, risk-free) | done 2026-10-09 (lighthouse milestone 1.1, reviewed; evidence in `data_layer.md`) |
-| 2 | Replicate LSY (CH-3/CH-4), check against Stambaugh's published series | |
-| 3 | Replicate Li et al. (all 469 anomalies, Mainboard-VW vs All-EW, factor model comparison) | Online Appendix and replication package obtained |
-| 4 | Replicate Allen et al. within-A-share results | |
+| 2 | Replicate LSY (CH-3/CH-4), check against Stambaugh's published series | done 2026-10-09 (milestone 1.2; 699/836 within tolerance; gaps in `deviation_log.md` LSY-*) |
+| 3 | Replicate Li et al. (all 469 anomalies, Mainboard-VW vs All-EW, factor model comparison) | done 2026-10-14 (milestone 1.4, guard warn; 453 of 469 anomalies built; gaps LI-*) |
+| 4 | Replicate Allen et al. within-A-share results | done 2026-10-10 (milestone 1.3, guard warn; gaps ALN-*) |
+| 4b | Chinese replication report (`report/replication_report_zh.md`) | milestone 1.5, in review / awaiting user acceptance |
 | 5 | SignalLab China adapter (data contract in `signallab_code_notes.md` section 2) | |
 | 6 | SignalLab China discovery runs + post-search protocol | needs API budget |
 
