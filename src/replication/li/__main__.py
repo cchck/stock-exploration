@@ -24,9 +24,9 @@ from replication.li import tables as T
 OUT = PROJECT_ROOT / "results" / "li"
 COMPARISON = PROJECT_ROOT / "results" / "li_comparison.csv"
 TABLE_FUNCS = {"T1": T.table1, "T2": T.table2, "T3": T.table3, "T4": T.table4, "T5": T.table5,
-               "T6": T.table6, "T7": T.table7, "TXT": T.text_numbers}
+               "T6": T.table6, "T7": T.table7, "TXT": T.text_numbers, "S4.2": T.hxz_us}
 DEVIATION_LINKS = {"T1": "LI-1", "T2": "LI-5", "T3": "LI-6", "T4": "LI-6", "T5": "LI-7", "T6": "LI-7",
-                   "T7": "LI-8", "TXT": "LI-6"}
+                   "T7": "LI-8", "TXT": "LI-6", "S4.2": "LI-9"}
 
 
 def main(argv=None) -> int:

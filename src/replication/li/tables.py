@@ -415,3 +415,35 @@ def text_numbers(seg: Segment) -> pd.DataFrame:
     m = dec.merge(f, on="stkcd", how="inner")
     items.append(("S2.1:soe_share_2003", "pct", float(m["soe"].mean() * 100)))
     return _rows("TXT", seg, items)
+
+
+def hxz_us(seg: Segment) -> pd.DataFrame:
+    """Section 4.2: significance of the HXZ (2020) U.S. anomalies (global-q.org testing
+    portfolios, value-weighted deciles, high-minus-low = decile 10 - decile 1) over the same
+    windows. Today's files (2025 vintage) hold a different set than the 187 of the paper."""
+    import zipfile
+    from csmar.registry import RAW_EXTERNAL
+    hl = {}
+    for z in sorted((RAW_EXTERNAL / "hxz").glob("*_monthly_2025.zip")):
+        with zipfile.ZipFile(z) as zf:
+            for name in zf.namelist():
+                if not name.endswith(".csv"):
+                    continue
+                with zf.open(name) as fh:
+                    d = pd.read_csv(fh)
+                rank = [c for c in d.columns if c.startswith("rank_")][0]
+                d["month"] = pd.PeriodIndex.from_fields(year=d["year"], month=d["month"], freq="M")
+                w = d.pivot_table(index="month", columns=rank, values="ret_vw")
+                if 10 in w.columns and 1 in w.columns:
+                    hl[name.split("/")[-1]] = w[10] - w[1]
+    hl = pd.DataFrame(hl)
+    items = [("S4.2:us_n_anomalies", "n", float(hl.shape[1]))]
+    windows = [("full", seg.start, seg.end)]
+    if seg.start <= POST2007_START <= seg.end:
+        windows.append(("post2007", POST2007_START, seg.end))
+    for lab, s, e in windows:
+        w = _window(hl, s, e)
+        t = w.mean() / w.std() * np.sqrt(w.count())
+        items += [(f"S4.2:us_sig_rate_{lab}_sht", "pct", float((t.abs() >= SHT).mean() * 100)),
+                  (f"S4.2:us_sig_rate_{lab}_mht", "pct", float((t.abs() >= MHT).mean() * 100))]
+    return _rows("TXT", seg, items)

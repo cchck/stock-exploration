@@ -228,6 +228,11 @@ TEXT = [
     ("S3.3:Roeq1_m", "pct", 0.48, "pct_return", "Section 3.3: Roeq1 earns 0.48% per month, insignificant"),
     ("S3.3:Roeq1_insignificant", "abs_t_below_1.96", 1.96, "upper_bound", "Section 3.3: Roeq1 insignificant (|t| < 1.96)"),
     ("S3.3:Roeq3_m", "pct", 0.37, "pct_return", "Section 3.3: Roeq3 0.37% per month, insignificant"),
+    ("S4.2:us_sig_rate_full_sht", "pct", 24.06, "share_pct", "Section 4.2: 45 of 187 HXZ U.S. anomalies (24.06%) significant, 2000-07..2019-06"),
+    ("S4.2:us_sig_rate_full_mht", "pct", 4.81, "share_pct", "Section 4.2: 9 (4.81%) at |t| >= 2.78"),
+    ("S4.2:us_sig_rate_post2007_sht", "pct", 16.04, "share_pct", "Section 4.2: 30 of 187 (16.04%), 2008-07..2019-06"),
+    ("S4.2:us_sig_rate_post2007_mht", "pct", 4.81, "share_pct", "Section 4.2: 9 (4.81%) at |t| >= 2.78, post-2007"),
+    ("S4.2:us_n_anomalies", "n", 187, "info", "Section 4.2: HXZ website portfolios then (today's global-q.org files hold a different number)"),
     ("S3.3:Roeq3_insignificant", "abs_t_below_1.96", 1.96, "upper_bound", "Section 3.3: Roeq3 insignificant (|t| < 1.96)"),
 ]
 

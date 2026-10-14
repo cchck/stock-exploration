@@ -23,7 +23,7 @@ def _authors_factors() -> pd.DataFrame:
 def test_targets_file_is_well_formed():
     t = load_targets("li")
     assert {"T1", "T2", "T3", "T4", "T5", "T6", "T7", "TXT"} <= set(t["table"])
-    assert len(t) == 4270
+    assert len(t) == 4275
     assert not t.duplicated(["table", "row", "col"]).any()
     # 78 significant anomalies over the whole period, 61 post-2007 (Table 4)
     sig = t[(t["table"] == "T4") & (t["col"] == "m")]
