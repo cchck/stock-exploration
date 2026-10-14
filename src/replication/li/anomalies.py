@@ -20,7 +20,19 @@ from csmar.registry import INTERIM
 from replication.li import catalog as C
 from replication.li import portfolios as PF
 
-CACHE = INTERIM / "li_quintiles.parquet"
+# Two procedure variants (deviation_log LI-2; user decision 2026-10-11):
+#   "authors": the authors' holding-month filter (reproduces the paper; original segment),
+#   "clean":   look-ahead free (headline for the extended and full segments).
+# The variant is fixed per process (factors and caches are memoized): set LI_VARIANT before
+# importing, or call set_variant() first.
+import os
+
+VARIANT = os.environ.get("LI_VARIANT", "authors")
+if VARIANT not in ("authors", "clean"):
+    raise ValueError(f"LI_VARIANT must be 'authors' or 'clean', not {VARIANT!r}")
+PF.HOLDING_MONTH_FILTER = VARIANT == "authors"
+_SUFFIX = "" if VARIANT == "authors" else "_clean"
+CACHE = INTERIM / f"li_quintiles{_SUFFIX}.parquet"
 MODULES = {"market": "replication.li.signals_market", "acct": "replication.li.signals_acct",
            "resid": "replication.li.signals_resid"}
 log = logging.getLogger(__name__)
@@ -82,7 +94,7 @@ if __name__ == "__main__":
     sys.exit(main())
 
 
-MEMBER_CACHE = INTERIM / "li_membership.parquet"
+MEMBER_CACHE = INTERIM / f"li_membership{_SUFFIX}.parquet"
 
 
 def membership_stats(var: C.Var, procs=tuple(PF.PROCEDURES)) -> pd.DataFrame:
@@ -131,7 +143,7 @@ def build_membership(rebuild: bool = False) -> pd.DataFrame:
     return pd.concat(parts, ignore_index=True)
 
 
-SOE_CACHE = INTERIM / "li_quintiles_soe.parquet"
+SOE_CACHE = INTERIM / f"li_quintiles_soe{_SUFFIX}.parquet"
 
 
 def _soe_by_form() -> pd.DataFrame:

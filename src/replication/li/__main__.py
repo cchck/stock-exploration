@@ -3,9 +3,13 @@
     python -m replication.li                    # all segments, comparison
     python -m replication.li --period original
     python -m replication.li --build            # (re)build the anomaly caches first
+    LI_VARIANT=clean python -m replication.li   # look-ahead-free variant
 
-Outputs (aggregates only): results/li/<segment>_tables.csv and results/li_comparison.csv
-(original segment vs the paper, lighthouse 7.3). Partial runs write *_partial.csv.
+Two procedure variants (deviation_log LI-2): "authors" (default) reproduces the paper and
+writes results/li/<segment>_tables.csv and results/li_comparison.csv (original segment vs the
+paper, lighthouse 7.3); "clean" (no holding-month look-ahead) writes
+results/li/<segment>_tables_clean.csv and is the headline for the extended and full segments
+(user decision 2026-10-11). Partial runs write *_partial.csv.
 """
 
 from __future__ import annotations
@@ -48,12 +52,13 @@ def main(argv=None) -> int:
     for name in names:
         seg = segs[name]
         out = pd.concat([TABLE_FUNCS[t](seg) for t in a.tables], ignore_index=True)
-        path = OUT / (f"{name}_tables.csv" if complete else f"{name}_tables_partial.csv")
+        sfx = "" if AN.VARIANT == "authors" else "_clean"
+        path = OUT / (f"{name}_tables{sfx}.csv" if complete else f"{name}_tables{sfx}_partial.csv")
         out.to_csv(path, index=False)
         print(f"{seg}: {len(out)} numbers -> {path}", flush=True)
         if name == "original":
             original = out
-    if complete and original is not None:
+    if complete and original is not None and AN.VARIANT == "authors":
         c = compare("li", original)
         c["deviation"] = [DEVIATION_LINKS.get(t, "") if (p is not None and not p) else "" for t, p in zip(c["table"], c["pass"])]
         c.to_csv(COMPARISON, index=False)

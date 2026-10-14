@@ -219,7 +219,7 @@ VARS: list[Var] = [
     Var("Srev", F, "monthly1", "market.srev", "shorttermrev_1"),
     Var("Esba", F, "monthly", None, "esba", note="已实现指标 (effective spread) not subscribed"),
     Var("Qsba", F, "monthly", None, "qsba", note="已实现指标 (quoted spread) not subscribed"),
-    Var("βPS", F, "monthly", None, "psbeta", note="needs CSMAR innovations in aggregate liquidity; subscription not yet checked"),
+    Var("βPS", F, "monthly", "resid.beta_ps", "psbeta", note="liquidity innovations rebuilt from daily data (CSMAR 股票流动性 not subscribed)"),
     Var("Vpin", F, "monthly", None, "vpin", note="已实现指标 (VPIN) not subscribed"),
 ]
 

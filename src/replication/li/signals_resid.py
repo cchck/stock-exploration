@@ -306,3 +306,53 @@ def _delay() -> pd.DataFrame:
 def d1(): return _out(_delay().rename(columns={"d1": "v"}))
 def d2(): return _out(_delay().rename(columns={"d2": "v"}))
 def d3(): return _out(_delay().rename(columns={"d3": "v"}))
+
+
+@lru_cache(maxsize=1)
+def ps_liquidity() -> pd.Series:
+    """Aggregate liquidity innovations L_t (Pástor and Stambaugh 2003), rebuilt from daily
+    data because CSMAR's series (因子研究系列 -> 股票流动性) is not subscribed (deviation_log
+    LI-4). Per stock-month with at least 15 days: r^e_{d+1} = θ + φ r_d + γ sign(r^e_d) v_d,
+    v = RMB volume in millions, excess over the daily MKT return as in PS; γ_t = mean γ over
+    stocks; scaled level (m_t / m_1) γ_t with m = aggregate circulating ME; innovations are
+    the residuals of Δγ_t on Δγ_{t-1} and (m_{t-1}/m_1) γ_{t-1}, divided by 100."""
+    from csmar.panels import daily
+    d = daily(["Dretwd", "Dnvaltrd", "Dsmvosd"])
+    d = d[d["board"].isin(D.BOARDS_EXTENSION)].copy()
+    d["r"] = pd.to_numeric(d["Dretwd"], errors="coerce")
+    d["v"] = pd.to_numeric(d["Dnvaltrd"], errors="coerce") / 1e6
+    m = F.daily_factors()["mkt"] + F.daily_factors()["rf"]
+    d["re"] = d["r"] - d["date"].map(m)
+    d = d.sort_values(["stkcd", "date"])
+    d["month"] = d["date"].dt.to_period("M")
+    g = d.groupby("stkcd")
+    d["re_next"] = g["re"].shift(-1)
+    d["next_month"] = g["month"].shift(-1)
+    d = d[(d["next_month"] == d["month"])].dropna(subset=["re_next", "r", "re", "v"])
+    d["sv"] = np.sign(d["re"]) * d["v"]
+    key = d["stkcd"].astype(str) + "|" + d["month"].astype(str)
+    gid, uniq = pd.factorize(key)
+    beta, _, cnt = batch_ols(d["re_next"].to_numpy(), d[["r", "sv"]].to_numpy(), gid, len(uniq))
+    st = d.groupby(gid)[["stkcd", "month"]].first()
+    st["gamma"], st["n"] = beta[:, 2], cnt
+    st = st[st["n"] >= 15]
+    # PS trim extreme estimates per month (keep the central 98%)
+    lo = st.groupby("month")["gamma"].transform(lambda s: s.quantile(0.01))
+    hi = st.groupby("month")["gamma"].transform(lambda s: s.quantile(0.99))
+    gam = st[(st["gamma"] >= lo) & (st["gamma"] <= hi)].groupby("month")["gamma"].mean()
+    mcap = D.stock_panel().groupby("month")["mv_float"].sum().reindex(gam.index)
+    scale = mcap / mcap.iloc[0]
+    x = pd.DataFrame({"dg": (scale * gam).diff(), "dg1": (scale * gam).diff().shift(1), "lvl": (scale.shift(1) * gam.shift(1))}).dropna()
+    Z = np.column_stack([np.ones(len(x)), x["dg1"], x["lvl"]])
+    b, *_ = np.linalg.lstsq(Z, x["dg"].to_numpy(), rcond=None)
+    return pd.Series((x["dg"].to_numpy() - Z @ b) / 100, index=x.index, name="liq")
+
+
+def beta_ps() -> pd.DataFrame:
+    """βPS (A.6.30): slope on L_t in a regression of monthly excess returns on L_t and the FF3
+    factors over t-60..t-1 (>= 24 months)."""
+    Y, fac = _monthly_excess()
+    X = fac[["mkt", "smbff3", "hmlff3"]].join(ps_liquidity(), how="left")
+    b, _ = _rolling_ols_wide(Y, X, 60, 24)
+    v = b["liq"].stack().rename("value").reset_index().rename(columns={"level_0": "form"})
+    return v.dropna()

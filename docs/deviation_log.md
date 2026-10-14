@@ -714,3 +714,64 @@ numbers uses the authors' procedure (lighthouse 3.1: each paper's own convention
 it. User decision (2026-10-11): the extended and full segments headline the look-ahead-free
 version, with the authors' procedure shown alongside; the original segment's comparison with
 the printed numbers uses the authors' procedure.
+
+## LI-3 Li anomaly signals: calibration against the authors' quintile series
+
+The authors' replication package holds the monthly quintile returns (g1..g5, g5-g1) of
+their significant anomalies (`g5_g1_2000_2019`, `g5_g1_2008_2019`). Each signal we build is
+checked against them month by month (lighthouse 3.3: g5-g1 correlation >= 0.90). The engine
+itself is exact: the price sort (Pps1..Pps12) matches every holding period at 0.998-1.000
+with means within 0.03 pp.
+
+Kept choices, with their rounds:
+- Market equity in price ratios: circulating (Epq 0.984 vs 0.953 with total; Ndp 0.905 vs
+  0.762).
+- Value weights: previous month-end circulating ME, updated monthly also for annual sorts
+  (holding at the June weights lowers I/A 0.844 -> 0.823, dPia 0.944 -> 0.906).
+- Negative book equity: excluding it changes I/A by 0.007; kept per the data manual.
+- Restated prior-year assets (opening balances) for I/A: 0.810 vs 0.845 with the original
+  figures, so originals are kept (also lighthouse 3.2).
+
+Correlations of g5-g1 with the authors' series (holding 1 unless noted):
+
+| >= 0.95 | 0.90-0.95 | < 0.90 |
+|---|---|---|
+| Srev 1.000, Ivc 0.998, Mdr 0.991, Ivff3 0.991, Ivch3 0.991, Ts 0.988, Ivq 0.988, βD 0.988, Isc 0.984, Epq 0.984, dRoa 0.983, dNca 0.984, dNco 0.980, Adm 0.980, dRoe 0.971, Alaq 0.972, dFin 0.972, Sue 0.961, dFnl 0.959, Rtv 0.956 (0.987 at 3 months) | dPia 0.944, Sr 0.942, dLno 0.926, Cvt 0.920, Isff3 0.910, Ndp 0.905 | Atoq 0.87, Rdmq 0.83, ϵ6 0.84 (3 months), I/A 0.84, Noa 0.82, Cei 0.48 |
+
+Rounds on the misses:
+- I/A: by year the gap sits in single months (2015-04 lowest quintile +11 pp, 2008-12,
+  2018-11, 2019-02), not a constant drift, so it is the membership of a few large firms. The
+  rounds above (BE filter, restated assets, December listing requirement, stale weights for
+  resumed stocks, formation weights) do not remove it.
+- Cei: circulating vs total ME (0.48 vs -0.20), 60 / 48 / any months of returns, returns with
+  or without dividends: none above 0.53. Not resolved.
+- Rtv, Cvt: the gap is in the low-volume quintile; daily vs monthly volume and minimum-day
+  rules (1 / 50 / 100) do not close it (best 0.975).
+
+## LI-4 Li variables with substituted or missing inputs (lighthouse 5.3)
+
+Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
+
+- **R&D (Rdm, Rds):** the annual R&D table (研发投入情况表, RDSpendSum) is not subscribed.
+  The paper proxies R&D with management fees (B001210000, Chen, Kim, Yao and Yu 2010) for
+  Rdmq, Rdsq and Rca; Rdm and Rds use the same proxy here. The income-statement R&D line
+  (B001216000) and the R&D notes table start only in 2018.
+- **Fop:** CSMAR's RelativeOptimism is per analyst report (AF_ANAFOREFEATURE); the data manual
+  gives no aggregation rule. We average the reports dated in calendar year t-1.
+- **Gov:** six of the seven principal-component inputs; institutional ownership (机构投资者)
+  is not subscribed. Inputs come from 治理结构 and 股东 tables instead of the 经营困境
+  sub-database the paper names (not subscribed); shares balance = (top-5 - top-1) / top-1.
+- **Dac (and Pda):** CSMAR's DisAcc is not in our tables; rebuilt with the modified Jones
+  model (Dechow, Sloan and Sweeney 1995) by CSRC industry letter and fiscal year (>= 10
+  firms), the method the data manual attributes to CSMAR.
+- **Not producible (26 of 469 anomalies):**
+  - Parc (1): patents (上市公司研发创新) not subscribed;
+  - Esba, Qsba, Vpin (15): 已实现指标 (intraday-based spreads and VPIN) not subscribed. In the
+    paper 12 of the 78 significant anomalies are among them (Esba1-12, Qsba1-12, Vpin3, Vpin6),
+    so our significance counts cannot reach the printed totals.
+  - Svr (5): needs the daily CBOE VXO index (external; not yet requested);
+  - βPS (5): CSMAR's innovations in aggregate liquidity (因子研究系列 -> 股票流动性) are not
+    subscribed (checked 2026-10-13). To be rebuilt from daily data with the Pástor and
+    Stambaugh (2003) method (lighthouse 5.3: construct an A-share version).
+  Significance rates use the anomalies we can build as the denominator (Table 3 reports the
+  counts as 'n_available').
