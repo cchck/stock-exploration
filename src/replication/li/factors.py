@@ -244,3 +244,122 @@ def q_factors() -> pd.DataFrame:
     sg, ig, rg = (lvl.get_level_values(i) for i in range(3))
     return pd.DataFrame({"me": avg(sg == 1.0) - avg(sg == 2.0), "ia": avg(ig == 1.0) - avg(ig == 3.0),
                          "roe": avg(rg == 3.0) - avg(rg == 1.0)})
+
+
+# ---------------------------------------------------------------------------------------------
+# Portfolio labels by holding month, so the same factors can be computed at daily frequency
+# (the daily factors for idiosyncratic volatility / skewness, DM A.6.3-A.6.8, A.6.21-A.6.26)
+# ---------------------------------------------------------------------------------------------
+
+def _annual_labels_by_month(x: pd.DataFrame, groups: dict[str, pd.Series]) -> pd.DataFrame:
+    lab = x[["stkcd", "year"]].copy()
+    for k, g in groups.items():
+        lab[k] = g
+    lab = lab.dropna()
+    months = pd.DataFrame({"month": pd.period_range("1999-07", "2026-12", freq="M")})
+    months["year"] = np.where(months["month"].dt.month >= 7, months["month"].dt.year, months["month"].dt.year - 1)
+    return lab.merge(months, on="year").drop(columns="year")
+
+
+@lru_cache(maxsize=1)
+def labels() -> dict[str, pd.DataFrame]:
+    """Per factor family, the stock-month portfolio labels used in the monthly factors:
+    'ff3' (s, g on B/M), 'ff5_bm', 'ff5_op', 'ff5_inv' (s, g), 'q' (sg, ig, rg)."""
+    x0 = _eligible_june(_june_characteristics())
+    out = {"ff3": _annual_labels_by_month(x0, {"s": _bucket(x0, "size", [0.5], "year"),
+                                               "g": _bucket(x0, "bm", [0.3, 0.7], "year")})}
+    x5 = x0.dropna(subset=["bm", "op", "inv"])
+    s5 = _bucket(x5, "size", [0.5], "year")
+    for var in ("bm", "op", "inv"):
+        out[f"ff5_{var}"] = _annual_labels_by_month(x5, {"s": s5, "g": _bucket(x5, var, [0.3, 0.7], "year")})
+    # q: size and I/A annual, ROE monthly (formation = end of month t-1)
+    x = x0.copy()
+    x["sg"] = _bucket(x, "size", [0.5], "year")
+    x["ig"] = _bucket(x, "inv", [0.3, 0.7], "year")
+    annual = x[["stkcd", "year", "sg", "ig"]].dropna()
+    p = D.stock_panel()
+    months = pd.PeriodIndex(sorted(p["month"].unique()), freq="M")
+    roe = latest_quarterly(roe_events(), ["roe"], months)
+    f = p[["stkcd", "month", "eligible", "mainboard"]].merge(roe, on=["stkcd", "month"], how="left")
+    f = f[f["eligible"]].copy()
+    f["hold"] = f["month"] + 1
+    f["year"] = np.where(f["hold"].dt.month >= 7, f["hold"].dt.year, f["hold"].dt.year - 1)
+    f = f.merge(annual, on=["stkcd", "year"], how="inner")
+    f["rg"] = _bucket(f, "roe", [0.3, 0.7], "month")
+    out["q"] = f[["stkcd", "hold", "sg", "ig", "rg"]].dropna().rename(columns={"hold": "month"})
+    return out
+
+
+def _combine(r_ff3, r_bm, r_op, r_inv, r_q) -> pd.DataFrame:
+    """Factor formulas (DM B.1) from portfolio returns indexed by period (month or date)."""
+    def smb(r):
+        return r.xs(1.0, axis=1, level="s").mean(axis=1) - r.xs(2.0, axis=1, level="s").mean(axis=1)
+    def hl(r):
+        return (r[(1.0, 3.0)] + r[(2.0, 3.0)]) / 2 - (r[(1.0, 1.0)] + r[(2.0, 1.0)]) / 2
+    sg, ig, rg = (r_q.columns.get_level_values(i) for i in range(3))
+    avg = lambda m: r_q.loc[:, m].mean(axis=1)
+    return pd.DataFrame({
+        "smbff3": smb(r_ff3), "hmlff3": hl(r_ff3),
+        "smbff5": (smb(r_bm) + smb(r_op) + smb(r_inv)) / 3, "hml": hl(r_bm), "rmw": hl(r_op), "cma": -hl(r_inv),
+        "me": avg(sg == 1.0) - avg(sg == 2.0), "ia": avg(ig == 1.0) - avg(ig == 3.0), "roe": avg(rg == 3.0) - avg(rg == 1.0),
+    })
+
+
+@lru_cache(maxsize=1)
+def daily_returns() -> pd.DataFrame:
+    """Daily stock returns of the sample boards with the month's portfolio weight (circulating
+    cap at the end of the previous month) and the holding-month filter (portfolios.py rule 2)
+    applied by month, as in the monthly factors."""
+    from csmar.panels import daily
+    d = daily(["Dretwd"])
+    d = d[d["board"].isin(D.BOARDS_EXTENSION)]
+    d = pd.DataFrame({"stkcd": d["stkcd"].astype("string"), "date": d["date"],
+                      "month": d["date"].dt.to_period("M"), "r": pd.to_numeric(d["Dretwd"], errors="coerce")})
+    h = PF.holding_returns()[["stkcd", "month", "w"]]
+    return d.merge(h, on=["stkcd", "month"], how="inner").dropna(subset=["r"])
+
+
+@lru_cache(maxsize=1)
+def daily_factors() -> pd.DataFrame:
+    """Daily MKT (value-weighted A shares minus the daily risk-free rate) and the daily
+    versions of the self-built FF3, FF5 and q factors (same portfolios as the monthly
+    factors, held for the month). Daily risk-free = the month's rate / trading days."""
+    from csmar.panels import daily
+    dd = daily(["Dretwd", "Dsmvosd"])
+    dd = dd[dd["board"].isin(["SH_MAIN", "SZ_MAIN", "SZ_SME", "CHINEXT", "STAR", "BSE"])].copy()
+    dd["r"] = pd.to_numeric(dd["Dretwd"], errors="coerce")
+    dd = dd.sort_values(["stkcd", "date"])
+    dd["w"] = dd.groupby("stkcd")["Dsmvosd"].shift(1)
+    ok = dd["r"].notna() & (dd["w"] > 0)
+    m = (dd.loc[ok, "r"] * dd.loc[ok, "w"]).groupby(dd.loc[ok, "date"]).sum() / dd.loc[ok, "w"].groupby(dd.loc[ok, "date"]).sum()
+    ndays = pd.Series(m.index).groupby(pd.PeriodIndex(m.index, freq="M")).transform("size").to_numpy()
+    rf = rf_monthly().reindex(pd.PeriodIndex(m.index, freq="M")).to_numpy() / ndays
+    out = pd.DataFrame({"mkt": m.to_numpy() - rf, "rf": rf}, index=m.index)
+    d = daily_returns()
+    L = labels()
+    def port(name, cols):
+        x = d.merge(L[name], on=["stkcd", "month"], how="inner")
+        x = x[x["w"] > 0]
+        num = (x["r"] * x["w"]).groupby([x["date"], *[x[c] for c in cols]]).sum()
+        return (num / x["w"].groupby([x["date"], *[x[c] for c in cols]]).sum()).unstack(cols)
+    f = _combine(port("ff3", ["s", "g"]), port("ff5_bm", ["s", "g"]), port("ff5_op", ["s", "g"]),
+                 port("ff5_inv", ["s", "g"]), port("q", ["sg", "ig", "rg"]))
+    return out.join(f, how="left")
+
+
+@lru_cache(maxsize=1)
+def ch_daily() -> pd.DataFrame:
+    """Daily CH-3 / CH-4 factors from Stambaugh's website (to 2021-12; lighthouse 4.3),
+    decimal returns indexed by date: mktch (excess market), smbch, vmg, pmo. The CH-3 SMB and
+    VMG differ slightly from the CH-4 ones; the CH-3 file is used for CH-3 regressions."""
+    from csmar.registry import RAW_EXTERNAL
+    def read(name):
+        f = RAW_EXTERNAL / "stambaugh" / name
+        lines = f.read_text().splitlines()
+        start = next(i for i, l in enumerate(lines) if l.lower().startswith("date,"))
+        x = pd.read_csv(f, skiprows=start)
+        x.index = pd.to_datetime(x["date"].astype(str), format="%Y%m%d")
+        return x.drop(columns="date") / 100
+    c3, c4 = read("CH_3_fac_daily_update_20211231.csv"), read("CH_4_fac_daily_update_20211231.csv")
+    return pd.DataFrame({"mktch": c4["mktrf"], "smbch3": c3["SMB"], "vmgch3": c3["VMG"],
+                         "smbch4": c4["SMB"], "vmgch4": c4["VMG"], "pmo": c4["PMO"]})
