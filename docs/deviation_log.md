@@ -778,3 +778,72 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
     CSMAR's.
   Significance rates use the anomalies we can build as the denominator (Table 3 reports the
   counts as 'n_available').
+
+## LI-5 Li Table 2: size groups and microcaps
+
+- **Sample:** eligible at t-1 with price >= 5 (the portfolios' formation filter). Rounds on
+  the stock count (printed 1,563 / 449 microcaps / EW market 1.28%): no price filter 1,755 /
+  515 / 1.35%; price >= 5 at t-1: 1,544 / 464 / 1.29% (kept); plus the holding-month
+  filter: 1,511 / 455 / 1.48%.
+- **Within tolerance:** counts of the market, small and all-but-micro groups, every market-cap
+  share, VW means and standard deviations, and all 56 Panel B microcap weights.
+- **Misses:** microcap returns are higher (VW 1.73% vs 1.40%, EW 2.08% vs 1.69%) and the
+  cross-sectional standard deviations are higher (market 11.0% vs 9.9%); EW means of small and
+  big stocks are lower. Most likely cause: the treatment of resumption months and of the
+  holding-month filter in the paper's Panel A (its sample is not described beyond the
+  breakpoints). Panels C-D (capacity) are reported in results/li_comparison.csv.
+
+## LI-6 Li Tables 3-4 and the introduction's counts: which anomalies are significant
+
+- **Overall rates are close:** 18.8% of the 453 anomalies we build are significant at |t| >=
+  1.96 (Mainboard-VW, 2000-07..2019-06) vs 16.6% of 469 in the paper; failure rates 81.2 /
+  82.3 / 84.8% vs 83.4 / 84.2 / 87.0% (raw / CAPM / FF3), all within 3 points; post-2007 60
+  significant vs 61.
+- **The composition differs:**
+  - Trading frictions 21.9% vs 32.2%: 12 of the paper's 78 significant anomalies are the
+    spread and VPIN variables we cannot build (LI-4).
+  - Momentum 35.6% vs 15.6% and profitability 24.5% vs 8.5%: quarterly earnings-based sorts
+    (Roeq, Roaq, Rnaq, Glaq, Sgq, Tes, Rs) are stronger in our data. Roeq1 earns 0.81% (t
+    2.29) vs the printed 0.48% (insignificant).
+  - Of the paper's 66 buildable significant anomalies, 49 are significant for us.
+- **Rounds:**
+  1. Signal-level calibration against the authors' quintile series (LI-3): the earnings
+     signals that have a series (Sue, dRoe, dRoa, Epq, Atoq) correlate 0.87-0.98, with our
+     spreads within 0.07-0.19 pp of theirs; so the timing rules are right.
+  2. The quarterly ROE used in the q-factor (same events) reproduces the authors' ROE factor
+     at 0.98 (LI-1); Roeq has no author series (insignificant in the paper), so its stronger
+     spread cannot be traced to a single input.
+  3. The MHT counts (18 vs 29 full; 18 vs 22 post-2007) are lower largely because 9 of the
+     paper's 29 MHT anomalies are spread variables (Esba, Qsba).
+- **Not resolved:** the stronger quarterly-earnings anomalies. Most likely cause: CSMAR data
+  vintage differences in quarterly statements and announcement dates (CSMAR revises
+  IAR_Rept), which move firms across the extreme quintiles of earnings-based sorts.
+
+## LI-7 Li Tables 5-6: factor models
+
+- The models are run on our significant set (LI-6), so Table 5 averages differ when the set
+  differs: e.g. CH3 leaves 21 of 85 H-L alphas significant vs 36 of 78; mean |alpha| 0.36%
+  vs 0.64%. The paper's unexplained anomalies are concentrated in trading frictions, where
+  the 12 spread / VPIN variables are missing for us.
+- Table 6 is scored anomaly by anomaly for the paper's significant ones; 352 cells belong to
+  the spread / VPIN variables we cannot build.
+- Factor differences (LI-1: HML-FF5, RMW and MOM below 0.95) feed into the FF5 and Car4
+  alphas.
+
+## LI-8 Li Table 7: SOE vs non-SOE
+
+- SOE flag: actual controller (Allen's soe_flags) instead of CSMAR's equity-nature file (not
+  subscribed). End-2003 SOE share 75.1% vs the printed 74.57%.
+- SOE subsample 2004-07..2019-06: 44 significant raw spreads, exactly as printed; alpha
+  counts within a few anomalies (CAPM 41 vs 40, FF3 36 vs 33). The q / CH3 / CH4 counts are
+  lower (q 19 vs 24; CH4 10 vs 24): the frictions anomalies the paper counts there include
+  spread variables (LI-4).
+- Counts are scored with the relative 3% rule, which is strict for counts of 10-50 (one
+  anomaly is 2-10%).
+
+## LI-9 Li section 4.2: HXZ U.S. anomalies
+
+- Today's global-q.org testing portfolios hold 187 anomalies, the number in the paper.
+  2008-07..2019-06: 16.04% / 4.81% significant, exactly as printed; 2000-07..2019-06: 25.1% /
+  5.3% vs 24.06% / 4.81% (47 vs 45 anomalies), within 3 points. The two extra anomalies are
+  most likely revisions in the 2025 vintage of the portfolios.
