@@ -92,6 +92,8 @@ TABLES: dict[str, RawTable] = {t.code: t for t in [
                    "A single all-years request fails on the platform, hence the chunks."),
     RawTable("RPT_Transfer", "关联交易中资金往来情况文件 (free-text fields dropped)", ("_notext",), (1_401_718,),
              notes="The full-field download (_all) cannot be parsed; never read it."),
+    RawTable("AF_CFEATUREPROFILE", "上市公司基本信息特色指标表 (分析师预测; Li et al. Ana, Rep)", ("_all",), (71_922,)),
+    RawTable("AF_ANAFOREFEATURE", "分析师预测特色指标 (Li et al. Fop: RelativeOptimism)", ("_all",), (795_246,)),
     RawTable("STK_MA_TRADINGMAIN", "并购重组交易信息总表 (2007-2026, four chunks)", _MA_CHUNKS,
              (21_072, 36_235, 47_957, 41_251), tolerant_parse=True,
              notes="Unescaped quotes in buyer/seller/valuation-method text; the quote-aware "
