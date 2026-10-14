@@ -715,38 +715,52 @@ it. User decision (2026-10-11): the extended and full segments headline the look
 version, with the authors' procedure shown alongside; the original segment's comparison with
 the printed numbers uses the authors' procedure.
 
-## LI-3 Li anomaly signals: calibration against the authors' quintile series
+## LI-3 Li anomaly signals: month-by-month check against the authors' quintile series
 
-The authors' replication package holds the monthly quintile returns (g1..g5, g5-g1) of
-their significant anomalies (`g5_g1_2000_2019`, `g5_g1_2008_2019`). Each signal we build is
-checked against them month by month (lighthouse 3.3: g5-g1 correlation >= 0.90). The engine
-itself is exact: the price sort (Pps1..Pps12) matches every holding period at 0.998-1.000
-with means within 0.03 pp.
+The authors' replication package holds the monthly quintile returns of their significant
+anomalies (`g5_g1_2000_2019`, `g5_g1_2008_2019`). `replication.li.checks` compares every one
+of them with ours (Mainboard-VW, authors' procedure) on each run and writes
+`results/li_g5g1_check.csv` (lighthouse 3.3: g5-g1 correlation >= 0.90). Current result:
+**99 of 117 series we can build pass; 18 miss; 22 are spread / VPIN series we cannot build
+(LI-4).** The engine itself is exact: the price sort (Pps1..Pps12) matches at 0.998-1.000
+(tests/test_li.py).
 
-Kept choices, with their rounds:
+Engine-level choices kept, with their rounds:
 - Market equity in price ratios: circulating (Epq 0.984 vs 0.953 with total; Ndp 0.905 vs
-  0.762).
+  0.762). Bmj uses total cap (its definition is per total share).
 - Value weights: previous month-end circulating ME, updated monthly also for annual sorts
-  (holding at the June weights lowers I/A 0.844 -> 0.823, dPia 0.944 -> 0.906).
-- Negative book equity: excluding it changes I/A by 0.007; kept per the data manual.
-- Restated prior-year assets (opening balances) for I/A: 0.810 vs 0.845 with the original
-  figures, so originals are kept (also lighthouse 3.2).
+  (June weights lower I/A 0.844 -> 0.823, dPia 0.944 -> 0.906).
+- Negative book equity (latest annual report) excluded, per the data manual; it moves
+  results by less than 0.01 pp.
 
-Correlations of g5-g1 with the authors' series (holding 1 unless noted):
+Variable-level changes adopted after rounds against the authors' series:
+- Rdmq: ME at the end of t-1 instead of the data manual's "end of last calendar year":
+  0.977 vs 0.832 (round 2, announced timing: 0.796; round 3, total ME: 0.806).
+- R[2,5]n (and the other seasonality averages): mean over the available lags: 0.867 vs 0.810
+  with every lag required (at least half the lags: 0.863; compounded: 0.817).
+- Sue, Rs: standard deviation over the eight previous quarters: Sue6 / Sue9 0.886 / 0.869
+  vs 0.870 / 0.838 (all eight required: 0.877 / 0.844).
+- Abr: an event enters the sort only after its day +1 (reviewer finding: the window's last
+  day could fall in the holding month).
 
-| >= 0.95 | 0.90-0.95 | < 0.90 |
-|---|---|---|
-| Srev 1.000, Ivc 0.998, Mdr 0.991, Ivff3 0.991, Ivch3 0.991, Ts 0.988, Ivq 0.988, βD 0.988, Isc 0.984, Epq 0.984, dRoa 0.983, dNca 0.984, dNco 0.980, Adm 0.980, dRoe 0.971, Alaq 0.972, dFin 0.972, Sue 0.961, dFnl 0.959, Rtv 0.956 (0.987 at 3 months) | dPia 0.944, Sr 0.942, dLno 0.926, Cvt 0.920, Isff3 0.910, Ndp 0.905 | Atoq 0.87, Rdmq 0.83, ϵ6 0.84 (3 months), I/A 0.84, Noa 0.82, Cei 0.48 |
+The 18 misses and their rounds:
 
-Rounds on the misses:
-- I/A: by year the gap sits in single months (2015-04 lowest quintile +11 pp, 2008-12,
-  2018-11, 2019-02), not a constant drift, so it is the membership of a few large firms. The
-  rounds above (BE filter, restated assets, December listing requirement, stale weights for
-  resumed stocks, formation weights) do not remove it.
-- Cei: circulating vs total ME (0.48 vs -0.20), 60 / 48 / any months of returns, returns with
-  or without dividends: none above 0.53. Not resolved.
-- Rtv, Cvt: the gap is in the low-volume quintile; daily vs monthly volume and minimum-day
-  rules (1 / 50 / 100) do not close it (best 0.975).
+| Series | Corr | Rounds (result) | Most likely cause |
+|---|---|---|---|
+| Cei (2008-19) | 0.48 | circulating vs total ME (0.48 / -0.20); 60 / 48 / any months (0.48-0.53); returns with / without dividends (0.48 / 0.46) | share-count changes around the split-share reform in CSMAR's market cap |
+| βPS3, βPS6 (2008-19) | 0.67, 0.66 | liquidity innovations rebuilt (LI-4); CSMAR's series not subscribed | different liquidity series |
+| Isq1, Isq3 | 0.87, 0.80 | plain vs adjusted skewness (0.884 vs 0.869); >= 15 days (0.883); FF3 residuals as a check (0.637) | daily q factors (I/A daily 0.93 to the authors' monthly) |
+| Noa (2000-19, 2008-19) | 0.82, 0.90 | as I/A below; formation weights (0.778); December listing required (0.910) | single months (e.g. 2015-04) where large firms sit in different quintiles; CSMAR vintage of balance-sheet items |
+| ϵ6 (3, 6 months) | 0.84, 0.88 | sd of all 36 residuals (0.847); >= 24 months (0.843); full 36 months (0.778) | our FF3 factors (HML-FF3 0.958, LI-1) |
+| I/A (2008-19) | 0.85 | BE screen (0.851); restated prior-year assets (0.810); December listing (0.841); stale weights for resumed stocks (0.829); formation weights (0.823) | as Noa |
+| Atoq1-9 | 0.86-0.88 | four-month rule instead of announced (0.886, but mean 0.72 vs 0.64); current Noa (0.867); operating revenue (0.871) | net operating assets inputs (cash, short-term investments before / after 2007) |
+| R[2,5]n | 0.87 | see above (adopted round) | sparse long lags for recently listed stocks |
+| Sue6, Sue9 | 0.89, 0.87 | see above (adopted round) | quarterly statement vintage (LI-6) |
+| Svr1 (2008-19) | 0.88 | U.S. dVXO of the previous calendar day (0.088) or business day (0.165): same-date matching is right | VXO day matching on U.S. holidays |
+
+Other measures reported but not scored by an authors' series: Rtv / Cvt correlate 0.956 /
+0.920 at one month (their low-volume quintile differs; daily vs monthly volume and minimum-day
+rules did not close it).
 
 ## LI-4 Li variables with substituted or missing inputs (lighthouse 5.3)
 
@@ -771,11 +785,12 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
     so our significance counts cannot reach the printed totals.
   - (Svr is built: FRED VXOCLS, approved 2026-10-13; VXO ends 2021-09, so Svr stops there.
     g5-g1 correlation with the authors' Svr1: 0.911.)
+- **Substituted (built):**
   - βPS (5): CSMAR's innovations in aggregate liquidity (因子研究系列 -> 股票流动性) are not
-    subscribed (checked 2026-10-13). To be rebuilt from daily data with the Pástor and
-    Stambaugh (2003) method (lighthouse 5.3: construct an A-share version); g5-g1 correlation
-    with the authors' βPS3 / βPS6: 0.67 / 0.66, i.e. the rebuilt liquidity series differs from
-    CSMAR's.
+    subscribed (checked 2026-10-13). Rebuilt from daily data with the Pástor and
+    Stambaugh (2003) method (lighthouse 5.3: construct an A-share version); built, g5-g1
+    correlation with the authors' βPS3 / βPS6: 0.67 / 0.66 (the rebuilt liquidity series
+    differs from CSMAR's).
   Significance rates use the anomalies we can build as the denominator (Table 3 reports the
   counts as 'n_available').
 
@@ -787,17 +802,24 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
   filter: 1,511 / 455 / 1.48%.
 - **Within tolerance:** counts of the market, small and all-but-micro groups, every market-cap
   share, VW means and standard deviations, and all 56 Panel B microcap weights.
-- **Misses:** microcap returns are higher (VW 1.73% vs 1.40%, EW 2.08% vs 1.69%) and the
-  cross-sectional standard deviations are higher (market 11.0% vs 9.9%); EW means of small and
-  big stocks are lower. Most likely cause: the treatment of resumption months and of the
-  holding-month filter in the paper's Panel A (its sample is not described beyond the
-  breakpoints). Panels C-D (capacity) are reported in results/li_comparison.csv.
+- **Misses:** microcap returns are higher (VW 1.60% vs 1.40%, EW 1.95% vs 1.69%) and the
+  microcap cross-sectional standard deviation is higher (11.7% vs 9.9%). Rounds:
+  1. Lagged values only from the previous calendar month (reviewer finding): microcap VW
+     1.73 -> 1.60%, EW 2.08 -> 1.95%, market EW 1.29 -> 1.25%; all eight market cells now
+     pass. Kept.
+  2. Adding the portfolios' holding-month filter (price >= 5 and normal status in month t):
+     market EW 1.48% (further from 1.28%). Not kept.
+  3. No price filter at t-1: counts 1,755 / 515 (vs 1,563 / 449). Not kept.
+  Most likely cause of the remaining gap: resumption months after long suspensions, whose
+  returns are large and fall mostly on microcaps (the paper does not describe Panel A's
+  sample beyond the breakpoints). Panels C-D (capacity) are reported in
+  results/li_comparison.csv.
 
 ## LI-6 Li Tables 3-4 and the introduction's counts: which anomalies are significant
 
-- **Overall rates are close:** 18.8% of the 453 anomalies we build are significant at |t| >=
-  1.96 (Mainboard-VW, 2000-07..2019-06) vs 16.6% of 469 in the paper; failure rates 81.2 /
-  82.3 / 84.8% vs 83.4 / 84.2 / 87.0% (raw / CAPM / FF3), all within 3 points; post-2007 60
+- **Overall rates are close:** 79 of the 453 anomalies we build (17.4%) are significant at
+  |t| >= 1.96 (Mainboard-VW, 2000-07..2019-06) vs 78 of 469 (16.6%); failure rates 82.6 /
+  82.8 / 85.4% vs 83.4 / 84.2 / 87.0% (raw / CAPM / FF3), within 3 points; post-2007 58
   significant vs 61.
 - **The composition differs:**
   - Trading frictions 21.9% vs 32.2%: 12 of the paper's 78 significant anomalies are the
@@ -805,7 +827,8 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
   - Momentum 35.6% vs 15.6% and profitability 24.5% vs 8.5%: quarterly earnings-based sorts
     (Roeq, Roaq, Rnaq, Glaq, Sgq, Tes, Rs) are stronger in our data. Roeq1 earns 0.81% (t
     2.29) vs the printed 0.48% (insignificant).
-  - Of the paper's 66 buildable significant anomalies, 49 are significant for us.
+  - Of the paper's 66 buildable significant anomalies, see results/li_g5g1_check.csv for
+    the month-by-month agreement (LI-3).
 - **Rounds:**
   1. Signal-level calibration against the authors' quintile series (LI-3): the earnings
      signals that have a series (Sue, dRoe, dRoa, Epq, Atoq) correlate 0.87-0.98, with our
@@ -813,7 +836,7 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
   2. The quarterly ROE used in the q-factor (same events) reproduces the authors' ROE factor
      at 0.98 (LI-1); Roeq has no author series (insignificant in the paper), so its stronger
      spread cannot be traced to a single input.
-  3. The MHT counts (18 vs 29 full; 18 vs 22 post-2007) are lower largely because 9 of the
+  3. The MHT counts (19 vs 29 full; 18 vs 22 post-2007) are lower largely because 9 of the
      paper's 29 MHT anomalies are spread variables (Esba, Qsba).
 - **Not resolved:** the stronger quarterly-earnings anomalies. Most likely cause: CSMAR data
   vintage differences in quarterly statements and announcement dates (CSMAR revises
@@ -829,15 +852,27 @@ Access checked on CSMAR 2026-10-13 (docs/csmar_access.md batch 6).
   the spread / VPIN variables we cannot build.
 - Factor differences (LI-1: HML-FF5, RMW and MOM below 0.95) feed into the FF5 and Car4
   alphas.
+- **Round (composition):** Table 5 recomputed on the paper's own significant set
+  (`checks.table5_on_paper_set`, the 66 of its 78 we can build). H-L alphas still significant
+  under CH3: 22 of 66 (paper 36 of 78; 24 once its 12 spread / VPIN anomalies, all with
+  large alphas, are set aside); under q 39 of 66 (paper 58, 46 without them); under FF3 42
+  (49 without them). So most of the gap is the missing spread / VPIN anomalies; the rest is
+  smaller alphas in our data (mean |alpha| under q 0.62% vs 0.83%).
+- **Round (scoring):** Table 5 / 7 counts are scored with the relative 3% count rule; for
+  counts of 10-50 one anomaly is 2-10%, so most count cells fail on a one- or two-anomaly
+  difference.
 
 ## LI-8 Li Table 7: SOE vs non-SOE
 
 - SOE flag: actual controller (Allen's soe_flags) instead of CSMAR's equity-nature file (not
   subscribed). End-2003 SOE share 75.1% vs the printed 74.57%.
-- SOE subsample 2004-07..2019-06: 44 significant raw spreads, exactly as printed; alpha
-  counts within a few anomalies (CAPM 41 vs 40, FF3 36 vs 33). The q / CH3 / CH4 counts are
-  lower (q 19 vs 24; CH4 10 vs 24): the frictions anomalies the paper counts there include
-  spread variables (LI-4).
+- SOE subsample 2004-07..2019-06: 43 significant raw spreads vs 44; CAPM 40 = 40, FF3 35
+  vs 33, FF5 37 vs 36. The q / CH3 / CH4 counts are lower (q 18 vs 24; CH4 11 vs 24).
+- Non-SOE subsample 2004-07..2019-06: 74 vs 90 raw. By category: value-versus-growth 13 vs
+  27 and trading frictions 24 vs 36 (spread / VPIN, LI-4); momentum 10 vs 3 and intangibles
+  15 vs 9 the other way, the same pattern as the full sample (LI-6).
+- Rounds: (1) the SOE flag cannot follow the paper's source (not subscribed); our end-2003
+  share is 75.1% vs 74.57%; (2) the composition rounds of LI-6 / LI-7 apply unchanged.
 - Counts are scored with the relative 3% rule, which is strict for counts of 10-50 (one
   anomaly is 2-10%).
 

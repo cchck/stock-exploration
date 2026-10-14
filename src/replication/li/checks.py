@@ -81,3 +81,28 @@ def run() -> tuple[pd.DataFrame, pd.DataFrame]:
     fc.to_csv(out / "li_factor_check.csv", index=False)
     gc.to_csv(out / "li_g5g1_check.csv", index=False)
     return fc, gc
+
+
+def table5_on_paper_set(panel: str = "A") -> pd.DataFrame:
+    """Diagnostic for deviation_log LI-7: Table 5 statistics computed on the paper's
+    significant anomalies (Table 4 list, those we can build) instead of our own significant
+    set, to separate the composition effect from the alpha estimates."""
+    from replication.li import tables as T
+    tg = pd.read_csv(PROJECT_ROOT / "targets" / "li_targets.csv", comment="#")
+    names = C.author_names()
+    rows = tg[(tg["table"] == "T4") & (tg["col"] == "m") & tg["row"].str.startswith(f"{panel}:")]["row"].str[2:]
+    paper_set = {names.get(r) for r in rows} - {None}
+    s, e = ("2000-07", "2019-06") if panel == "A" else ("2008-07", "2019-06")
+    st = T.anomaly_stats(s, e, "Mainboard-VW", tuple(T.MODELS))
+    sig = st[st["anomaly"].isin(paper_set)]
+    out = []
+    for mdl in T.MODELS:
+        for grp in ["All", *C.CATEGORIES]:
+            g = sig if grp == "All" else sig[sig["category"] == grp]
+            g = g.dropna(subset=[f"alpha_{mdl}"])
+            out.append({"model": mdl, "group": grp, "n": len(g),
+                        "abs_alpha_hl": g[f"alpha_{mdl}"].abs().mean(),
+                        "n_t196": int((g[f"t_{mdl}"].abs() >= T.SHT).sum()),
+                        "mean_abs_alpha": g[f"absalpha_{mdl}"].mean(),
+                        "n_grs_p05": int((g[f"grs_{mdl}"] < 0.05).sum())})
+    return pd.DataFrame(out)

@@ -148,11 +148,16 @@ def rev() -> pd.DataFrame:
 
 
 def _avg_lags(lags: list[int]) -> pd.DataFrame:
-    """Average simple return over the given lags of the holding month t, stored at t-1."""
+    """Average simple return over the available lags of the holding month t (missing months
+    skipped; calibrated on the authors' R[2,5]n: 0.867 vs 0.810 when every lag is required),
+    stored at t-1."""
     p = D.stock_panel()
     r = p.set_index(["month", "stkcd"])["ret"].unstack("stkcd")
     r = r.reindex(pd.period_range(r.index.min(), r.index.max(), freq="M"))
-    acc = sum(r.shift(l - 1) for l in lags) / len(lags)
+    stack = np.stack([r.shift(l - 1).to_numpy() for l in lags])
+    with np.errstate(all="ignore"):
+        acc = np.nanmean(stack, axis=0)
+    acc = pd.DataFrame(acc, index=r.index, columns=r.columns)
     return acc.stack().rename("v").reset_index().rename(columns={"level_0": "month"})
 
 

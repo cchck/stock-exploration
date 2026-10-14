@@ -131,12 +131,14 @@ def membership_stats(var: C.Var, procs=tuple(PF.PROCEDURES)) -> pd.DataFrame:
     return pd.concat(rows, ignore_index=True)
 
 
-def build_membership(rebuild: bool = False) -> pd.DataFrame:
+def build_membership(rebuild: bool = False, names: list[str] | None = None) -> pd.DataFrame:
     old = pd.read_parquet(MEMBER_CACHE) if MEMBER_CACHE.exists() and not rebuild else pd.DataFrame()
+    if names and len(old):
+        old = old[~old["var"].isin(names)]
     done = set(old["var"]) if len(old) else set()
     parts = [old] if len(old) else []
     for v in C.VARS:
-        if v.builder is None or v.name in done:
+        if v.builder is None or v.name in done or (names and v.name not in names):
             continue
         parts.append(membership_stats(v))
         pd.concat(parts, ignore_index=True).to_parquet(MEMBER_CACHE, index=False)
@@ -175,12 +177,14 @@ def run_subsample(var: C.Var, soe: int) -> pd.DataFrame:
     return pd.concat(rows, ignore_index=True)
 
 
-def build_soe(rebuild: bool = False) -> pd.DataFrame:
+def build_soe(rebuild: bool = False, names: list[str] | None = None) -> pd.DataFrame:
     old = pd.read_parquet(SOE_CACHE) if SOE_CACHE.exists() and not rebuild else pd.DataFrame()
+    if names and len(old):
+        old = old[~old["var"].isin(names)]
     done = set(old["var"]) if len(old) else set()
     parts = [old] if len(old) else []
     for v in C.VARS:
-        if v.builder is None or v.name in done:
+        if v.builder is None or v.name in done or (names and v.name not in names):
             continue
         parts.append(pd.concat([run_subsample(v, 1), run_subsample(v, 0)], ignore_index=True))
         pd.concat(parts, ignore_index=True).to_parquet(SOE_CACHE, index=False)

@@ -1138,14 +1138,12 @@ def rds() -> pd.DataFrame:
 
 
 def rdmq() -> pd.DataFrame:
-    """Rdmq (A.5.4): quarterly management fees / ME at the end of last calendar year;
-    four-month rule; positive."""
+    """Rdmq (A.5.4): quarterly management fees (R&D proxy, as the paper) / market equity;
+    four-month rule; positive. The data manual says ME "at the end of last calendar year";
+    the authors' series is reproduced with ME at the end of t-1 (g5-g1 correlation 0.977 vs
+    0.832 with the December ME; deviation_log LI-3), so t-1 is used."""
     q = quarterly_lagged(q_flow().rename(columns={ADMIN: "num"}), ["num"])
-    me = _me_month(ME_BASE)
-    dec = me[me["month"].dt.month == 12].copy()
-    dec["y"] = dec["month"].dt.year + 1
-    q["y"] = q["form"].dt.year
-    q = q.merge(dec[["stkcd", "y", "me"]], on=["stkcd", "y"], how="left")
+    q = _with_me_form(q)
     q["v"] = (q["num"] / q["me"].where(q["me"] > 0)).where(q["num"] > 0)
     return _out(q)
 
@@ -1494,10 +1492,12 @@ def _lag_q(x: pd.DataFrame, cols: list[str], k: int) -> pd.DataFrame:
 
 
 def _surprise(col: str) -> pd.DataFrame:
-    """(X_q - X_{q-4}) / sd of that change over the past eight quarters (>= 6), announced."""
+    """(X_q - X_{q-4}) / sd of that change over the previous eight quarters (>= 6), announced."""
     x = _lag_q(_per_share(), [col], 4).sort_values(["stkcd", "period_end"])
     x["chg"] = x[col] - x[f"{col}_q4"]
-    sd = x.groupby("stkcd")["chg"].transform(lambda s: s.rolling(8, min_periods=6).std())
+    # Standard deviation over the eight quarters before the current one (calibrated against
+    # the authors' Sue6 / Sue9: 0.886 / 0.869 vs 0.870 / 0.838 including the current quarter).
+    sd = x.groupby("stkcd")["chg"].transform(lambda s: s.shift(1).rolling(8, min_periods=6).std())
     x["v"] = x["chg"] / sd.where(sd > 0)
     return _ann("v", x)
 
