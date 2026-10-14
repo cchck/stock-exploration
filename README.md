@@ -18,7 +18,7 @@ asset pricing) to the Chinese market.
 
 ## Status (2026-10-10)
 
-Milestones 1.1 (data layer) and 1.2 (LSY) done; 1.3 (Allen) done (guard warn, gaps in docs/deviation_log.md); 1.4 (Li) in review (all 469 anomalies run; gaps in docs/deviation_log.md LI-1..9); 1.5 (report) next.
+Milestones 1.1 (data layer) and 1.2 (LSY) done; 1.3 (Allen) done (guard warn, gaps in docs/deviation_log.md); 1.4 (Li) done (guard warn; gaps in docs/deviation_log.md LI-1..9); 1.5 (Chinese report, `report/replication_report_zh.md`) in review.
 Progress log: `benchmark.md`; deviations: `docs/deviation_log.md`.
 
 ## Layout
@@ -37,6 +37,7 @@ src/replication/lsy/       LSY (2019) replication: panel, CH-3/CH-4, tables, ano
 src/replication/allen/     Allen et al. (2024) A-share replication: annual panel, governance, tables, figures, CLI
 src/replication/li/        Li et al. (2024): catalog of 177 variables / 469 anomalies, signals, portfolio engine, factors, tables, CLI
 scripts/                   build_li_targets.py (Li targets from the published PDF and the authors' result files)
+report/                    replication_report_zh.md: the Chinese summary report (milestone 1.5)
 targets/                   paper numbers transcribed per printed cell (<paper>_targets.csv)
 notebooks/                 one executed notebook per paper (summary outputs only)
 results/data_layer/        aggregate validation tables (committed)
