@@ -10,7 +10,8 @@ Universe (DM p.1-2; paper Table 1 note):
   at the formation month end is kept. Checked against Table 1 Panel A: keeping status 1 only
   reproduces every yearly count by board exactly, including 2005 (1,019) and 2006 (1,104),
   where the G / S / U markers of the split-share reform are dropped as "abnormal".
-- Negative book equity is excluded when forming portfolios (portfolios.py).
+- Negative book equity (latest annual report) is excluded when forming portfolios
+  (portfolios.NEGATIVE_BE_SCREEN).
 - Penny stocks (price < 5 yuan at formation) are dropped after quintiles are formed
   (portfolios.py).
 """

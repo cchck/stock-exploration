@@ -273,11 +273,15 @@ def table2(seg: Segment) -> pd.DataFrame:
     counts once per anomaly it contributes)."""
     items = []
     p = D.stock_panel().sort_values(["stkcd", "month"]).copy()
-    p["mv_prev"] = p.groupby("stkcd")["mv_float"].shift(1)
-    p["tmv_prev"] = p.groupby("stkcd")["mv_total"].shift(1)
-    p["elig_prev"] = p.groupby("stkcd")["eligible"].shift(1).astype("boolean").fillna(False).astype(bool)
-    p["mb_prev"] = p.groupby("stkcd")["mainboard"].shift(1).astype("boolean").fillna(False).astype(bool)
-    p["close_prev"] = p.groupby("stkcd")["close"].shift(1)
+    # Lagged values only when the previous row is the previous calendar month (a stock
+    # resuming after a suspension has no end-of-(t-1) record).
+    consec = p.groupby("stkcd")["month"].shift(1) == p["month"] - 1
+    lag = lambda c: p.groupby("stkcd")[c].shift(1).where(consec)
+    p["mv_prev"] = lag("mv_float")
+    p["tmv_prev"] = lag("mv_total")
+    p["elig_prev"] = lag("eligible").astype("boolean").fillna(False).astype(bool)
+    p["mb_prev"] = lag("mainboard").astype("boolean").fillna(False).astype(bool)
+    p["close_prev"] = lag("close")
     # Sample: eligible at t-1 with price >= 5 (the portfolios' formation filter). Calibrated:
     # 1,544 stocks and 464 microcaps a month, EW market 1.29%, against the printed 1,563,
     # 449 and 1.28% (without the price filter: 1,755, 515, 1.35%).

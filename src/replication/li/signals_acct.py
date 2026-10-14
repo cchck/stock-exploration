@@ -293,10 +293,10 @@ def sr() -> pd.DataFrame:
 
 
 def bmj() -> pd.DataFrame:
-    """Bmj (A.2.2): book equity per share (fy t-1) / June-end price of t
-    = BE / (ME at June t) with the same shares; we use BE / June ME."""
+    """Bmj (A.2.2): book equity per share (fy t-1) / June-end price of t. Per share means
+    per total share, so the ratio is BE / total market cap at the end of June t."""
     a = annual()
-    me = _me_month(ME_BASE)
+    me = _me_month("mv_total")
     june = me[me["month"].dt.month == 6].copy()
     june["fy"] = june["month"].dt.year - 1
     x = a.merge(june[["stkcd", "fy", "me"]], on=["stkcd", "fy"], how="left")
@@ -1232,7 +1232,8 @@ def _analyst_base() -> pd.DataFrame:
     """Firms in the annual panel from fiscal 2001 (zero if missing, DM A.5.21)."""
     a = annual()[["stkcd", "fy"]]
     a = a[a["fy"] >= 2001]
-    return a.merge(_analyst_profile(), on=["stkcd", "fy"], how="left").fillna({"ana": 0, "rep": 0})
+    prof = _analyst_profile().drop_duplicates(["stkcd", "fy"], keep="last")
+    return a.merge(prof, on=["stkcd", "fy"], how="left").fillna({"ana": 0, "rep": 0})
 
 
 def ana() -> pd.DataFrame:
@@ -1546,6 +1547,12 @@ def abr() -> pd.DataFrame:
         key = pd.MultiIndex.from_arrays([ev["stkcd"], ev["p0"] + k])
         car.append(ar.reindex(key).to_numpy())
     ev["v"] = np.nansum(np.vstack(car), axis=0)
+    # The window ends on trading day +1: the CAR is known only at that day's close, so the
+    # event becomes usable from that date (an announcement on a month's last trading day
+    # enters the sort one month later). Events without a day +1 in the data drop out.
+    has_next = ev["p0"] + 1 < len(days)
+    ev = ev[has_next.to_numpy()].copy()
+    ev["announce_date"] = days.values[ev["p0"].to_numpy() + 1]
     ev.loc[np.isnan(np.vstack(car)).all(axis=0), "v"] = np.nan
     return _ann("v", ev)
 

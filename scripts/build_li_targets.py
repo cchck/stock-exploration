@@ -63,7 +63,7 @@ def table1(text: str) -> None:
                 add("T1", f"A:{m.group(1)}", c, x, "count" if c.startswith("n_") else "rel10", "Table 1 Panel A")
             years += 1
     assert years == 20
-    stats = {"Mean (in %)": ("mean", "pct_return"), "t-stat": ("t", "t"), "Std Dev (in %)": ("std", "pct_std")}
+    stats = {"Mean (in %)": ("mean", "pct_return"), "t-stat": ("t", "t"), "Std Dev (in %)": ("std", "rel10")}
     seen = {}
     for ln in lines:
         for lab, (name, kind) in stats.items():
@@ -96,7 +96,7 @@ def table1(text: str) -> None:
 def table2_3(text: str) -> None:
     lines = section(text, "Panel A: Average monthly values", "Table 4. ")
     acols = ["n_firms", "pct_tmv", "pct_cmv", "vw_mean", "vw_std", "ew_mean", "ew_std", "xs_std"]
-    akinds = ["count", "share_pct", "share_pct", "pct_return", "pct_std", "pct_return", "pct_std", "pct_std"]
+    akinds = ["count", "share_pct", "share_pct", "pct_return", "rel10", "pct_return", "rel10", "rel10"]
     for g in ["Market", "Micro", "Small", "Big", "All-but-micro"]:
         ln = next(x for x in lines if x.strip().startswith(g + " "))
         v = nums(ln.strip()[len(g):])
@@ -232,7 +232,7 @@ TEXT = [
     ("S4.2:us_sig_rate_full_mht", "pct", 4.81, "share_pct", "Section 4.2: 9 (4.81%) at |t| >= 2.78"),
     ("S4.2:us_sig_rate_post2007_sht", "pct", 16.04, "share_pct", "Section 4.2: 30 of 187 (16.04%), 2008-07..2019-06"),
     ("S4.2:us_sig_rate_post2007_mht", "pct", 4.81, "share_pct", "Section 4.2: 9 (4.81%) at |t| >= 2.78, post-2007"),
-    ("S4.2:us_n_anomalies", "n", 187, "info", "Section 4.2: HXZ website portfolios then (today's global-q.org files hold a different number)"),
+    ("S4.2:us_n_anomalies", "n", 187, "info", "Section 4.2: HXZ website portfolios (reported, not scored: the set depends on the global-q.org vintage)"),
     ("S3.3:Roeq3_insignificant", "abs_t_below_1.96", 1.96, "upper_bound", "Section 3.3: Roeq3 insignificant (|t| < 1.96)"),
 ]
 

@@ -73,13 +73,46 @@ def panel() -> pd.DataFrame:
     return _PANEL
 
 
+NEGATIVE_BE_SCREEN = True  # DM p.1: "we exclude firms with negative book equity"
+
+
+_BE: pd.DataFrame | None = None
+
+
+def latest_book_equity() -> pd.DataFrame:
+    """Book equity of the latest annual report available at each formation month: fiscal
+    year fy counts from the end of April of fy + 1 (the annual-report deadline), so a June
+    sort uses fiscal t-1. (stkcd, form, be)."""
+    global _BE
+    if _BE is None:
+        a = D.annual([D.BE]).rename(columns={D.BE: "be"})
+        a["avail"] = pd.PeriodIndex([pd.Period(f"{y + 1}-04", "M") for y in a["fy"]], freq="M")
+        months = pd.period_range("1992-01", "2026-12", freq="M")
+        grid = pd.DataFrame({"form": months})
+        a = a.sort_values("avail")
+        stocks = a["stkcd"].astype(str).unique()
+        g = pd.DataFrame({"stkcd": np.repeat(stocks, len(months)), "form": np.tile(months, len(stocks))}).sort_values("form")
+        a["stkcd"] = a["stkcd"].astype(str)
+        out = pd.merge_asof(g, a[["stkcd", "avail", "be"]].rename(columns={"avail": "form"}), on="form", by="stkcd")
+        out["stkcd"] = out["stkcd"].astype("string")
+        _BE = out.dropna(subset=["be"])
+    return _BE
+
+
 def assign_quintiles(sig: pd.DataFrame, proc: Procedure) -> pd.DataFrame:
     """sig: columns stkcd, form (formation month, Period), value. Returns sig with quintile q
-    (1..5) for eligible stocks at the formation month end; penny stocks removed after
-    grouping."""
+    (1..5) for eligible stocks at the formation month end (non-financial, normal trading
+    status, latest annual book equity not negative); penny stocks handled by the rules in the
+    module docstring."""
+    if sig.duplicated(["stkcd", "form"]).any():
+        raise ValueError("signal has duplicate (stkcd, form) rows")
     p = panel()[["stkcd", "month", "eligible", "mainboard", "close"]].rename(columns={"month": "form"})
     x = sig.dropna(subset=["value"]).merge(p, on=["stkcd", "form"], how="inner")
     x = x[x["eligible"]]
+    if NEGATIVE_BE_SCREEN:
+        be = latest_book_equity()
+        x = x.merge(be, on=["stkcd", "form"], how="left")
+        x = x[~(x["be"] < 0)].drop(columns="be")
     if PENNY_AT_FORMATION:
         x = x[x["close"] >= PENNY_PRICE]
     base = x[x["mainboard"]] if proc.breakpoints == "mainboard" else x

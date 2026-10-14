@@ -54,6 +54,6 @@ def rf_monthly(start: str = "1999-07", end: str = "2026-12", day: int = 15) -> p
     the month, divided by 12."""
     s = pd.Series({pd.Timestamp(d): r for d, r in THREE_MONTH_DEPOSIT})
     months = pd.period_range(start, end, freq="M")
-    when = months.to_timestamp(how="start") + pd.Timedelta(days=day - 1)
+    when = months.to_timestamp(how="start") + pd.to_timedelta(day - 1, unit="D")
     rate = s.reindex(s.index.union(when)).ffill().loc[when]
     return pd.Series(rate.to_numpy() / 1200, index=months, name="rf")

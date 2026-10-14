@@ -6,8 +6,8 @@ per printed number: table, row, col, paper, kind). `kind` selects the tolerance 
 | kind        | rule (lighthouse 3.3)                                                   |
 |-------------|-------------------------------------------------------------------------|
 | pct_return  | mean return, alpha, factor mean, in % per month: |ours - paper| <= 0.10  |
-| pct_std     | standard deviation in % per month: same 0.10 rule (strict reading:     |
-|             | 3.3 lists no separate rule for dispersion, so the return rule is used)  |
+| pct_std     | standard deviation in % per month: same 0.10 rule (used by LSY, scored  |
+|             | before the 2026-10-10 revision; Li's standard deviations use rel10)     |
 | t           | same significance band: |t| < 1.96 / 1.96-2.78 / > 2.78               |
 | coef        | non-return coefficient (incl. correlations, R-squared slopes): same     |
 |             | sign (the t-band half of the rule is checked on the paired t row).      |

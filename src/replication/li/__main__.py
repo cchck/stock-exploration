@@ -64,6 +64,11 @@ def main(argv=None) -> int:
         c.to_csv(COMPARISON, index=False)
         scored = c[c["pass"].notna()]
         print(f"comparison: {int((scored['pass'] == True).sum())}/{len(scored)} within tolerance -> {COMPARISON}")
+        from replication.li import checks
+        fc, gc = checks.run()
+        built = gc[gc["status"] != "not built"]
+        print(f"factor check: {int(fc['pass'].sum())}/{len(fc)} >= 0.95; g5-g1 check: "
+              f"{int((built['status'] == 'pass').sum())}/{len(built)} >= 0.90 (results/li_*_check.csv)")
     else:
         print(f"partial run: {COMPARISON} left unchanged")
     print(f"done in {time.time() - t0:.0f}s")
