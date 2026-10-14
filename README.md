@@ -35,15 +35,16 @@ src/csmar/                 data layer: registry, readers, panels, build and vali
 src/replication/common/    shared tools: sample segments, portfolio sorts, statistics, paper-vs-ours scoring
 src/replication/lsy/       LSY (2019) replication: panel, CH-3/CH-4, tables, anomalies, shells, CLI
 src/replication/allen/     Allen et al. (2024) A-share replication: annual panel, governance, tables, figures, CLI
+src/replication/li/        Li et al. (2024): catalog of 177 variables / 469 anomalies, signals, portfolio engine, factors, tables, CLI
+scripts/                   build_li_targets.py (Li targets from the published PDF and the authors' result files)
 targets/                   paper numbers transcribed per printed cell (<paper>_targets.csv)
 notebooks/                 one executed notebook per paper (summary outputs only)
 results/data_layer/        aggregate validation tables (committed)
 results/lsy*/              LSY tables for three segments, figures, paper-vs-ours comparison
 results/allen*/            Allen tables, figures and comparison (same layout)
+results/li*/               Li tables for three segments (authors' procedure and look-ahead-free *_clean) and comparison
 .venv/                     Python 3.12 environment (SignalLab installed editable)
 ```
-
-The Li replication will follow in `src/replication/li` (milestone 1.4).
 
 ## Environment
 
@@ -66,6 +67,9 @@ Reproduce LSY (all tables, three segments, figures, comparison) with
 `.venv/bin/python -m replication.lsy` (`--rebuild` to rebuild its cached panel; about 3 min
 warm, 10 min cold); any single table with e.g. `--tables T3 --period extended`.
 Reproduce Allen with `.venv/bin/python -m replication.allen` (`--rebuild` for its annual panel).
+Reproduce Li with `.venv/bin/python -m replication.li --build` (fills the anomaly caches in
+`data/interim/`, about 1.5 hours cold; later runs without `--build` take 2 minutes) and the
+look-ahead-free variant with `LI_VARIANT=clean .venv/bin/python -m replication.li --build`.
 
 **Location matters.** The project lives in `~/Downloads/stock-exploration`, outside iCloud.
 It was moved off the Desktop on 2026-10-08 because the Desktop is synced to iCloud, which was
