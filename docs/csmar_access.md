@@ -275,3 +275,25 @@ in `data/raw/external/fred/`, downloaded 2026-10-09 with curl from fredgraph.csv
 Access checks (2026-10-09, no download): 港股市场交易 (incl. AH股比价表) and 外汇市场 show
 "无权限" (not subscribed). Allen's AH premium therefore cannot be built (lighthouse 5.2: then
 only turnover).
+
+### Batch 6 (2026-10-13): Li et al. analyst inputs
+
+Approved by the user on 2026-10-13 (three tables; the third was not downloaded, see below).
+Conventions as above; file names `<CODE>_20261013.zip`.
+
+| Table (database) | Code | Date filter | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 上市公司基本信息特色指标表 (分析师预测) | AF_CFEATUREPROFILE | 2001-12-31 – 2025-12-31 (会计年度, full) | 10 | 71,922 | 71,922 | 1,507,560 | `8d98865d20abd2e5c359cfdc31571f0514a0122a7c5ce2eb79bd1d8bb674ca59` |
+| 分析师预测特色指标 (分析师预测) | AF_ANAFOREFEATURE | 2001-01-01 – 2026-10-13 (报告日期, full) | 16 | 795,246 | 795,246 | 29,520,351 | `11549ff4aee478c5dd549d758f9023a94b2c040809ba63ac6a2800fb8ffeedcf` |
+
+- AF_CFEATUREPROFILE carries AnaAttention / ReportAttention (Li et al. Ana, Rep);
+  AF_ANAFOREFEATURE carries RelativeOptimism per analyst report (Li et al. Fop).
+- **Not downloaded:** 财务报表附注 -> 研发费用 (approved). Its coverage starts at 2018-12-31,
+  the same start as the income-statement R&D line we already hold (FS_Comins B001216000), so
+  it adds nothing for 2007-2017.
+
+Access checks (2026-10-13, no download), relevant to Li et al.:
+- 无权限: 上市公司研发创新 (研发投入情况表 = RDSpendSum, 专利明细 / 专利申请获得情况),
+  已实现指标 (个股买卖价差表(日) = effective / quoted spreads, 个股知情交易概率指标表(日) = VPIN),
+  机构投资者 (机构持股明细 / 分类统计), 经营困境.
+- 有权限: 分析师预测 (all tables), 财务报表附注, 治理结构, 股东 (incl. 基金持股文件).
