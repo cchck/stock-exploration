@@ -5,7 +5,7 @@ entries are internal hyperlinks to those bookmarks (click to jump), with dot lea
 PAGEREF page numbers. The document is flagged to refresh fields on open, so Word / WPS fill
 in the page numbers. Running the script again replaces the previous TOC.
 
-Usage: .venv/bin/python scripts/add_report_toc.py report.docx
+Usage: .venv/bin/python scripts/add_report_toc.py 给导师/复现报告.docx
 """
 
 from __future__ import annotations
