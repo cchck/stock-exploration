@@ -15,6 +15,7 @@ Market equity in ratios: ME_BASE (named parameter, calibrated in deviation_log L
 Short-term investments: net short-term investments (A001109000) before 2007, trading financial
 assets (A001107000) from 2007 (DM A.2.15).
 """
+# csmar-lint: indirect items arrive single-quarter from data.quarterly_flows.
 
 from __future__ import annotations
 
@@ -34,9 +35,16 @@ STD1, STD2, LTD, PREF = "A002101000", "A002125000", "A002206000", "A003112101"
 DEP, AMORT, OCF, ICF, FCF = "D000103000", "D000104000", "C001000000", "C002000000", "C003000000"
 # Capex: C002006000, cash paid for fixed, intangible and other long-term assets (not C002007000,
 # cash paid for investments).
-CAPX, INV, PPE, INTANG, OLTA, OLTL = "C002006000", "A001123000", "A001212000", "A001218000", "A001223000", "A002209000"
+CAPX, INV, PPE, INTANG, OLTA, OLTL = "C002006000", "A001123000", "A001212000", "A001218000", "A001223000", "A002209000"  # csmar-lint: authors' line (dLno 0.925 vs 0.884 with deferred income)
 CA, CL, TL = "A001100000", "A002100000", "A002000000"
-LTI = ["A001203000", "A001202000", "A001205000", "A001211000", "A001204000", "A001206000"]
+# OLTL is other non-current liabilities as reported, although deferred income left that line in FY2014
+# (A002210000): the authors' dLno series fits it (corr 0.925, 2008-2019) better than the sum (0.884).
+# Long-term investments. The 2019 financial-instrument standards (CAS 22) replaced available-for-sale
+# (A001202000, 64% of firms in FY2018, none from FY2019) and held-to-maturity (A001203000) investments
+# with debt investments, other debt investments, other equity instruments and other non-current
+# financial assets (A001226000-A001229000); all are included so the sum does not break in 2019.
+LTI = ["A001203000", "A001202000", "A001205000", "A001211000", "A001204000", "A001206000",
+       "A001226000", "A001227000", "A001228000", "A001229000"]
 OPINC = "B001300000"
 
 ITEMS = sorted({TA, BE, NI, REV, SALES, CASH, STI_OLD, STI_NEW, STD1, STD2, LTD, PREF, DEP, AMORT, OCF, ICF, FCF,
@@ -174,7 +182,7 @@ def q_flow() -> pd.DataFrame:
 @lru_cache(maxsize=1)
 def _q_flow_cached() -> pd.DataFrame:
     """Single-quarter flows (YTD differences) with announcement dates."""
-    return D.quarterly_flows([NI, REV, SALES, OPINC, DEP, OCF, "B001201000", "B001209000", "B001210000",
+    return D.quarterly_flows([NI, REV, SALES, OPINC, DEP, OCF, "B001201000", "B001209000", "B001210000",  # csmar-lint: R&D added back in data.statements()
                               "B001211000", "B002100000", "B001000000"])
 
 
@@ -1091,9 +1099,9 @@ def sgq() -> pd.DataFrame:
 # A.5 Intangibles
 # ---------------------------------------------------------------------------------------------
 
-SELL, ADMIN, COGS, TAX, GOODWILL, RECV = "B001209000", "B001210000", "B001201000", "B002100000", "A001220000", "A001111000"
+SELL, ADMIN, COGS, TAX, GOODWILL, RECV = "B001209000", "B001210000", "B001201000", "B002100000", "A001220000", "A001111000"  # csmar-lint: R&D added back in data.statements()
 # R&D proxy (deviation_log LI-4): the paper's annual R&D (CSMAR RDSpendSum, 研发投入情况表) is not
-# in NYU's subscription. The paper itself proxies R&D with management fees (B001210000,
+# in NYU's subscription. The paper itself proxies R&D with management fees (B001210000,  # csmar-lint: R&D added back in data.statements()
 # Chen, Kim, Yao and Yu 2010) for Rdmq, Rdsq and Rca; we use the same proxy for Rdm and Rds.
 RD_PROXY = ADMIN
 

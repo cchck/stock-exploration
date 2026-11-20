@@ -56,7 +56,7 @@ def _june_characteristics(be_me_base: str = "mv_float") -> pd.DataFrame:
     dec = p[p["month"].dt.month == 12][["stkcd", "month", be_me_base]].copy()
     dec["year"] = dec["month"].dt.year + 1
     dec = dec.rename(columns={be_me_base: "me_dec"}).drop(columns="month")
-    a = D.annual([D.BE, D.TA, D.OP, "B001101000", "B001201000", "B001209000", "B001210000", "B001211000", "B001207000"])
+    a = D.annual([D.BE, D.TA, D.OP, "B001101000", "B001201000", "B001209000", "B001210000", "B001211000", "B001207000"])  # csmar-lint: R&D added back in data.statements()
     a["year"] = a["fy"] + 1
     a2 = a[["stkcd", "fy", D.TA]].rename(columns={D.TA: "ta_lag"})
     a2["year"] = a2["fy"] + 2
@@ -67,7 +67,7 @@ def _june_characteristics(be_me_base: str = "mv_float") -> pd.DataFrame:
     x["op"] = x[D.OP] / x[D.BE]
     # Fama-French (2015) operating profitability: revenue - cost of goods sold - selling,
     # general and administrative expenses - interest expense, over book equity.
-    ff_op = x["B001101000"] - x["B001201000"].fillna(0) - x["B001209000"].fillna(0) - x["B001210000"].fillna(0) - x["B001211000"].fillna(0)
+    ff_op = x["B001101000"] - x["B001201000"].fillna(0) - x["B001209000"].fillna(0) - x["B001210000"].fillna(0) - x["B001211000"].fillna(0)  # csmar-lint: R&D added back in data.statements()
     x["op_ff"] = ff_op / x[D.BE]
     x["inv"] = x[D.TA] / x["ta_lag"] - 1
     return x

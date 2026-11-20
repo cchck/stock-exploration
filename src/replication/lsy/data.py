@@ -28,6 +28,7 @@ Paper conventions implemented (page refs to the JFE version):
   by the average over the past 250 trading days; daily turnover = shares traded / shares
   outstanding (B.1(h)).
 """
+# csmar-lint: indirect items are read from annual reports only (report_type 4).
 
 from __future__ import annotations
 
@@ -173,7 +174,7 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
       it), TP = taxes payable (A002113000), Dep = depreciation (D000103000) +
       amortization of intangibles (D000104000);
     - op: operating profitability, annual (revenue - COGS - selling - administrative -
-      financial expenses) / book equity, for FF-5's RMW;
+      R&D (its own line from FY2018) - financial expenses) / book equity, for FF-5's RMW;
     - noa: [(TA - cash - short-term investments) - (TA - short-term borrowing - long-term
       borrowing - minority interest - book equity)] / TA_t-1 (Hirshleifer et al. 2004).
     Components missing from a report (an item the firm does not have) count as zero;
@@ -184,13 +185,13 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
             "D000103000": "dep", "D000104000": "amort", "A001107000": "st_inv", "A002101000": "st_borrow",
             "A002201000": "lt_borrow", "A003200000": "minority", "A003100000": "be",
             "B001101000": "revenue", "B001201000": "cogs", "B001209000": "selling", "B001210000": "admin",
-            "B001211000": "fin_exp"}
+            "B001211000": "fin_exp", "B001216000": "rd"}
     st = load("statements")
     st = st[st["report_type"] == 4][["stkcd", "period_end", "announce_date", *cols]].rename(columns=cols)
     st = st.dropna(subset=["announce_date"]).sort_values(["stkcd", "period_end"])
     st["fy"] = st["period_end"].dt.year
     for c in ("notes_pay", "tax_pay", "cur_ncl", "dep", "amort", "st_inv", "st_borrow", "lt_borrow", "minority",
-              "cogs", "selling", "admin", "fin_exp"):
+              "cogs", "selling", "admin", "fin_exp", "rd"):
         st[c] = st[c].fillna(0.0)
     st["cash"] = st["cash_cf"].fillna(st["cash_bs"])
     prev = st.groupby("stkcd").shift(1)
@@ -204,7 +205,8 @@ def annual_items_month_end(months: pd.PeriodIndex) -> pd.DataFrame:
     st["noa"] = ((oa - ol) / prev["ta"]).where(consecutive & (prev["ta"] > 0))
     # Operating profitability (Fama and French 2015): revenue - cost of goods sold - selling,
     # general/administrative and interest (financial) expenses, over book equity.
-    st["op"] = ((st["revenue"] - st["cogs"] - st["selling"] - st["admin"] - st["fin_exp"]) / st["be"]).where(st["be"] > 0)
+    # R&D has its own line from FY2018 (B001216000), having left admin expense: subtract it too.
+    st["op"] = ((st["revenue"] - st["cogs"] - st["selling"] - st["admin"] - st["rd"] - st["fin_exp"]) / st["be"]).where(st["be"] > 0)
     return latest_by_month_end(st, months, ["asset_growth", "accruals", "noa", "op"])
 
 

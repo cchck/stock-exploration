@@ -15,6 +15,7 @@ Universe (DM p.1-2; paper Table 1 note):
 - Penny stocks (price < 5 yuan at formation) are dropped after quintiles are formed
   (portfolios.py).
 """
+# csmar-lint: indirect items are differenced against the previous report that has them (quarterly_flows).
 
 from __future__ import annotations
 
@@ -85,6 +86,10 @@ def statements() -> pd.DataFrame:
     s = s[s["report_type"].notna()].copy()
     s["period_end"] = pd.to_datetime(s["period_end"])
     s["announce_date"] = pd.to_datetime(s["announce_date"])
+    # R&D left management fees in 2018 (B001216000, a separate line from then on). Added back so
+    # the paper's R&D proxy (management fees) and SG&A keep one definition across the break:
+    # without it the median management fees / sales falls from 0.091 (FY2017) to 0.062 (FY2018).
+    s["B001210000"] = s["B001210000"] + s["B001216000"].fillna(0)
     return s
 
 

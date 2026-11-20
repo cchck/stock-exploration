@@ -825,8 +825,8 @@ TXT,extended,2017-01,2026-09,S5.1:negEP_slope_on_positive_VMG,b,-0.2720194229535
 TXT,extended,2017-01,2026-09,S5.1:negEP_slope_on_positive_VMG,t,-5.879852605410628
 TXT,extended,2017-01,2026-09,S5.1:negEP_share_of_universe,pct,17.55297712185368
 TXT,extended,2017-01,2026-09,S5.2:bottom30_share_of_market_cap,pct,4.616707749695531
-TXT,extended,2017-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.0007728500632360351
-TXT,extended,2017-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,0.00015537385927045431
+TXT,extended,2017-01,2026-09,S5.3:GRS_CH3_on_FF5_nonmarket,p,0.00017367892241168146
+TXT,extended,2017-01,2026-09,S5.3:GRS_FF5_on_SMB_VMG,p,2.252459895413868e-05
 TXT,extended,2017-01,2026-09,S6.1:universe_stocks_first_month,n,1812.0
 TXT,extended,2017-01,2026-09,S6.1:universe_stocks_last_month,n,3195.0
 TXT,extended,2017-01,2026-09,S6.1:size_premium_annual,pct,0.40361808720218195
