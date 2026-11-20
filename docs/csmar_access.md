@@ -302,3 +302,26 @@ External (2026-10-13, approved by the user): FRED `VXOCLS` (CBOE S&P 100 volatil
 daily, 1986-01-02..2021-09-23, 9,322 lines, SHA-256
 `3ab3e522630a6b404fda6cd2d7ef33834139218bf00f5a290aa089361dd334e8`), in
 `data/raw/external/fred/`, downloaded with curl from fredgraph.csv. Used for Li et al.'s Svr.
+
+### Batch 7 (2026-11-16): point-in-time industry
+
+Approved by the user on 2026-11-16 ("好，那下载"). Platform: same; 全部代码, all 21 fields, CSV. Date range read back from the page
+(1990-12-31 – 2025-12-31, the table's full range) and confirmed on the download summary page.
+
+| Table (database) | Code | Date filter (统计截止日期) | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 上市公司基本情况表 (上市公司贷款) | DEBT_INSTITUTIONINFO | 1990-12-31 – 2025-12-31 | 21 | 75,912 | 75,912 | 1,839,029 | `f40f11d4e54aac3e2c8130efa22eb479504da81052eafbb2d2b18a2a210e6406` |
+
+Purpose: a year-end industry code per firm (CSRC 2001 to 2011, CSRC 2012 for 2012-2022, association code from 2023), because
+上市公司行业分类年度表 is not subscribed. Keyed on `Symbol`.
+
+### Batch 8 (2026-11-16): price adjustment factors
+
+Approved by the user on 2026-11-16 ("可以先开始下载起来了"). 全部代码, all 6 fields, CSV; date range read back as the table's full range.
+
+| Table (database) | Code | Date filter (交易日期) | Fields | Rows | Platform count | Zip bytes | SHA-256 |
+|---|---|---|---|---|---|---|---|
+| 股票价格复权因子表(日) (股票市场交易) | TRD_AdjustFactor | 1991-02-26 – 2026-11-16 | 6 | 62,720 | 62,720 | 1,478,202 | `b442e3fcc7989ae0f846381cc01f6fe65af40ab9175ae685efa1f978def40bc1` |
+
+Purpose: split-adjust share counts for share-based signals (SignalLab `csho`, `ajex`). Rows exist only on adjustment dates.
+
