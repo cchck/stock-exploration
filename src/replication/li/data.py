@@ -97,6 +97,9 @@ def annual(items: list[str]) -> pd.DataFrame:
     return out.drop(columns="period_end").drop_duplicates(["stkcd", "fy"], keep="last")
 
 
+INDIRECT_CASH_FLOW = {"D000103000", "D000104000"}   # depreciation, amortization
+
+
 def quarterly_flows(items: list[str]) -> pd.DataFrame:
     """Single-quarter values of income-statement / cash-flow items: the year-to-date figure
     minus the previous quarter's year-to-date figure of the same fiscal year (DM p.3:
@@ -108,17 +111,19 @@ def quarterly_flows(items: list[str]) -> pd.DataFrame:
     q = s[["stkcd", "period_end", "announce_date", *items]].sort_values(["stkcd", "period_end"]).copy()
     q["fy"] = q["period_end"].dt.year
     q["qtr"] = q["period_end"].dt.quarter
-    prev = q.groupby(["stkcd", "fy"])[items].shift(1)
-    prev_qtr = q.groupby(["stkcd", "fy"])["qtr"].shift(1)
-    first = prev_qtr.isna()
     for c in items:
-        ytd = q[c]
-        flow = ytd - prev[c]
+        # The indirect cash-flow statement (depreciation, amortization) is filed with the
+        # semi-annual and annual reports only: its items are differenced against the previous
+        # report that has them, and their Q1 and Q3 rows stay missing.
+        sub = q[q[c].notna()] if c in INDIRECT_CASH_FLOW else q
+        prev = sub.groupby(["stkcd", "fy"])[c].shift(1)
+        prev_qtr = sub.groupby(["stkcd", "fy"])["qtr"].shift(1)
+        first = prev_qtr.isna()
         # The first report of a fiscal year is its own flow over qtr quarters; a gap (e.g. H1
         # after no Q1) spans qtr - prev_qtr quarters. Scale both to one quarter.
-        span = np.where(first, q["qtr"], q["qtr"] - prev_qtr)
-        base = np.where(first, ytd, flow)
-        q[c] = base / np.where(span > 0, span, np.nan)
+        span = np.where(first, sub["qtr"], sub["qtr"] - prev_qtr)
+        base = np.where(first, sub[c], sub[c] - prev)
+        q[c] = pd.Series(base / np.where(span > 0, span, np.nan), index=sub.index).reindex(q.index)
     return q.drop(columns=["fy"])
 
 

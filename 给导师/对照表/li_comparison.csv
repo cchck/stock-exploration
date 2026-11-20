@@ -573,171 +573,171 @@ T2,A:All-but-micro,vw_std,8.57,rel10,Table 2 Panel A,8.460917010728345,-0.109082
 T2,A:All-but-micro,ew_mean,1.09,pct_return,Table 2 Panel A,0.928410443544984,-0.16158955645501605,False,LI-5
 T2,A:All-but-micro,ew_std,9.63,rel10,Table 2 Panel A,9.425991937874773,-0.2040080621252276,True,
 T2,A:All-but-micro,xs_std,9.67,rel10,Table 2 Panel A,9.834316813768707,0.164316813768707,True,
-T2,B:Mainboard-VW,Low-All,8.2,share_pct,Table 2 Panel B,7.686724334057546,-0.5132756659424533,True,
+T2,B:Mainboard-VW,Low-All,8.2,share_pct,Table 2 Panel B,7.229289905696869,-0.9707100943031302,True,
 T2,B:Mainboard-VW,Low-Mom,6.87,share_pct,Table 2 Panel B,6.999687578081063,0.12968757808106268,True,
-T2,B:Mainboard-VW,Low-VvG,6.87,share_pct,Table 2 Panel B,8.771782887098714,1.9017828870987143,True,
-T2,B:Mainboard-VW,Low-Inv,8.4,share_pct,Table 2 Panel B,7.584352667519155,-0.8156473324808458,True,
+T2,B:Mainboard-VW,Low-VvG,6.87,share_pct,Table 2 Panel B,5.519173392934438,-1.350826607065562,True,
+T2,B:Mainboard-VW,Low-Inv,8.4,share_pct,Table 2 Panel B,7.972966608557071,-0.4270333914429294,True,
 T2,B:Mainboard-VW,Low-Prof,11.94,share_pct,Table 2 Panel B,9.71175576702359,-2.22824423297641,True,
-T2,B:Mainboard-VW,Low-Intan,7.6,share_pct,Table 2 Panel B,6.402513766144273,-1.1974862338557264,True,
+T2,B:Mainboard-VW,Low-Intan,7.6,share_pct,Table 2 Panel B,6.4021423963689035,-1.1978576036310962,True,
 T2,B:Mainboard-VW,Low-Fric,6.15,share_pct,Table 2 Panel B,6.716180304976334,0.5661803049763332,True,
-T2,B:Mainboard-VW,High-All,6.8,share_pct,Table 2 Panel B,6.660974821834599,-0.13902517816540083,True,
+T2,B:Mainboard-VW,High-All,6.8,share_pct,Table 2 Panel B,6.229549696337715,-0.5704503036622848,True,
 T2,B:Mainboard-VW,High-Mom,6.25,share_pct,Table 2 Panel B,4.0458965025725036,-2.2041034974274964,True,
-T2,B:Mainboard-VW,High-VvG,5.56,share_pct,Table 2 Panel B,8.074794707289023,2.514794707289023,True,
-T2,B:Mainboard-VW,High-Inv,5.39,share_pct,Table 2 Panel B,4.840556849072708,-0.5494431509272921,True,
+T2,B:Mainboard-VW,High-VvG,5.56,share_pct,Table 2 Panel B,4.99258892220017,-0.5674110777998296,True,
+T2,B:Mainboard-VW,High-Inv,5.39,share_pct,Table 2 Panel B,5.232358733065931,-0.15764126693406855,True,
 T2,B:Mainboard-VW,High-Prof,4.37,share_pct,Table 2 Panel B,3.9010279380219663,-0.46897206197803376,True,
-T2,B:Mainboard-VW,High-Intan,6.95,share_pct,Table 2 Panel B,6.297322800499683,-0.6526771995003173,True,
+T2,B:Mainboard-VW,High-Intan,6.95,share_pct,Table 2 Panel B,6.297926992111845,-0.6520730078881556,True,
 T2,B:Mainboard-VW,High-Fric,11.98,share_pct,Table 2 Panel B,9.601039603109381,-2.3789603968906192,True,
-T2,B:Mainboard-EW,Low-All,26.44,share_pct,Table 2 Panel B,26.1972273849269,-0.24277261507310044,True,
+T2,B:Mainboard-EW,Low-All,26.44,share_pct,Table 2 Panel B,25.98472140022061,-0.45527859977939045,True,
 T2,B:Mainboard-EW,Low-Mom,24.86,share_pct,Table 2 Panel B,26.186204797802098,1.3262047978020988,True,
-T2,B:Mainboard-EW,Low-VvG,24.26,share_pct,Table 2 Panel B,24.29198060549969,0.03198060549968673,True,
-T2,B:Mainboard-EW,Low-Inv,26.46,share_pct,Table 2 Panel B,25.725767047802773,-0.7342329521972282,True,
+T2,B:Mainboard-EW,Low-VvG,24.26,share_pct,Table 2 Panel B,22.38548807754798,-1.8745119224520224,True,
+T2,B:Mainboard-EW,Low-Inv,26.46,share_pct,Table 2 Panel B,26.654491881758553,0.1944918817585517,True,
 T2,B:Mainboard-EW,Low-Prof,32.56,share_pct,Table 2 Panel B,30.54683861657989,-2.013161383420112,True,
-T2,B:Mainboard-EW,Low-Intan,25.25,share_pct,Table 2 Panel B,24.17088154867383,-1.0791184513261705,True,
+T2,B:Mainboard-EW,Low-Intan,25.25,share_pct,Table 2 Panel B,24.17017650972695,-1.07982349027305,True,
 T2,B:Mainboard-EW,Low-Fric,23.56,share_pct,Table 2 Panel B,25.449745137704305,1.8897451377043062,True,
-T2,B:Mainboard-EW,High-All,25.04,share_pct,Table 2 Panel B,25.57461612926431,0.534616129264311,True,
+T2,B:Mainboard-EW,High-All,25.04,share_pct,Table 2 Panel B,25.34421198822796,0.30421198822796214,True,
 T2,B:Mainboard-EW,High-Mom,24.49,share_pct,Table 2 Panel B,19.23980772107975,-5.250192278920249,False,LI-5
-T2,B:Mainboard-EW,High-VvG,25.78,share_pct,Table 2 Panel B,28.61017669106732,2.8301766910673187,True,
-T2,B:Mainboard-EW,High-Inv,21.49,share_pct,Table 2 Panel B,20.640549684186485,-0.8494503158135132,True,
+T2,B:Mainboard-EW,High-VvG,25.78,share_pct,Table 2 Panel B,26.51617525623493,0.7361752562349295,True,
+T2,B:Mainboard-EW,High-Inv,21.49,share_pct,Table 2 Panel B,21.68913443598883,0.19913443598883163,True,
 T2,B:Mainboard-EW,High-Prof,20.72,share_pct,Table 2 Panel B,20.31885073194554,-0.4011492680544606,True,
-T2,B:Mainboard-EW,High-Intan,25.27,share_pct,Table 2 Panel B,26.204430724902235,0.934430724902235,True,
+T2,B:Mainboard-EW,High-Intan,25.27,share_pct,Table 2 Panel B,26.207723049466253,0.9377230494662534,True,
 T2,B:Mainboard-EW,High-Fric,32.94,share_pct,Table 2 Panel B,31.032989587812427,-1.9070104121875708,True,
-T2,B:All-VW,Low-All,8.47,share_pct,Table 2 Panel B,7.987225442643135,-0.4827745573568656,True,
+T2,B:All-VW,Low-All,8.47,share_pct,Table 2 Panel B,7.515385394462713,-0.9546146055372873,True,
 T2,B:All-VW,Low-Mom,6.99,share_pct,Table 2 Panel B,7.212798331972342,0.2227983319723421,True,
-T2,B:All-VW,Low-VvG,6.92,share_pct,Table 2 Panel B,8.939583862993066,2.0195838629930662,True,
-T2,B:All-VW,Low-Inv,8.25,share_pct,Table 2 Panel B,7.500616235349236,-0.749383764650764,True,
+T2,B:All-VW,Low-VvG,6.92,share_pct,Table 2 Panel B,5.590585044200566,-1.3294149557994341,True,
+T2,B:All-VW,Low-Inv,8.25,share_pct,Table 2 Panel B,7.89154673785634,-0.3584532621436596,True,
 T2,B:All-VW,Low-Prof,12.02,share_pct,Table 2 Panel B,9.74998681950567,-2.2700131804943293,True,
-T2,B:All-VW,Low-Intan,8.49,share_pct,Table 2 Panel B,7.433955660798107,-1.0560443392018932,True,
+T2,B:All-VW,Low-Intan,8.49,share_pct,Table 2 Panel B,7.432917609114001,-1.0570823908859994,True,
 T2,B:All-VW,Low-Fric,6.36,share_pct,Table 2 Panel B,6.950313970339889,0.5903139703398885,True,
-T2,B:All-VW,High-All,7.05,share_pct,Table 2 Panel B,6.972519552590686,-0.07748044740931359,True,
+T2,B:All-VW,High-All,7.05,share_pct,Table 2 Panel B,6.484580500712885,-0.5654194992871151,True,
 T2,B:All-VW,High-Mom,6.25,share_pct,Table 2 Panel B,4.056067969418015,-2.193932030581985,True,
-T2,B:All-VW,High-VvG,5.93,share_pct,Table 2 Panel B,8.922725092547722,2.9927250925477225,True,
-T2,B:All-VW,High-Inv,5.48,share_pct,Table 2 Panel B,4.9451008379682975,-0.534899162031703,True,
+T2,B:All-VW,High-VvG,5.93,share_pct,Table 2 Panel B,5.466152240440236,-0.4638477595597639,True,
+T2,B:All-VW,High-Inv,5.48,share_pct,Table 2 Panel B,5.332911811885416,-0.14708818811458446,True,
 T2,B:All-VW,High-Prof,4.28,share_pct,Table 2 Panel B,3.8509694702590864,-0.4290305297409138,True,
-T2,B:All-VW,High-Intan,7.49,share_pct,Table 2 Panel B,6.740312881030221,-0.7496871189697796,True,
+T2,B:All-VW,High-Intan,7.49,share_pct,Table 2 Panel B,6.740914934464957,-0.7490850655350432,True,
 T2,B:All-VW,High-Fric,12.3,share_pct,Table 2 Panel B,9.973145123365894,-2.3268548766341066,True,
-T2,B:All-EW,Low-All,26.86,share_pct,Table 2 Panel B,26.561255704971188,-0.2987442950288113,True,
+T2,B:All-EW,Low-All,26.86,share_pct,Table 2 Panel B,26.353793819376115,-0.5062061806238844,True,
 T2,B:All-EW,Low-Mom,25.02,share_pct,Table 2 Panel B,26.502171788420004,1.482171788420004,True,
-T2,B:All-EW,Low-VvG,24.38,share_pct,Table 2 Panel B,24.289189597880558,-0.09081040211944114,True,
-T2,B:All-EW,Low-Inv,26.36,share_pct,Table 2 Panel B,25.735534799241027,-0.6244652007589728,True,
+T2,B:All-EW,Low-VvG,24.38,share_pct,Table 2 Panel B,22.410047727690564,-1.9699522723094347,True,
+T2,B:All-EW,Low-Inv,26.36,share_pct,Table 2 Panel B,26.677832132614476,0.31783213261447685,True,
 T2,B:All-EW,Low-Prof,32.76,share_pct,Table 2 Panel B,30.687782065163738,-2.07221793483626,True,
-T2,B:All-EW,Low-Intan,26.41,share_pct,Table 2 Panel B,25.19936908512788,-1.2106309148721195,True,
+T2,B:All-EW,Low-Intan,26.41,share_pct,Table 2 Panel B,25.19788992655359,-1.2121100734464108,True,
 T2,B:All-EW,Low-Fric,23.97,share_pct,Table 2 Panel B,25.86333733858292,1.8933373385829206,True,
-T2,B:All-EW,High-All,25.34,share_pct,Table 2 Panel B,26.000563593606607,0.6605635936066072,True,
+T2,B:All-EW,High-All,25.34,share_pct,Table 2 Panel B,25.71158915882591,0.37158915882590904,True,
 T2,B:All-EW,High-Mom,24.53,share_pct,Table 2 Panel B,19.29096330881077,-5.239036691189231,False,LI-5
-T2,B:All-EW,High-VvG,26.23,share_pct,Table 2 Panel B,29.500750063433813,3.2707500634338125,False,LI-5
-T2,B:All-EW,High-Inv,21.55,share_pct,Table 2 Panel B,20.690144499599622,-0.8598555004003785,True,
+T2,B:All-EW,High-VvG,26.23,share_pct,Table 2 Panel B,27.015450569671724,0.785450569671724,True,
+T2,B:All-EW,High-Inv,21.55,share_pct,Table 2 Panel B,21.73885017714971,0.18885017714971042,True,
 T2,B:All-EW,High-Prof,20.6,share_pct,Table 2 Panel B,20.32271286064995,-0.2772871393500509,True,
-T2,B:All-EW,High-Intan,25.96,share_pct,Table 2 Panel B,27.012083945375903,1.0520839453759017,True,
+T2,B:All-EW,High-Intan,25.96,share_pct,Table 2 Panel B,27.01624909450228,1.0562490945022809,True,
 T2,B:All-EW,High-Fric,33.33,share_pct,Table 2 Panel B,31.515155158486742,-1.8148448415132563,True,
-T2,C:Mainboard-VW,Low-All,17.3,share_pct,Table 2 Panel C,12.83726405820029,-4.462735941799711,False,LI-5
+T2,C:Mainboard-VW,Low-All,17.3,share_pct,Table 2 Panel C,13.053676481653417,-4.246323518346584,False,LI-5
 T2,C:Mainboard-VW,Low-Mom,17.63,share_pct,Table 2 Panel C,11.907111769388615,-5.7228882306113835,False,LI-5
-T2,C:Mainboard-VW,Low-VvG,18.0,share_pct,Table 2 Panel C,11.377694890023932,-6.622305109976068,False,LI-5
-T2,C:Mainboard-VW,Low-Inv,13.51,share_pct,Table 2 Panel C,10.032622237717833,-3.477377762282167,False,LI-5
+T2,C:Mainboard-VW,Low-VvG,18.0,share_pct,Table 2 Panel C,12.68846143421752,-5.311538565782479,False,LI-5
+T2,C:Mainboard-VW,Low-Inv,13.51,share_pct,Table 2 Panel C,10.281140544118433,-3.228859455881567,False,LI-5
 T2,C:Mainboard-VW,Low-Prof,12.78,share_pct,Table 2 Panel C,9.515902258576316,-3.264097741423683,False,LI-5
-T2,C:Mainboard-VW,Low-Intan,17.44,share_pct,Table 2 Panel C,13.578905058317725,-3.8610949416822766,False,LI-5
+T2,C:Mainboard-VW,Low-Intan,17.44,share_pct,Table 2 Panel C,13.57836900696017,-3.8616309930398316,False,LI-5
 T2,C:Mainboard-VW,Low-Fric,25.33,share_pct,Table 2 Panel C,16.69248366073866,-8.637516339261339,False,LI-5
-T2,C:Mainboard-VW,High-All,21.27,share_pct,Table 2 Panel C,13.694485996202141,-7.575514003797858,False,LI-5
+T2,C:Mainboard-VW,High-All,21.27,share_pct,Table 2 Panel C,13.889300866702667,-7.380699133297332,False,LI-5
 T2,C:Mainboard-VW,High-Mom,21.78,share_pct,Table 2 Panel C,14.62054422034901,-7.15945577965099,False,LI-5
-T2,C:Mainboard-VW,High-VvG,19.41,share_pct,Table 2 Panel C,11.866641305596348,-7.543358694403652,False,LI-5
-T2,C:Mainboard-VW,High-Inv,19.91,share_pct,Table 2 Panel C,13.2767256489103,-6.6332743510897,False,LI-5
+T2,C:Mainboard-VW,High-VvG,19.41,share_pct,Table 2 Panel C,13.036071175082112,-6.373928824917888,False,LI-5
+T2,C:Mainboard-VW,High-Inv,19.91,share_pct,Table 2 Panel C,13.519717408731847,-6.390282591268154,False,LI-5
 T2,C:Mainboard-VW,High-Prof,29.91,share_pct,Table 2 Panel C,16.908834156427492,-13.001165843572508,False,LI-5
-T2,C:Mainboard-VW,High-Intan,18.87,share_pct,Table 2 Panel C,12.832703249145355,-6.037296750854646,False,LI-5
+T2,C:Mainboard-VW,High-Intan,18.87,share_pct,Table 2 Panel C,12.832486198634754,-6.037513801365247,False,LI-5
 T2,C:Mainboard-VW,High-Fric,18.14,share_pct,Table 2 Panel C,12.648998883503424,-5.491001116496577,False,LI-5
-T2,C:Mainboard-EW,Low-All,1.78,share_pct,Table 2 Panel C,1.2933920736119486,-0.4866079263880514,True,
+T2,C:Mainboard-EW,Low-All,1.78,share_pct,Table 2 Panel C,1.3067857658053212,-0.4732142341946788,True,
 T2,C:Mainboard-EW,Low-Mom,1.77,share_pct,Table 2 Panel C,1.186578661913503,-0.583421338086497,True,
-T2,C:Mainboard-EW,Low-VvG,2.0,share_pct,Table 2 Panel C,1.2787676922412776,-0.7212323077587224,True,
-T2,C:Mainboard-EW,Low-Inv,1.52,share_pct,Table 2 Panel C,1.0830646180703458,-0.4369353819296542,True,
+T2,C:Mainboard-EW,Low-VvG,2.0,share_pct,Table 2 Panel C,1.3530143267767878,-0.6469856732232122,True,
+T2,C:Mainboard-EW,Low-Inv,1.52,share_pct,Table 2 Panel C,1.1114097267872416,-0.4085902732127584,True,
 T2,C:Mainboard-EW,Low-Prof,1.5,share_pct,Table 2 Panel C,1.0489432538375343,-0.4510567461624657,True,
-T2,C:Mainboard-EW,Low-Intan,1.7,share_pct,Table 2 Panel C,1.315379203602813,-0.38462079639718705,True,
+T2,C:Mainboard-EW,Low-Intan,1.7,share_pct,Table 2 Panel C,1.315356612156166,-0.384643387843834,True,
 T2,C:Mainboard-EW,Low-Fric,2.34,share_pct,Table 2 Panel C,1.5632990600078662,-0.7767009399921336,True,
-T2,C:Mainboard-EW,High-All,1.94,share_pct,Table 2 Panel C,1.2572345250158707,-0.6827654749841292,True,
+T2,C:Mainboard-EW,High-All,1.94,share_pct,Table 2 Panel C,1.268778577704652,-0.6712214222953479,True,
 T2,C:Mainboard-EW,High-Mom,2.01,share_pct,Table 2 Panel C,1.3007922840746016,-0.7092077159253982,True,
-T2,C:Mainboard-EW,High-VvG,1.43,share_pct,Table 2 Panel C,0.9201150341084572,-0.5098849658915428,True,
-T2,C:Mainboard-EW,High-Inv,1.95,share_pct,Table 2 Panel C,1.3095204281687383,-0.6404795718312617,True,
+T2,C:Mainboard-EW,High-VvG,1.43,share_pct,Table 2 Panel C,0.9793520213945056,-0.4506479786054943,True,
+T2,C:Mainboard-EW,High-Inv,1.95,share_pct,Table 2 Panel C,1.3438176258939925,-0.6061823741060075,True,
 T2,C:Mainboard-EW,High-Prof,2.25,share_pct,Table 2 Panel C,1.301122721412824,-0.948877278587176,True,
-T2,C:Mainboard-EW,High-Intan,1.73,share_pct,Table 2 Panel C,1.1736205605379442,-0.5563794394620558,True,
+T2,C:Mainboard-EW,High-Intan,1.73,share_pct,Table 2 Panel C,1.1732137509581575,-0.5567862490418425,True,
 T2,C:Mainboard-EW,High-Fric,2.26,share_pct,Table 2 Panel C,1.4276453713942638,-0.832354628605736,True,
-T2,C:All-VW,Low-All,17.38,share_pct,Table 2 Panel C,13.013748510364778,-4.366251489635221,False,LI-5
+T2,C:All-VW,Low-All,17.38,share_pct,Table 2 Panel C,13.225783956220502,-4.154216043779497,False,LI-5
 T2,C:All-VW,Low-Mom,16.85,share_pct,Table 2 Panel C,11.398050545394629,-5.451949454605373,False,LI-5
-T2,C:All-VW,Low-VvG,17.45,share_pct,Table 2 Panel C,11.105760159758434,-6.344239840241565,False,LI-5
-T2,C:All-VW,Low-Inv,14.14,share_pct,Table 2 Panel C,10.748097506328381,-3.391902493671619,False,LI-5
+T2,C:All-VW,Low-VvG,17.45,share_pct,Table 2 Panel C,12.384213632993792,-5.065786367006208,False,LI-5
+T2,C:All-VW,Low-Inv,14.14,share_pct,Table 2 Panel C,10.996611684590981,-3.1433883154090196,False,LI-5
 T2,C:All-VW,Low-Prof,13.16,share_pct,Table 2 Panel C,9.890898596671912,-3.2691014033280883,False,LI-5
-T2,C:All-VW,Low-Intan,16.96,share_pct,Table 2 Panel C,13.54675151179321,-3.4132484882067917,False,LI-5
+T2,C:All-VW,Low-Intan,16.96,share_pct,Table 2 Panel C,13.548833345636924,-3.411166654363077,False,LI-5
 T2,C:All-VW,Low-Fric,26.06,share_pct,Table 2 Panel C,17.184488339897555,-8.875511660102443,False,LI-5
-T2,C:All-VW,High-All,20.87,share_pct,Table 2 Panel C,13.652580888331894,-7.217419111668107,False,LI-5
+T2,C:All-VW,High-All,20.87,share_pct,Table 2 Panel C,13.873403432072593,-6.9965965679274085,False,LI-5
 T2,C:All-VW,High-Mom,21.89,share_pct,Table 2 Panel C,14.755956555187435,-7.134043444812566,False,LI-5
-T2,C:All-VW,High-VvG,20.35,share_pct,Table 2 Panel C,12.567934698712719,-7.7820653012872825,False,LI-5
-T2,C:All-VW,High-Inv,18.3,share_pct,Table 2 Panel C,12.214021590762805,-6.085978409237196,False,LI-5
+T2,C:All-VW,High-VvG,20.35,share_pct,Table 2 Panel C,13.880536393685277,-6.469463606314724,False,LI-5
+T2,C:All-VW,High-Inv,18.3,share_pct,Table 2 Panel C,12.513167317473364,-5.7868326825266365,False,LI-5
 T2,C:All-VW,High-Prof,29.87,share_pct,Table 2 Panel C,17.200250074109025,-12.669749925890976,False,LI-5
-T2,C:All-VW,High-Intan,18.28,share_pct,Table 2 Panel C,12.662004386406139,-5.6179956135938625,False,LI-5
+T2,C:All-VW,High-Intan,18.28,share_pct,Table 2 Panel C,12.662083055855176,-5.617916944144826,False,LI-5
 T2,C:All-VW,High-Fric,17.69,share_pct,Table 2 Panel C,12.274756984370603,-5.4152430156293985,False,LI-5
-T2,C:All-EW,Low-All,1.76,share_pct,Table 2 Panel C,1.2995405286164612,-0.4604594713835388,True,
+T2,C:All-EW,Low-All,1.76,share_pct,Table 2 Panel C,1.3141484753754464,-0.4458515246245536,True,
 T2,C:All-EW,Low-Mom,1.7,share_pct,Table 2 Panel C,1.1471002895054563,-0.5528997104945437,True,
-T2,C:All-EW,Low-VvG,1.97,share_pct,Table 2 Panel C,1.2621461963642167,-0.7078538036357833,True,
-T2,C:All-EW,Low-Inv,1.54,share_pct,Table 2 Panel C,1.1265536208308415,-0.4134463791691585,True,
+T2,C:All-EW,Low-VvG,1.97,share_pct,Table 2 Panel C,1.3445205407768834,-0.6254794592231165,True,
+T2,C:All-EW,Low-Inv,1.54,share_pct,Table 2 Panel C,1.1547743003241506,-0.3852256996758494,True,
 T2,C:All-EW,Low-Prof,1.53,share_pct,Table 2 Panel C,1.0744745016224961,-0.4555254983775039,True,
 T2,C:All-EW,Low-Intan,1.6,share_pct,Table 2 Panel C,1.3094545672407,-0.2905454327593,True,
 T2,C:All-EW,Low-Fric,2.35,share_pct,Table 2 Panel C,1.580582789582674,-0.769417210417326,True,
-T2,C:All-EW,High-All,1.9,share_pct,Table 2 Panel C,1.2463663280147783,-0.6536336719852216,True,
+T2,C:All-EW,High-All,1.9,share_pct,Table 2 Panel C,1.2593681259068927,-0.6406318740931072,True,
 T2,C:All-EW,High-Mom,2.0,share_pct,Table 2 Panel C,1.3004685149521527,-0.6995314850478473,True,
-T2,C:All-EW,High-VvG,1.48,share_pct,Table 2 Panel C,0.953718617037918,-0.5262813829620819,True,
-T2,C:All-EW,High-Inv,1.86,share_pct,Table 2 Panel C,1.249200451979692,-0.6107995480203081,True,
+T2,C:All-EW,High-VvG,1.48,share_pct,Table 2 Panel C,1.0205347516740566,-0.4594652483259434,True,
+T2,C:All-EW,High-Inv,1.86,share_pct,Table 2 Panel C,1.287547638883185,-0.5724523611168151,True,
 T2,C:All-EW,High-Prof,2.23,share_pct,Table 2 Panel C,1.3044732616080146,-0.9255267383919854,True,
-T2,C:All-EW,High-Intan,1.69,share_pct,Table 2 Panel C,1.158921529107715,-0.5310784708922849,True,
+T2,C:All-EW,High-Intan,1.69,share_pct,Table 2 Panel C,1.1585046822948448,-0.5314953177051551,True,
 T2,C:All-EW,High-Fric,2.21,share_pct,Table 2 Panel C,1.3953650719532373,-0.8146349280467626,True,
-T2,D:Mainboard-VW,Low-All,3.46,rel10,Table 2 Panel D,4.368595202359139,0.9085952023591393,False,LI-5
+T2,D:Mainboard-VW,Low-All,3.46,rel10,Table 2 Panel D,4.480698197593797,1.0206981975937968,False,LI-5
 T2,D:Mainboard-VW,Low-Mom,3.59,rel10,Table 2 Panel D,3.6484453409277777,0.05844534092777787,True,
-T2,D:Mainboard-VW,Low-VvG,4.17,rel10,Table 2 Panel D,4.112788578437794,-0.057211421562206155,True,
-T2,D:Mainboard-VW,Low-Inv,2.57,rel10,Table 2 Panel D,4.113152975619166,1.5431529756191664,False,LI-5
+T2,D:Mainboard-VW,Low-VvG,4.17,rel10,Table 2 Panel D,4.7780833962105875,0.6080833962105876,False,LI-5
+T2,D:Mainboard-VW,Low-Inv,2.57,rel10,Table 2 Panel D,4.267114343195556,1.697114343195556,False,LI-5
 T2,D:Mainboard-VW,Low-Prof,2.2,rel10,Table 2 Panel D,3.17003876868,0.9700387686799998,False,LI-5
 T2,D:Mainboard-VW,Low-Intan,3.24,rel10,Table 2 Panel D,4.635583572776707,1.3955835727767072,False,LI-5
 T2,D:Mainboard-VW,Low-Fric,5.51,rel10,Table 2 Panel D,5.538663739431797,0.028663739431797453,True,
-T2,D:Mainboard-VW,High-All,4.44,rel10,Table 2 Panel D,4.568629785748168,0.12862978574816797,True,
+T2,D:Mainboard-VW,High-All,4.44,rel10,Table 2 Panel D,4.656863166213378,0.2168631662133773,True,
 T2,D:Mainboard-VW,High-Mom,5.11,rel10,Table 2 Panel D,5.720432599603333,0.6104325996033326,False,LI-5
-T2,D:Mainboard-VW,High-VvG,3.53,rel10,Table 2 Panel D,3.3871978144407353,-0.1428021855592645,True,
-T2,D:Mainboard-VW,High-Inv,3.72,rel10,Table 2 Panel D,4.6012655410544445,0.8812655410544443,False,LI-5
+T2,D:Mainboard-VW,High-VvG,3.53,rel10,Table 2 Panel D,4.0049275475091175,0.4749275475091177,False,LI-5
+T2,D:Mainboard-VW,High-Inv,3.72,rel10,Table 2 Panel D,4.544712749445833,0.8247127494458328,False,LI-5
 T2,D:Mainboard-VW,High-Prof,6.87,rel10,Table 2 Panel D,6.127234103268724,-0.7427658967312762,False,LI-5
 T2,D:Mainboard-VW,High-Intan,4.06,rel10,Table 2 Panel D,4.355085607699512,0.2950856076995123,True,
 T2,D:Mainboard-VW,High-Fric,3.6,rel10,Table 2 Panel D,3.7743577309626564,0.17435773096265628,True,
-T2,D:Mainboard-EW,Low-All,0.19,rel10,Table 2 Panel D,0.2316799508223841,0.0416799508223841,False,LI-5
+T2,D:Mainboard-EW,Low-All,0.19,rel10,Table 2 Panel D,0.23652465567927153,0.046524655679271526,False,LI-5
 T2,D:Mainboard-EW,Low-Mom,0.2,rel10,Table 2 Panel D,0.22452174864777777,0.024521748647777758,False,LI-5
-T2,D:Mainboard-EW,Low-VvG,0.23,rel10,Table 2 Panel D,0.2213969061775,-0.008603093822500019,True,
-T2,D:Mainboard-EW,Low-Inv,0.16,rel10,Table 2 Panel D,0.24088986877666665,0.08088986877666665,False,LI-5
+T2,D:Mainboard-EW,Low-VvG,0.23,rel10,Table 2 Panel D,0.25127113007088236,0.021271130070882355,True,
+T2,D:Mainboard-EW,Low-Inv,0.16,rel10,Table 2 Panel D,0.2454233153161111,0.08542331531611111,False,LI-5
 T2,D:Mainboard-EW,Low-Prof,0.16,rel10,Table 2 Panel D,0.23809095316308512,0.07809095316308512,False,LI-5
 T2,D:Mainboard-EW,Low-Intan,0.18,rel10,Table 2 Panel D,0.24675720801987805,0.06675720801987806,False,LI-5
 T2,D:Mainboard-EW,Low-Fric,0.22,rel10,Table 2 Panel D,0.22270213658125,0.0027021365812499865,True,
-T2,D:Mainboard-EW,High-All,0.22,rel10,Table 2 Panel D,0.23306041614977924,0.013060416149779236,True,
+T2,D:Mainboard-EW,High-All,0.22,rel10,Table 2 Panel D,0.23754837247097133,0.017548372470971324,True,
 T2,D:Mainboard-EW,High-Mom,0.21,rel10,Table 2 Panel D,0.21340610376444447,0.0034061037644444736,True,
-T2,D:Mainboard-EW,High-VvG,0.13,rel10,Table 2 Panel D,0.13973417065088237,0.009734170650882362,True,
-T2,D:Mainboard-EW,High-Inv,0.2,rel10,Table 2 Panel D,0.26805852607722225,0.06805852607722224,False,LI-5
+T2,D:Mainboard-EW,High-VvG,0.13,rel10,Table 2 Panel D,0.1717433560332353,0.041743356033235285,False,LI-5
+T2,D:Mainboard-EW,High-Inv,0.2,rel10,Table 2 Panel D,0.26407018184111114,0.06407018184111113,False,LI-5
 T2,D:Mainboard-EW,High-Prof,0.22,rel10,Table 2 Panel D,0.21861543538117023,-0.00138456461882977,True,
 T2,D:Mainboard-EW,High-Intan,0.22,rel10,Table 2 Panel D,0.2404572674512195,0.020457267451219507,True,
 T2,D:Mainboard-EW,High-Fric,0.29,rel10,Table 2 Panel D,0.28557590973890623,-0.004424090261093749,True,
-T2,D:All-VW,Low-All,3.65,rel10,Table 2 Panel D,4.471661448177837,0.8216614481778373,False,LI-5
+T2,D:All-VW,Low-All,3.65,rel10,Table 2 Panel D,4.588344871491258,0.9383448714912581,False,LI-5
 T2,D:All-VW,Low-Mom,3.16,rel10,Table 2 Panel D,3.3168073641755558,0.15680736417555563,True,
-T2,D:All-VW,Low-VvG,3.82,rel10,Table 2 Panel D,3.7100088717995585,-0.10999112820044132,True,
-T2,D:All-VW,Low-Inv,3.1,rel10,Table 2 Panel D,4.477778529379167,1.377778529379167,False,LI-5
+T2,D:All-VW,Low-VvG,3.82,rel10,Table 2 Panel D,4.414020305621618,0.5940203056216178,False,LI-5
+T2,D:All-VW,Low-Inv,3.1,rel10,Table 2 Panel D,4.616245564409167,1.5162455644091666,False,LI-5
 T2,D:All-VW,Low-Prof,2.23,rel10,Table 2 Panel D,3.0824568669071275,0.8524568669071275,False,LI-5
 T2,D:All-VW,Low-Intan,3.48,rel10,Table 2 Panel D,4.758030763303049,1.278030763303049,False,LI-5
 T2,D:All-VW,Low-Fric,6.04,rel10,Table 2 Panel D,6.1173141110665625,0.0773141110665625,True,
-T2,D:All-VW,High-All,4.45,rel10,Table 2 Panel D,4.709729257749757,0.25972925774975675,True,
+T2,D:All-VW,High-All,4.45,rel10,Table 2 Panel D,4.816770278868631,0.3667702788686311,True,
 T2,D:All-VW,High-Mom,5.44,rel10,Table 2 Panel D,5.954684533783333,0.514684533783333,True,
-T2,D:All-VW,High-VvG,4.16,rel10,Table 2 Panel D,4.344276129879412,0.18427612987941178,True,
-T2,D:All-VW,High-Inv,3.16,rel10,Table 2 Panel D,3.9669275638133334,0.8069275638133333,False,LI-5
+T2,D:All-VW,High-VvG,4.16,rel10,Table 2 Panel D,5.063751437870588,0.9037514378705875,False,LI-5
+T2,D:All-VW,High-Inv,3.16,rel10,Table 2 Panel D,3.954851497798056,0.7948514977980556,False,LI-5
 T2,D:All-VW,High-Prof,7.21,rel10,Table 2 Panel D,6.675895612218298,-0.534104387781702,True,
 T2,D:All-VW,High-Intan,4.01,rel10,Table 2 Panel D,4.567245726408903,0.5572457264089028,False,LI-5
 T2,D:All-VW,High-Fric,3.39,rel10,Table 2 Panel D,3.3224847148223438,-0.06751528517765637,True,
-T2,D:All-EW,Low-All,0.19,rel10,Table 2 Panel D,0.23555787856551877,0.04555787856551877,False,LI-5
+T2,D:All-EW,Low-All,0.19,rel10,Table 2 Panel D,0.2407542936724062,0.05075429367240619,False,LI-5
 T2,D:All-EW,Low-Mom,0.19,rel10,Table 2 Panel D,0.20629505868666664,0.01629505868666664,True,
-T2,D:All-EW,Low-VvG,0.21,rel10,Table 2 Panel D,0.20743662275147057,-0.002563377248529425,True,
-T2,D:All-EW,Low-Inv,0.17,rel10,Table 2 Panel D,0.2568036539283333,0.08680365392833331,False,LI-5
+T2,D:All-EW,Low-VvG,0.21,rel10,Table 2 Panel D,0.2399154048360294,0.02991540483602942,False,LI-5
+T2,D:All-EW,Low-Inv,0.17,rel10,Table 2 Panel D,0.2608430667525,0.0908430667525,False,LI-5
 T2,D:All-EW,Low-Prof,0.16,rel10,Table 2 Panel D,0.23015530888670213,0.07015530888670213,False,LI-5
 T2,D:All-EW,Low-Intan,0.19,rel10,Table 2 Panel D,0.2496718266092683,0.059671826609268286,False,LI-5
 T2,D:All-EW,Low-Fric,0.23,rel10,Table 2 Panel D,0.24973539565195313,0.01973539565195312,True,
-T2,D:All-EW,High-All,0.22,rel10,Table 2 Panel D,0.23402890455245032,0.014028904552450316,True,
+T2,D:All-EW,High-All,0.22,rel10,Table 2 Panel D,0.2390850002589404,0.019085000258940388,True,
 T2,D:All-EW,High-Mom,0.22,rel10,Table 2 Panel D,0.22899891221777777,0.008998912217777766,True,
-T2,D:All-EW,High-VvG,0.16,rel10,Table 2 Panel D,0.17675573711720588,0.016755737117205877,False,LI-5
-T2,D:All-EW,High-Inv,0.18,rel10,Table 2 Panel D,0.2356610635386111,0.05566106353861111,False,LI-5
+T2,D:All-EW,High-VvG,0.16,rel10,Table 2 Panel D,0.21153879893044117,0.051538798930441165,False,LI-5
+T2,D:All-EW,High-Inv,0.18,rel10,Table 2 Panel D,0.23358226219805553,0.053582262198055536,False,LI-5
 T2,D:All-EW,High-Prof,0.24,rel10,Table 2 Panel D,0.23256232243127659,-0.007437677568723405,True,
 T2,D:All-EW,High-Intan,0.22,rel10,Table 2 Panel D,0.25260288187731705,0.03260288187731705,False,LI-5
 T2,D:All-EW,High-Fric,0.27,rel10,Table 2 Panel D,0.25494265373921876,-0.015057346260781257,True,
@@ -757,7 +757,7 @@ T3,A:Mainboard-VW,All categories:SHT,16.63,share_pct,Table 3 Panel A,17.43929359
 T3,A:Mainboard-VW,All categories:MHT,6.18,share_pct,Table 3 Panel A,4.194260485651214,-1.9857395143487855,True,
 T3,A:All-VW,Momentum:SHT,15.56,share_pct,Table 3 Panel A,28.888888888888886,13.328888888888885,False,LI-6
 T3,A:All-VW,Momentum:MHT,4.44,share_pct,Table 3 Panel A,11.11111111111111,6.67111111111111,False,LI-6
-T3,A:All-VW,Value-versus-growth:SHT,5.88,share_pct,Table 3 Panel A,4.411764705882353,-1.4682352941176466,True,
+T3,A:All-VW,Value-versus-growth:SHT,5.88,share_pct,Table 3 Panel A,2.941176470588235,-2.938823529411765,True,
 T3,A:All-VW,Value-versus-growth:MHT,0.0,share_pct,Table 3 Panel A,0.0,0.0,True,
 T3,A:All-VW,Investment:SHT,11.11,share_pct,Table 3 Panel A,5.555555555555555,-5.554444444444444,False,LI-6
 T3,A:All-VW,Investment:MHT,2.78,share_pct,Table 3 Panel A,0.0,-2.78,True,
@@ -767,13 +767,13 @@ T3,A:All-VW,Intangibles:SHT,12.05,share_pct,Table 3 Panel A,15.853658536585366,3
 T3,A:All-VW,Intangibles:MHT,1.2,share_pct,Table 3 Panel A,3.6585365853658534,2.458536585365853,True,
 T3,A:All-VW,Trading frictions:SHT,33.57,share_pct,Table 3 Panel A,23.4375,-10.1325,False,LI-6
 T3,A:All-VW,Trading frictions:MHT,13.29,share_pct,Table 3 Panel A,5.46875,-7.821249999999999,False,LI-6
-T3,A:All-VW,All categories:SHT,16.84,share_pct,Table 3 Panel A,18.322295805739515,1.4822958057395148,True,
+T3,A:All-VW,All categories:SHT,16.84,share_pct,Table 3 Panel A,18.101545253863137,1.2615452538631367,True,
 T3,A:All-VW,All categories:MHT,5.76,share_pct,Table 3 Panel A,4.415011037527594,-1.3449889624724056,True,
 T3,A:Mainboard-EW,Momentum:SHT,17.78,share_pct,Table 3 Panel A,37.77777777777778,19.997777777777777,False,LI-6
 T3,A:Mainboard-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel A,26.666666666666668,22.226666666666667,False,LI-6
-T3,A:Mainboard-EW,Value-versus-growth:SHT,67.65,share_pct,Table 3 Panel A,61.76470588235294,-5.885294117647064,False,LI-6
-T3,A:Mainboard-EW,Value-versus-growth:MHT,52.94,share_pct,Table 3 Panel A,35.294117647058826,-17.64588235294117,False,LI-6
-T3,A:Mainboard-EW,Investment:SHT,61.11,share_pct,Table 3 Panel A,25.0,-36.11,False,LI-6
+T3,A:Mainboard-EW,Value-versus-growth:SHT,67.65,share_pct,Table 3 Panel A,66.17647058823529,-1.4735294117647157,True,
+T3,A:Mainboard-EW,Value-versus-growth:MHT,52.94,share_pct,Table 3 Panel A,36.76470588235294,-16.175294117647056,False,LI-6
+T3,A:Mainboard-EW,Investment:SHT,61.11,share_pct,Table 3 Panel A,19.444444444444446,-41.66555555555556,False,LI-6
 T3,A:Mainboard-EW,Investment:MHT,22.22,share_pct,Table 3 Panel A,2.7777777777777777,-19.44222222222222,False,LI-6
 T3,A:Mainboard-EW,Profitability:SHT,39.36,share_pct,Table 3 Panel A,18.085106382978726,-21.274893617021274,False,LI-6
 T3,A:Mainboard-EW,Profitability:MHT,20.21,share_pct,Table 3 Panel A,9.574468085106384,-10.635531914893617,False,LI-6
@@ -781,13 +781,13 @@ T3,A:Mainboard-EW,Intangibles:SHT,18.07,share_pct,Table 3 Panel A,24.39024390243
 T3,A:Mainboard-EW,Intangibles:MHT,13.25,share_pct,Table 3 Panel A,18.29268292682927,5.0426829268292686,False,LI-6
 T3,A:Mainboard-EW,Trading frictions:SHT,64.34,share_pct,Table 3 Panel A,42.1875,-22.152500000000003,False,LI-6
 T3,A:Mainboard-EW,Trading frictions:MHT,44.06,share_pct,Table 3 Panel A,29.6875,-14.372500000000002,False,LI-6
-T3,A:Mainboard-EW,All categories:SHT,46.91,share_pct,Table 3 Panel A,35.099337748344375,-11.810662251655621,False,LI-6
-T3,A:Mainboard-EW,All categories:MHT,29.64,share_pct,Table 3 Panel A,21.85430463576159,-7.785695364238411,False,LI-6
+T3,A:Mainboard-EW,All categories:SHT,46.91,share_pct,Table 3 Panel A,35.32008830022075,-11.589911699779243,False,LI-6
+T3,A:Mainboard-EW,All categories:MHT,29.64,share_pct,Table 3 Panel A,22.075055187637968,-7.564944812362032,False,LI-6
 T3,A:All-EW,Momentum:SHT,17.78,share_pct,Table 3 Panel A,37.77777777777778,19.997777777777777,False,LI-6
 T3,A:All-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel A,26.666666666666668,22.226666666666667,False,LI-6
-T3,A:All-EW,Value-versus-growth:SHT,69.12,share_pct,Table 3 Panel A,63.23529411764706,-5.884705882352947,False,LI-6
-T3,A:All-EW,Value-versus-growth:MHT,54.41,share_pct,Table 3 Panel A,33.82352941176471,-20.586470588235287,False,LI-6
-T3,A:All-EW,Investment:SHT,61.11,share_pct,Table 3 Panel A,30.555555555555557,-30.554444444444442,False,LI-6
+T3,A:All-EW,Value-versus-growth:SHT,69.12,share_pct,Table 3 Panel A,64.70588235294117,-4.414117647058831,False,LI-6
+T3,A:All-EW,Value-versus-growth:MHT,54.41,share_pct,Table 3 Panel A,36.76470588235294,-17.645294117647055,False,LI-6
+T3,A:All-EW,Investment:SHT,61.11,share_pct,Table 3 Panel A,25.0,-36.11,False,LI-6
 T3,A:All-EW,Investment:MHT,30.56,share_pct,Table 3 Panel A,5.555555555555555,-25.004444444444445,False,LI-6
 T3,A:All-EW,Profitability:SHT,37.23,share_pct,Table 3 Panel A,19.148936170212767,-18.08106382978723,False,LI-6
 T3,A:All-EW,Profitability:MHT,19.15,share_pct,Table 3 Panel A,9.574468085106384,-9.575531914893615,False,LI-6
@@ -795,8 +795,8 @@ T3,A:All-EW,Intangibles:SHT,19.28,share_pct,Table 3 Panel A,23.170731707317074,3
 T3,A:All-EW,Intangibles:MHT,13.25,share_pct,Table 3 Panel A,18.29268292682927,5.0426829268292686,False,LI-6
 T3,A:All-EW,Trading frictions:SHT,66.43,share_pct,Table 3 Panel A,47.65625,-18.773750000000007,False,LI-6
 T3,A:All-EW,Trading frictions:MHT,44.06,share_pct,Table 3 Panel A,31.25,-12.810000000000002,False,LI-6
-T3,A:All-EW,All categories:SHT,47.55,share_pct,Table 3 Panel A,37.30684326710817,-10.243156732891826,False,LI-6
-T3,A:All-EW,All categories:MHT,30.28,share_pct,Table 3 Panel A,22.29580573951435,-7.984194260485651,False,LI-6
+T3,A:All-EW,All categories:SHT,47.55,share_pct,Table 3 Panel A,37.086092715231786,-10.463907284768212,False,LI-6
+T3,A:All-EW,All categories:MHT,30.28,share_pct,Table 3 Panel A,22.737306843267106,-7.542693156732895,False,LI-6
 T3,B:Mainboard-VW,Momentum:SHT,15.56,share_pct,Table 3 Panel B,28.888888888888886,13.328888888888885,False,LI-6
 T3,B:Mainboard-VW,Momentum:MHT,4.44,share_pct,Table 3 Panel B,8.88888888888889,4.448888888888889,False,LI-6
 T3,B:Mainboard-VW,Value-versus-growth:SHT,5.88,share_pct,Table 3 Panel B,2.941176470588235,-2.938823529411765,True,
@@ -813,7 +813,7 @@ T3,B:Mainboard-VW,All categories:SHT,15.78,share_pct,Table 3 Panel B,17.21854304
 T3,B:Mainboard-VW,All categories:MHT,5.76,share_pct,Table 3 Panel B,3.9735099337748347,-1.786490066225165,True,
 T3,B:All-VW,Momentum:SHT,15.56,share_pct,Table 3 Panel B,28.888888888888886,13.328888888888885,False,LI-6
 T3,B:All-VW,Momentum:MHT,4.44,share_pct,Table 3 Panel B,11.11111111111111,6.67111111111111,False,LI-6
-T3,B:All-VW,Value-versus-growth:SHT,2.94,share_pct,Table 3 Panel B,4.411764705882353,1.4717647058823533,True,
+T3,B:All-VW,Value-versus-growth:SHT,2.94,share_pct,Table 3 Panel B,2.941176470588235,0.0011764705882351123,True,
 T3,B:All-VW,Value-versus-growth:MHT,0.0,share_pct,Table 3 Panel B,0.0,0.0,True,
 T3,B:All-VW,Investment:SHT,11.11,share_pct,Table 3 Panel B,5.555555555555555,-5.554444444444444,False,LI-6
 T3,B:All-VW,Investment:MHT,2.78,share_pct,Table 3 Panel B,0.0,-2.78,True,
@@ -823,12 +823,12 @@ T3,B:All-VW,Intangibles:SHT,10.84,share_pct,Table 3 Panel B,14.634146341463413,3
 T3,B:All-VW,Intangibles:MHT,1.2,share_pct,Table 3 Panel B,1.2195121951219512,0.019512195121951237,True,
 T3,B:All-VW,Trading frictions:SHT,32.17,share_pct,Table 3 Panel B,22.65625,-9.513750000000002,False,LI-6
 T3,B:All-VW,Trading frictions:MHT,11.89,share_pct,Table 3 Panel B,3.125,-8.765,False,LI-6
-T3,B:All-VW,All categories:SHT,15.78,share_pct,Table 3 Panel B,17.880794701986755,2.1007947019867554,True,
+T3,B:All-VW,All categories:SHT,15.78,share_pct,Table 3 Panel B,17.660044150110377,1.8800441501103773,True,
 T3,B:All-VW,All categories:MHT,5.33,share_pct,Table 3 Panel B,3.3112582781456954,-2.0187417218543047,True,
 T3,B:Mainboard-EW,Momentum:SHT,15.56,share_pct,Table 3 Panel B,35.55555555555556,19.995555555555555,False,LI-6
 T3,B:Mainboard-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel B,22.22222222222222,17.78222222222222,False,LI-6
-T3,B:Mainboard-EW,Value-versus-growth:SHT,66.18,share_pct,Table 3 Panel B,57.35294117647059,-8.82705882352942,False,LI-6
-T3,B:Mainboard-EW,Value-versus-growth:MHT,44.12,share_pct,Table 3 Panel B,25.0,-19.119999999999997,False,LI-6
+T3,B:Mainboard-EW,Value-versus-growth:SHT,66.18,share_pct,Table 3 Panel B,61.76470588235294,-4.415294117647065,False,LI-6
+T3,B:Mainboard-EW,Value-versus-growth:MHT,44.12,share_pct,Table 3 Panel B,26.47058823529412,-17.649411764705878,False,LI-6
 T3,B:Mainboard-EW,Investment:SHT,61.11,share_pct,Table 3 Panel B,19.444444444444446,-41.66555555555556,False,LI-6
 T3,B:Mainboard-EW,Investment:MHT,22.22,share_pct,Table 3 Panel B,2.7777777777777777,-19.44222222222222,False,LI-6
 T3,B:Mainboard-EW,Profitability:SHT,36.17,share_pct,Table 3 Panel B,17.02127659574468,-19.14872340425532,False,LI-6
@@ -837,12 +837,12 @@ T3,B:Mainboard-EW,Intangibles:SHT,18.07,share_pct,Table 3 Panel B,20.73170731707
 T3,B:Mainboard-EW,Intangibles:MHT,10.84,share_pct,Table 3 Panel B,18.29268292682927,7.452682926829269,False,LI-6
 T3,B:Mainboard-EW,Trading frictions:SHT,64.34,share_pct,Table 3 Panel B,42.1875,-22.152500000000003,False,LI-6
 T3,B:Mainboard-EW,Trading frictions:MHT,44.06,share_pct,Table 3 Panel B,29.6875,-14.372500000000002,False,LI-6
-T3,B:Mainboard-EW,All categories:SHT,45.84,share_pct,Table 3 Panel B,32.89183222958057,-12.948167770419431,False,LI-6
-T3,B:Mainboard-EW,All categories:MHT,26.44,share_pct,Table 3 Panel B,19.867549668874172,-6.572450331125829,False,LI-6
+T3,B:Mainboard-EW,All categories:SHT,45.84,share_pct,Table 3 Panel B,33.554083885209714,-12.28591611479029,False,LI-6
+T3,B:Mainboard-EW,All categories:MHT,26.44,share_pct,Table 3 Panel B,20.08830022075055,-6.351699779249451,False,LI-6
 T3,B:All-EW,Momentum:SHT,15.56,share_pct,Table 3 Panel B,35.55555555555556,19.995555555555555,False,LI-6
 T3,B:All-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel B,24.444444444444443,20.00444444444444,False,LI-6
-T3,B:All-EW,Value-versus-growth:SHT,69.12,share_pct,Table 3 Panel B,58.82352941176471,-10.296470588235294,False,LI-6
-T3,B:All-EW,Value-versus-growth:MHT,47.06,share_pct,Table 3 Panel B,29.411764705882355,-17.648235294117647,False,LI-6
+T3,B:All-EW,Value-versus-growth:SHT,69.12,share_pct,Table 3 Panel B,60.29411764705882,-8.825882352941186,False,LI-6
+T3,B:All-EW,Value-versus-growth:MHT,47.06,share_pct,Table 3 Panel B,32.35294117647059,-14.707058823529415,False,LI-6
 T3,B:All-EW,Investment:SHT,58.33,share_pct,Table 3 Panel B,22.22222222222222,-36.10777777777778,False,LI-6
 T3,B:All-EW,Investment:MHT,30.56,share_pct,Table 3 Panel B,5.555555555555555,-25.004444444444445,False,LI-6
 T3,B:All-EW,Profitability:SHT,34.04,share_pct,Table 3 Panel B,15.957446808510639,-18.08255319148936,False,LI-6
@@ -851,8 +851,8 @@ T3,B:All-EW,Intangibles:SHT,18.07,share_pct,Table 3 Panel B,20.73170731707317,2.
 T3,B:All-EW,Intangibles:MHT,10.84,share_pct,Table 3 Panel B,18.29268292682927,7.452682926829269,False,LI-6
 T3,B:All-EW,Trading frictions:SHT,66.43,share_pct,Table 3 Panel B,47.65625,-18.773750000000007,False,LI-6
 T3,B:All-EW,Trading frictions:MHT,43.36,share_pct,Table 3 Panel B,31.25,-12.11,False,LI-6
-T3,B:All-EW,All categories:SHT,46.27,share_pct,Table 3 Panel B,34.65783664459161,-11.612163355408391,False,LI-6
-T3,B:All-EW,All categories:MHT,27.29,share_pct,Table 3 Panel B,21.41280353200883,-5.877196467991169,False,LI-6
+T3,B:All-EW,All categories:SHT,46.27,share_pct,Table 3 Panel B,34.87858719646799,-11.391412803532013,False,LI-6
+T3,B:All-EW,All categories:MHT,27.29,share_pct,Table 3 Panel B,21.85430463576159,-5.435695364238409,False,LI-6
 T3,C:Mainboard-VW,Momentum:SHT,15.56,share_pct,Table 3 Panel C,28.888888888888886,13.328888888888885,False,LI-6
 T3,C:Mainboard-VW,Momentum:MHT,4.44,share_pct,Table 3 Panel C,8.88888888888889,4.448888888888889,False,LI-6
 T3,C:Mainboard-VW,Value-versus-growth:SHT,1.47,share_pct,Table 3 Panel C,2.941176470588235,1.471176470588235,True,
@@ -869,7 +869,7 @@ T3,C:Mainboard-VW,All categories:SHT,13.01,share_pct,Table 3 Panel C,14.56953642
 T3,C:Mainboard-VW,All categories:MHT,4.69,share_pct,Table 3 Panel C,3.090507726269316,-1.5994922737306845,True,
 T3,C:All-VW,Momentum:SHT,15.56,share_pct,Table 3 Panel C,28.888888888888886,13.328888888888885,False,LI-6
 T3,C:All-VW,Momentum:MHT,4.44,share_pct,Table 3 Panel C,11.11111111111111,6.67111111111111,False,LI-6
-T3,C:All-VW,Value-versus-growth:SHT,1.47,share_pct,Table 3 Panel C,4.411764705882353,2.9417647058823535,True,
+T3,C:All-VW,Value-versus-growth:SHT,1.47,share_pct,Table 3 Panel C,2.941176470588235,1.471176470588235,True,
 T3,C:All-VW,Value-versus-growth:MHT,0.0,share_pct,Table 3 Panel C,0.0,0.0,True,
 T3,C:All-VW,Investment:SHT,2.78,share_pct,Table 3 Panel C,5.555555555555555,2.7755555555555556,True,
 T3,C:All-VW,Investment:MHT,2.78,share_pct,Table 3 Panel C,0.0,-2.78,True,
@@ -879,12 +879,12 @@ T3,C:All-VW,Intangibles:SHT,6.02,share_pct,Table 3 Panel C,12.195121951219512,6.
 T3,C:All-VW,Intangibles:MHT,1.2,share_pct,Table 3 Panel C,3.6585365853658534,2.458536585365853,True,
 T3,C:All-VW,Trading frictions:SHT,27.27,share_pct,Table 3 Panel C,16.40625,-10.86375,False,LI-6
 T3,C:All-VW,Trading frictions:MHT,10.49,share_pct,Table 3 Panel C,1.5625,-8.9275,False,LI-6
-T3,C:All-VW,All categories:SHT,12.58,share_pct,Table 3 Panel C,15.673289183222957,3.093289183222957,False,LI-6
+T3,C:All-VW,All categories:SHT,12.58,share_pct,Table 3 Panel C,15.45253863134658,2.872538631346579,True,
 T3,C:All-VW,All categories:MHT,4.9,share_pct,Table 3 Panel C,3.3112582781456954,-1.588741721854305,True,
 T3,C:Mainboard-EW,Momentum:SHT,17.78,share_pct,Table 3 Panel C,37.77777777777778,19.997777777777777,False,LI-6
 T3,C:Mainboard-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel C,26.666666666666668,22.226666666666667,False,LI-6
-T3,C:Mainboard-EW,Value-versus-growth:SHT,48.53,share_pct,Table 3 Panel C,26.47058823529412,-22.05941176470588,False,LI-6
-T3,C:Mainboard-EW,Value-versus-growth:MHT,29.41,share_pct,Table 3 Panel C,13.23529411764706,-16.17470588235294,False,LI-6
+T3,C:Mainboard-EW,Value-versus-growth:SHT,48.53,share_pct,Table 3 Panel C,30.88235294117647,-17.64764705882353,False,LI-6
+T3,C:Mainboard-EW,Value-versus-growth:MHT,29.41,share_pct,Table 3 Panel C,14.705882352941178,-14.704117647058823,False,LI-6
 T3,C:Mainboard-EW,Investment:SHT,11.11,share_pct,Table 3 Panel C,5.555555555555555,-5.554444444444444,False,LI-6
 T3,C:Mainboard-EW,Investment:MHT,2.78,share_pct,Table 3 Panel C,2.7777777777777777,-0.0022222222222221255,True,
 T3,C:Mainboard-EW,Profitability:SHT,7.45,share_pct,Table 3 Panel C,13.829787234042554,6.379787234042554,False,LI-6
@@ -893,12 +893,12 @@ T3,C:Mainboard-EW,Intangibles:SHT,8.43,share_pct,Table 3 Panel C,19.512195121951
 T3,C:Mainboard-EW,Intangibles:MHT,8.43,share_pct,Table 3 Panel C,14.634146341463413,6.204146341463414,False,LI-6
 T3,C:Mainboard-EW,Trading frictions:SHT,61.54,share_pct,Table 3 Panel C,39.84375,-21.69625,False,LI-6
 T3,C:Mainboard-EW,Trading frictions:MHT,39.86,share_pct,Table 3 Panel C,25.78125,-14.07875,False,LI-6
-T3,C:Mainboard-EW,All categories:SHT,31.34,share_pct,Table 3 Panel C,25.82781456953642,-5.512185430463578,False,LI-6
-T3,C:Mainboard-EW,All categories:MHT,19.4,share_pct,Table 3 Panel C,16.777041942604857,-2.6229580573951417,True,
+T3,C:Mainboard-EW,All categories:SHT,31.34,share_pct,Table 3 Panel C,26.490066225165563,-4.849933774834437,False,LI-6
+T3,C:Mainboard-EW,All categories:MHT,19.4,share_pct,Table 3 Panel C,16.99779249448124,-2.40220750551876,True,
 T3,C:All-EW,Momentum:SHT,17.78,share_pct,Table 3 Panel C,37.77777777777778,19.997777777777777,False,LI-6
 T3,C:All-EW,Momentum:MHT,4.44,share_pct,Table 3 Panel C,26.666666666666668,22.226666666666667,False,LI-6
-T3,C:All-EW,Value-versus-growth:SHT,48.53,share_pct,Table 3 Panel C,29.411764705882355,-19.118235294117646,False,LI-6
-T3,C:All-EW,Value-versus-growth:MHT,27.94,share_pct,Table 3 Panel C,14.705882352941178,-13.234117647058824,False,LI-6
+T3,C:All-EW,Value-versus-growth:SHT,48.53,share_pct,Table 3 Panel C,30.88235294117647,-17.64764705882353,False,LI-6
+T3,C:All-EW,Value-versus-growth:MHT,27.94,share_pct,Table 3 Panel C,17.647058823529413,-10.292941176470588,False,LI-6
 T3,C:All-EW,Investment:SHT,11.11,share_pct,Table 3 Panel C,5.555555555555555,-5.554444444444444,False,LI-6
 T3,C:All-EW,Investment:MHT,5.56,share_pct,Table 3 Panel C,2.7777777777777777,-2.782222222222222,True,
 T3,C:All-EW,Profitability:SHT,6.38,share_pct,Table 3 Panel C,14.893617021276595,8.513617021276595,False,LI-6
@@ -907,8 +907,8 @@ T3,C:All-EW,Intangibles:SHT,12.05,share_pct,Table 3 Panel C,19.51219512195122,7.
 T3,C:All-EW,Intangibles:MHT,8.43,share_pct,Table 3 Panel C,12.195121951219512,3.7651219512195127,False,LI-6
 T3,C:All-EW,Trading frictions:SHT,62.94,share_pct,Table 3 Panel C,44.53125,-18.408749999999998,False,LI-6
 T3,C:All-EW,Trading frictions:MHT,38.46,share_pct,Table 3 Panel C,25.0,-13.46,False,LI-6
-T3,C:All-EW,All categories:SHT,32.2,share_pct,Table 3 Panel C,27.81456953642384,-4.385430463576164,False,LI-6
-T3,C:All-EW,All categories:MHT,18.98,share_pct,Table 3 Panel C,16.335540838852097,-2.6444591611479034,True,
+T3,C:All-EW,All categories:SHT,32.2,share_pct,Table 3 Panel C,28.03532008830022,-4.164679911699782,False,LI-6
+T3,C:All-EW,All categories:MHT,18.98,share_pct,Table 3 Panel C,16.777041942604857,-2.2029580573951435,True,
 T4,A:sue_q_1,m,1.17,pct_return,Table 4 Panel A,1.1186395282688086,-0.05136047173119129,True,
 T4,A:sue_q_1,t,4.61,t,Table 4 Panel A (t from Table4.xls; printed as an a/b mark),4.665867870735521,0.05586787073552024,True,
 T6,A:sue_q_1,alpha_FF5,1.11,pct_return,Table 6 Panel A,1.2828415473028705,0.17284154730287038,False,LI-7
@@ -3845,14 +3845,14 @@ T7,A:Investment,0407:q,0.0,count,Table 7 Panel A,1.0,1.0,False,LI-8
 T7,A:Investment,0407:CH3,0.0,count,Table 7 Panel A,0.0,0.0,True,
 T7,A:Investment,0407:CH4,1.0,count,Table 7 Panel A,0.0,-1.0,False,LI-8
 T7,A:Investment,0407:Car4,1.0,count,Table 7 Panel A,2.0,1.0,False,LI-8
-T7,A:Investment,0807:Raw,5.0,count,Table 7 Panel A,4.0,-1.0,False,LI-8
-T7,A:Investment,0807:CAPM,5.0,count,Table 7 Panel A,4.0,-1.0,False,LI-8
-T7,A:Investment,0807:FF3,2.0,count,Table 7 Panel A,2.0,0.0,True,
+T7,A:Investment,0807:Raw,5.0,count,Table 7 Panel A,5.0,0.0,True,
+T7,A:Investment,0807:CAPM,5.0,count,Table 7 Panel A,5.0,0.0,True,
+T7,A:Investment,0807:FF3,2.0,count,Table 7 Panel A,3.0,1.0,False,LI-8
 T7,A:Investment,0807:FF5,2.0,count,Table 7 Panel A,2.0,0.0,True,
 T7,A:Investment,0807:q,0.0,count,Table 7 Panel A,0.0,0.0,True,
 T7,A:Investment,0807:CH3,0.0,count,Table 7 Panel A,0.0,0.0,True,
 T7,A:Investment,0807:CH4,0.0,count,Table 7 Panel A,0.0,0.0,True,
-T7,A:Investment,0807:Car4,2.0,count,Table 7 Panel A,2.0,0.0,True,
+T7,A:Investment,0807:Car4,2.0,count,Table 7 Panel A,3.0,1.0,False,LI-8
 T7,A:Profitability,0407:Raw,4.0,count,Table 7 Panel A,10.0,6.0,False,LI-8
 T7,A:Profitability,0407:CAPM,4.0,count,Table 7 Panel A,10.0,6.0,False,LI-8
 T7,A:Profitability,0407:FF3,4.0,count,Table 7 Panel A,10.0,6.0,False,LI-8
@@ -3909,14 +3909,14 @@ T7,A:Total,0407:q,24.0,count,Table 7 Panel A,18.0,-6.0,False,LI-8
 T7,A:Total,0407:CH3,20.0,count,Table 7 Panel A,14.0,-6.0,False,LI-8
 T7,A:Total,0407:CH4,24.0,count,Table 7 Panel A,11.0,-13.0,False,LI-8
 T7,A:Total,0407:Car4,39.0,count,Table 7 Panel A,36.0,-3.0,False,LI-8
-T7,A:Total,0807:Raw,44.0,count,Table 7 Panel A,49.0,5.0,False,LI-8
-T7,A:Total,0807:CAPM,40.0,count,Table 7 Panel A,46.0,6.0,False,LI-8
-T7,A:Total,0807:FF3,31.0,count,Table 7 Panel A,34.0,3.0,False,LI-8
+T7,A:Total,0807:Raw,44.0,count,Table 7 Panel A,50.0,6.0,False,LI-8
+T7,A:Total,0807:CAPM,40.0,count,Table 7 Panel A,47.0,7.0,False,LI-8
+T7,A:Total,0807:FF3,31.0,count,Table 7 Panel A,35.0,4.0,False,LI-8
 T7,A:Total,0807:FF5,29.0,count,Table 7 Panel A,33.0,4.0,False,LI-8
 T7,A:Total,0807:q,14.0,count,Table 7 Panel A,5.0,-9.0,False,LI-8
 T7,A:Total,0807:CH3,16.0,count,Table 7 Panel A,13.0,-3.0,False,LI-8
 T7,A:Total,0807:CH4,20.0,count,Table 7 Panel A,10.0,-10.0,False,LI-8
-T7,A:Total,0807:Car4,32.0,count,Table 7 Panel A,34.0,2.0,False,LI-8
+T7,A:Total,0807:Car4,32.0,count,Table 7 Panel A,35.0,3.0,False,LI-8
 T7,B:Momentum,0407:Raw,3.0,count,Table 7 Panel B,4.0,1.0,False,LI-8
 T7,B:Momentum,0407:CAPM,2.0,count,Table 7 Panel B,4.0,2.0,False,LI-8
 T7,B:Momentum,0407:FF3,3.0,count,Table 7 Panel B,4.0,1.0,False,LI-8
@@ -4045,32 +4045,32 @@ T7,C:Momentum,0807:q,0.0,count,Table 7 Panel C,1.0,1.0,False,LI-8
 T7,C:Momentum,0807:CH3,3.0,count,Table 7 Panel C,5.0,2.0,False,LI-8
 T7,C:Momentum,0807:CH4,2.0,count,Table 7 Panel C,5.0,3.0,False,LI-8
 T7,C:Momentum,0807:Car4,5.0,count,Table 7 Panel C,9.0,4.0,False,LI-8
-T7,C:Value-versus-growth,0407:Raw,27.0,count,Table 7 Panel C,13.0,-14.0,False,LI-8
-T7,C:Value-versus-growth,0407:CAPM,17.0,count,Table 7 Panel C,10.0,-7.0,False,LI-8
-T7,C:Value-versus-growth,0407:FF3,10.0,count,Table 7 Panel C,10.0,0.0,True,
-T7,C:Value-versus-growth,0407:FF5,9.0,count,Table 7 Panel C,10.0,1.0,False,LI-8
-T7,C:Value-versus-growth,0407:q,27.0,count,Table 7 Panel C,12.0,-15.0,False,LI-8
+T7,C:Value-versus-growth,0407:Raw,27.0,count,Table 7 Panel C,14.0,-13.0,False,LI-8
+T7,C:Value-versus-growth,0407:CAPM,17.0,count,Table 7 Panel C,11.0,-6.0,False,LI-8
+T7,C:Value-versus-growth,0407:FF3,10.0,count,Table 7 Panel C,11.0,1.0,False,LI-8
+T7,C:Value-versus-growth,0407:FF5,9.0,count,Table 7 Panel C,11.0,2.0,False,LI-8
+T7,C:Value-versus-growth,0407:q,27.0,count,Table 7 Panel C,14.0,-13.0,False,LI-8
 T7,C:Value-versus-growth,0407:CH3,5.0,count,Table 7 Panel C,0.0,-5.0,False,LI-8
 T7,C:Value-versus-growth,0407:CH4,10.0,count,Table 7 Panel C,1.0,-9.0,False,LI-8
-T7,C:Value-versus-growth,0407:Car4,19.0,count,Table 7 Panel C,10.0,-9.0,False,LI-8
-T7,C:Value-versus-growth,0807:Raw,14.0,count,Table 7 Panel C,6.0,-8.0,False,LI-8
-T7,C:Value-versus-growth,0807:CAPM,12.0,count,Table 7 Panel C,3.0,-9.0,False,LI-8
-T7,C:Value-versus-growth,0807:FF3,6.0,count,Table 7 Panel C,4.0,-2.0,False,LI-8
+T7,C:Value-versus-growth,0407:Car4,19.0,count,Table 7 Panel C,11.0,-8.0,False,LI-8
+T7,C:Value-versus-growth,0807:Raw,14.0,count,Table 7 Panel C,5.0,-9.0,False,LI-8
+T7,C:Value-versus-growth,0807:CAPM,12.0,count,Table 7 Panel C,2.0,-10.0,False,LI-8
+T7,C:Value-versus-growth,0807:FF3,6.0,count,Table 7 Panel C,3.0,-3.0,False,LI-8
 T7,C:Value-versus-growth,0807:FF5,4.0,count,Table 7 Panel C,2.0,-2.0,False,LI-8
 T7,C:Value-versus-growth,0807:q,10.0,count,Table 7 Panel C,3.0,-7.0,False,LI-8
 T7,C:Value-versus-growth,0807:CH3,6.0,count,Table 7 Panel C,1.0,-5.0,False,LI-8
 T7,C:Value-versus-growth,0807:CH4,8.0,count,Table 7 Panel C,1.0,-7.0,False,LI-8
 T7,C:Value-versus-growth,0807:Car4,8.0,count,Table 7 Panel C,3.0,-5.0,False,LI-8
-T7,C:Investment,0407:Raw,2.0,count,Table 7 Panel C,1.0,-1.0,False,LI-8
-T7,C:Investment,0407:CAPM,1.0,count,Table 7 Panel C,1.0,0.0,True,
+T7,C:Investment,0407:Raw,2.0,count,Table 7 Panel C,0.0,-2.0,False,LI-8
+T7,C:Investment,0407:CAPM,1.0,count,Table 7 Panel C,0.0,-1.0,False,LI-8
 T7,C:Investment,0407:FF3,1.0,count,Table 7 Panel C,0.0,-1.0,False,LI-8
-T7,C:Investment,0407:FF5,1.0,count,Table 7 Panel C,1.0,0.0,True,
+T7,C:Investment,0407:FF5,1.0,count,Table 7 Panel C,0.0,-1.0,False,LI-8
 T7,C:Investment,0407:q,0.0,count,Table 7 Panel C,0.0,0.0,True,
-T7,C:Investment,0407:CH3,0.0,count,Table 7 Panel C,1.0,1.0,False,LI-8
-T7,C:Investment,0407:CH4,0.0,count,Table 7 Panel C,1.0,1.0,False,LI-8
-T7,C:Investment,0407:Car4,1.0,count,Table 7 Panel C,1.0,0.0,True,
-T7,C:Investment,0807:Raw,11.0,count,Table 7 Panel C,2.0,-9.0,False,LI-8
-T7,C:Investment,0807:CAPM,8.0,count,Table 7 Panel C,1.0,-7.0,False,LI-8
+T7,C:Investment,0407:CH3,0.0,count,Table 7 Panel C,0.0,0.0,True,
+T7,C:Investment,0407:CH4,0.0,count,Table 7 Panel C,0.0,0.0,True,
+T7,C:Investment,0407:Car4,1.0,count,Table 7 Panel C,0.0,-1.0,False,LI-8
+T7,C:Investment,0807:Raw,11.0,count,Table 7 Panel C,3.0,-8.0,False,LI-8
+T7,C:Investment,0807:CAPM,8.0,count,Table 7 Panel C,2.0,-6.0,False,LI-8
 T7,C:Investment,0807:FF3,3.0,count,Table 7 Panel C,0.0,-3.0,False,LI-8
 T7,C:Investment,0807:FF5,4.0,count,Table 7 Panel C,0.0,-4.0,False,LI-8
 T7,C:Investment,0807:q,0.0,count,Table 7 Panel C,0.0,0.0,True,
@@ -4127,15 +4127,15 @@ T7,C:Trading frictions,0807:CH4,35.0,count,Table 7 Panel C,17.0,-18.0,False,LI-8
 T7,C:Trading frictions,0807:Car4,53.0,count,Table 7 Panel C,27.0,-26.0,False,LI-8
 T7,C:Total,0407:Raw,90.0,count,Table 7 Panel C,74.0,-16.0,False,LI-8
 T7,C:Total,0407:CAPM,73.0,count,Table 7 Panel C,66.0,-7.0,False,LI-8
-T7,C:Total,0407:FF3,57.0,count,Table 7 Panel C,59.0,2.0,False,LI-8
+T7,C:Total,0407:FF3,57.0,count,Table 7 Panel C,60.0,3.0,False,LI-8
 T7,C:Total,0407:FF5,56.0,count,Table 7 Panel C,65.0,9.0,False,LI-8
-T7,C:Total,0407:q,73.0,count,Table 7 Panel C,45.0,-28.0,False,LI-8
-T7,C:Total,0407:CH3,49.0,count,Table 7 Panel C,30.0,-19.0,False,LI-8
-T7,C:Total,0407:CH4,52.0,count,Table 7 Panel C,25.0,-27.0,False,LI-8
+T7,C:Total,0407:q,73.0,count,Table 7 Panel C,47.0,-26.0,False,LI-8
+T7,C:Total,0407:CH3,49.0,count,Table 7 Panel C,29.0,-20.0,False,LI-8
+T7,C:Total,0407:CH4,52.0,count,Table 7 Panel C,24.0,-28.0,False,LI-8
 T7,C:Total,0407:Car4,74.0,count,Table 7 Panel C,62.0,-12.0,False,LI-8
 T7,C:Total,0807:Raw,107.0,count,Table 7 Panel C,71.0,-36.0,False,LI-8
 T7,C:Total,0807:CAPM,102.0,count,Table 7 Panel C,67.0,-35.0,False,LI-8
-T7,C:Total,0807:FF3,76.0,count,Table 7 Panel C,55.0,-21.0,False,LI-8
+T7,C:Total,0807:FF3,76.0,count,Table 7 Panel C,54.0,-22.0,False,LI-8
 T7,C:Total,0807:FF5,74.0,count,Table 7 Panel C,52.0,-22.0,False,LI-8
 T7,C:Total,0807:q,69.0,count,Table 7 Panel C,41.0,-28.0,False,LI-8
 T7,C:Total,0807:CH3,71.0,count,Table 7 Panel C,42.0,-29.0,False,LI-8
@@ -4157,14 +4157,14 @@ T7,D:Momentum,0807:q,0.0,count,Table 7 Panel D,0.0,0.0,True,
 T7,D:Momentum,0807:CH3,0.0,count,Table 7 Panel D,1.0,1.0,False,LI-8
 T7,D:Momentum,0807:CH4,0.0,count,Table 7 Panel D,1.0,1.0,False,LI-8
 T7,D:Momentum,0807:Car4,1.0,count,Table 7 Panel D,1.0,0.0,True,
-T7,D:Value-versus-growth,0407:Raw,10.0,count,Table 7 Panel D,7.0,-3.0,False,LI-8
-T7,D:Value-versus-growth,0407:CAPM,5.0,count,Table 7 Panel D,6.0,1.0,False,LI-8
-T7,D:Value-versus-growth,0407:FF3,5.0,count,Table 7 Panel D,7.0,2.0,False,LI-8
-T7,D:Value-versus-growth,0407:FF5,5.0,count,Table 7 Panel D,7.0,2.0,False,LI-8
+T7,D:Value-versus-growth,0407:Raw,10.0,count,Table 7 Panel D,6.0,-4.0,False,LI-8
+T7,D:Value-versus-growth,0407:CAPM,5.0,count,Table 7 Panel D,5.0,0.0,True,
+T7,D:Value-versus-growth,0407:FF3,5.0,count,Table 7 Panel D,6.0,1.0,False,LI-8
+T7,D:Value-versus-growth,0407:FF5,5.0,count,Table 7 Panel D,6.0,1.0,False,LI-8
 T7,D:Value-versus-growth,0407:q,6.0,count,Table 7 Panel D,6.0,0.0,True,
 T7,D:Value-versus-growth,0407:CH3,2.0,count,Table 7 Panel D,0.0,-2.0,False,LI-8
 T7,D:Value-versus-growth,0407:CH4,5.0,count,Table 7 Panel D,0.0,-5.0,False,LI-8
-T7,D:Value-versus-growth,0407:Car4,5.0,count,Table 7 Panel D,7.0,2.0,False,LI-8
+T7,D:Value-versus-growth,0407:Car4,5.0,count,Table 7 Panel D,6.0,1.0,False,LI-8
 T7,D:Value-versus-growth,0807:Raw,5.0,count,Table 7 Panel D,0.0,-5.0,False,LI-8
 T7,D:Value-versus-growth,0807:CAPM,5.0,count,Table 7 Panel D,0.0,-5.0,False,LI-8
 T7,D:Value-versus-growth,0807:FF3,0.0,count,Table 7 Panel D,0.0,0.0,True,
@@ -4237,14 +4237,14 @@ T7,D:Trading frictions,0807:q,23.0,count,Table 7 Panel D,13.0,-10.0,False,LI-8
 T7,D:Trading frictions,0807:CH3,20.0,count,Table 7 Panel D,8.0,-12.0,False,LI-8
 T7,D:Trading frictions,0807:CH4,18.0,count,Table 7 Panel D,7.0,-11.0,False,LI-8
 T7,D:Trading frictions,0807:Car4,22.0,count,Table 7 Panel D,13.0,-9.0,False,LI-8
-T7,D:Total,0407:Raw,43.0,count,Table 7 Panel D,29.0,-14.0,False,LI-8
-T7,D:Total,0407:CAPM,36.0,count,Table 7 Panel D,28.0,-8.0,False,LI-8
-T7,D:Total,0407:FF3,25.0,count,Table 7 Panel D,21.0,-4.0,False,LI-8
-T7,D:Total,0407:FF5,28.0,count,Table 7 Panel D,23.0,-5.0,False,LI-8
+T7,D:Total,0407:Raw,43.0,count,Table 7 Panel D,28.0,-15.0,False,LI-8
+T7,D:Total,0407:CAPM,36.0,count,Table 7 Panel D,27.0,-9.0,False,LI-8
+T7,D:Total,0407:FF3,25.0,count,Table 7 Panel D,20.0,-5.0,False,LI-8
+T7,D:Total,0407:FF5,28.0,count,Table 7 Panel D,22.0,-6.0,False,LI-8
 T7,D:Total,0407:q,35.0,count,Table 7 Panel D,25.0,-10.0,False,LI-8
 T7,D:Total,0407:CH3,24.0,count,Table 7 Panel D,9.0,-15.0,False,LI-8
 T7,D:Total,0407:CH4,29.0,count,Table 7 Panel D,13.0,-16.0,False,LI-8
-T7,D:Total,0407:Car4,30.0,count,Table 7 Panel D,23.0,-7.0,False,LI-8
+T7,D:Total,0407:Car4,30.0,count,Table 7 Panel D,22.0,-8.0,False,LI-8
 T7,D:Total,0807:Raw,48.0,count,Table 7 Panel D,33.0,-15.0,False,LI-8
 T7,D:Total,0807:CAPM,45.0,count,Table 7 Panel D,29.0,-16.0,False,LI-8
 T7,D:Total,0807:FF3,31.0,count,Table 7 Panel D,22.0,-9.0,False,LI-8

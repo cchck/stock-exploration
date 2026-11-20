@@ -32,7 +32,9 @@ TA, BE, NI, REV, SALES = "A001000000", "A003000000", "B002000000", "B001100000",
 CASH, STI_OLD, STI_NEW = "C006000000", "A001109000", "A001107000"
 STD1, STD2, LTD, PREF = "A002101000", "A002125000", "A002206000", "A003112101"
 DEP, AMORT, OCF, ICF, FCF = "D000103000", "D000104000", "C001000000", "C002000000", "C003000000"
-CAPX, INV, PPE, INTANG, OLTA, OLTL = "C002007000", "A001123000", "A001212000", "A001218000", "A001223000", "A002209000"
+# Capex: C002006000, cash paid for fixed, intangible and other long-term assets (not C002007000,
+# cash paid for investments).
+CAPX, INV, PPE, INTANG, OLTA, OLTL = "C002006000", "A001123000", "A001212000", "A001218000", "A001223000", "A002209000"
 CA, CL, TL = "A001100000", "A002100000", "A002000000"
 LTI = ["A001203000", "A001202000", "A001205000", "A001211000", "A001204000", "A001206000"]
 OPINC = "B001300000"
@@ -350,7 +352,9 @@ def spq() -> pd.DataFrame:
 def cpq() -> pd.DataFrame:
     """Cpq (A.2.12): quarterly (earnings + depreciation), four-month rule / ME; positive."""
     f = q_flow()
-    q = quarterly_lagged(f.assign(num=f[NI] + f[DEP]), ["num"])
+    # Depreciation is semi-annual (D.quarterly_flows): the latest period that has it.
+    f = f.assign(num=f[NI] + f[DEP])
+    q = quarterly_lagged(f[f["num"].notna()], ["num"])
     return _q_ratio(q, positive=True)
 
 
@@ -367,7 +371,8 @@ def emq() -> pd.DataFrame:
     x = s.merge(f[["stkcd", "period_end", OPINC, DEP]], on=["stkcd", "period_end"], how="left")
     x["oibd"] = x[OPINC] + x[DEP]
     x["adj"] = x["debt"] + x[PREF].fillna(0) - x[CASH].fillna(0) - pd.Series(x["sti"], index=x.index).fillna(0)
-    q = _with_me_form(quarterly_lagged(x, ["oibd", "adj"]))
+    # Depreciation is semi-annual: the latest period that has it (see cpq).
+    q = _with_me_form(quarterly_lagged(x[x["oibd"].notna()], ["oibd", "adj"]))
     ev = q["me"] + q["adj"]
     q["v"] = (ev / q["oibd"]).where((ev > 0) & (q["oibd"] > 0))
     return _out(q)
@@ -1398,13 +1403,13 @@ def sa() -> pd.DataFrame:
 def vcf() -> pd.DataFrame:
     """Vcf (A.5.27): standard deviation over the past 16 quarters (>= 8) of quarterly
     operating cash flow (income + depreciation + amortization + change in working capital)
-    over sales; four-month rule."""
+    over sales; four-month rule. Depreciation and amortization exist only for half years
+    (D.quarterly_flows), so they are left out of every quarter rather than entering every other
+    one, which would add a seasonal swing to the standard deviation."""
     x = q_all().sort_values(["stkcd", "period_end"]).copy()
-    f = D.quarterly_flows([AMORT])[["stkcd", "period_end", AMORT]]
-    x = x.merge(f, on=["stkcd", "period_end"], how="left")
     wc = x[CA] - x[CL]
     dwc = wc - wc.groupby(x["stkcd"]).shift(1)
-    ocf = x[NI] + x[DEP].fillna(0) + x[AMORT].fillna(0) + dwc
+    ocf = x[NI] + dwc
     x["r"] = ocf / x[REV].where(x[REV] > 0)
     x["v"] = x.groupby("stkcd")["r"].transform(lambda s: s.rolling(16, min_periods=8).std())
     return _lag4("v", x)
